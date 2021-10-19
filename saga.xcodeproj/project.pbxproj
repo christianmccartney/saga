@@ -9,15 +9,72 @@
 /* Begin PBXBuildFile section */
 		526AAC8527102554009E10D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAC8427102554009E10D4 /* AppDelegate.swift */; };
 		526AAC8727102554009E10D4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 526AAC8627102554009E10D4 /* GameScene.sks */; };
-		526AAC8927102554009E10D4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 526AAC8827102554009E10D4 /* Actions.sks */; };
 		526AAC8B27102554009E10D4 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAC8A27102554009E10D4 /* GameScene.swift */; };
 		526AAC8D27102554009E10D4 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAC8C27102554009E10D4 /* GameViewController.swift */; };
 		526AAC9027102554009E10D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 526AAC8E27102554009E10D4 /* Main.storyboard */; };
-		526AAC9227102556009E10D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 526AAC9127102556009E10D4 /* Assets.xcassets */; };
 		526AAC9527102556009E10D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 526AAC9327102556009E10D4 /* LaunchScreen.storyboard */; };
 		526AAC9F27102556009E10D4 /* sagaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAC9E27102556009E10D4 /* sagaTests.swift */; };
 		526AACA927102556009E10D4 /* sagaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACA827102556009E10D4 /* sagaUITests.swift */; };
 		526AACAB27102556009E10D4 /* sagaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACAA27102556009E10D4 /* sagaUITestsLaunchTests.swift */; };
+		526AACF427102662009E10D4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 526AACBE27102662009E10D4 /* Actions.sks */; };
+		526AACF527102662009E10D4 /* MapConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACC027102662009E10D4 /* MapConnection.swift */; };
+		526AACF627102662009E10D4 /* MapSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACC127102662009E10D4 /* MapSet.swift */; };
+		526AACF727102662009E10D4 /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACC327102662009E10D4 /* CGSize.swift */; };
+		526AACF827102662009E10D4 /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACC427102662009E10D4 /* CGPoint.swift */; };
+		526AACFA27102662009E10D4 /* SelectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACC827102662009E10D4 /* SelectionType.swift */; };
+		526AACFB27102662009E10D4 /* ContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACC927102662009E10D4 /* ContextMenu.swift */; };
+		526AACFC27102662009E10D4 /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACCA27102662009E10D4 /* Selection.swift */; };
+		526AACFD27102662009E10D4 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACCC27102662009E10D4 /* Entity.swift */; };
+		526AACFF27102662009E10D4 /* EntityDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACCE27102662009E10D4 /* EntityDirection.swift */; };
+		526AAD0027102662009E10D4 /* EntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACCF27102662009E10D4 /* EntityType.swift */; };
+		526AAD0127102662009E10D4 /* EntityStatistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACD027102662009E10D4 /* EntityStatistic.swift */; };
+		526AAD0227102662009E10D4 /* EntityFaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACD127102662009E10D4 /* EntityFaction.swift */; };
+		526AAD0427102662009E10D4 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACD427102662009E10D4 /* BottomBar.swift */; };
+		526AAD0527102662009E10D4 /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACD527102662009E10D4 /* SideBar.swift */; };
+		526AAD0627102662009E10D4 /* ActionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACD627102662009E10D4 /* ActionCounter.swift */; };
+		526AAD0827102662009E10D4 /* ButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACD827102662009E10D4 /* ButtonType.swift */; };
+		526AAD0927102662009E10D4 /* Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACD927102662009E10D4 /* Interface.swift */; };
+		526AAD0A27102662009E10D4 /* FontType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACDA27102662009E10D4 /* FontType.swift */; };
+		526AAD0B27102662009E10D4 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACDB27102662009E10D4 /* Button.swift */; };
+		526AAD0D27102662009E10D4 /* CoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACDE27102662009E10D4 /* CoreScene.swift */; };
+		526AAD0E27102662009E10D4 /* InputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACDF27102662009E10D4 /* InputManager.swift */; };
+		526AAD0F27102662009E10D4 /* CoreScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 526AACE027102662009E10D4 /* CoreScene.sks */; };
+		526AAD1227102662009E10D4 /* DoorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACE527102662009E10D4 /* DoorType.swift */; };
+		526AAD1327102662009E10D4 /* WarpTileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACE627102662009E10D4 /* WarpTileType.swift */; };
+		526AAD1427102662009E10D4 /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACE727102662009E10D4 /* Object.swift */; };
+		526AAD1527102662009E10D4 /* Door.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACE827102662009E10D4 /* Door.swift */; };
+		526AAD1627102662009E10D4 /* ObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACE927102662009E10D4 /* ObjectType.swift */; };
+		526AAD1727102662009E10D4 /* WarpTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACEA27102662009E10D4 /* WarpTile.swift */; };
+		526AAD1827102662009E10D4 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACEB27102662009E10D4 /* Map.swift */; };
+		526AAD1927102662009E10D4 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACED27102662009E10D4 /* Camera.swift */; };
+		526AAD5D2713CB59009E10D4 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD5C2713CB59009E10D4 /* GameState.swift */; };
+		526AAD602713CD2F009E10D4 /* IdleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD5F2713CD2F009E10D4 /* IdleComponent.swift */; };
+		526AAD612713CF5B009E10D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 526AACB727102662009E10D4 /* Assets.xcassets */; };
+		526AAD632713D8C6009E10D4 /* MoveableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD622713D8C6009E10D4 /* MoveableComponent.swift */; };
+		526AAD652713D933009E10D4 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD642713D933009E10D4 /* Component.swift */; };
+		526AAD6927160D76009E10D4 /* StaticObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD6827160D76009E10D4 /* StaticObject.swift */; };
+		526AAD6B27160D81009E10D4 /* DynamicObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD6A27160D81009E10D4 /* DynamicObject.swift */; };
+		526AAD6D27161417009E10D4 /* Creature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD6C27161417009E10D4 /* Creature.swift */; };
+		526AAD7127161FFF009E10D4 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD7027161FFF009E10D4 /* Node.swift */; };
+		526AAD7327168B51009E10D4 /* EntitySelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD7227168B51009E10D4 /* EntitySelection.swift */; };
+		529D68E02718C43A00CADD63 /* MapGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68DF2718C43A00CADD63 /* MapGenerator.swift */; };
+		529D68E32718F8D800CADD63 /* CAGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68E22718F8D800CADD63 /* CAGenerator.swift */; };
+		529D68E5271907D400CADD63 /* TileSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68E4271907D400CADD63 /* TileSet.swift */; };
+		529D68E727190E1A00CADD63 /* RandomRoomGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68E627190E1A00CADD63 /* RandomRoomGenerator.swift */; };
+		529D68E927190E7400CADD63 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68E827190E7400CADD63 /* Room.swift */; };
+		52B1929E271B8F4B00EE0D00 /* EntityInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B1929D271B8F4B00EE0D00 /* EntityInspector.swift */; };
+		52B192AA271BF2D300EE0D00 /* Interface.sks in Resources */ = {isa = PBXBuildFile; fileRef = 52B192A8271BF2D300EE0D00 /* Interface.sks */; };
+		52B192AD271BFC8F00EE0D00 /* TileSet+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192AC271BFC8F00EE0D00 /* TileSet+Interface.swift */; };
+		52B192AF271CE93100EE0D00 /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192AE271CE93100EE0D00 /* CGRect.swift */; };
+		52B192B1271D293A00EE0D00 /* TextTileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192B0271D293A00EE0D00 /* TextTileMap.swift */; };
+		52B192B3271D350A00EE0D00 /* TestEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192B2271D350A00EE0D00 /* TestEntities.swift */; };
+		52B192B7271E3A6400EE0D00 /* TileSet+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192B6271E3A6300EE0D00 /* TileSet+Map.swift */; };
+		52B192B9271EAE1800EE0D00 /* HighlightEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192B8271EAE1800EE0D00 /* HighlightEntity.swift */; };
+		52F0EC2E271A3230000D5B44 /* TileTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC2D271A3230000D5B44 /* TileTypes.swift */; };
+		52F0EC30271A3243000D5B44 /* TileGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC2F271A3243000D5B44 /* TileGroup.swift */; };
+		52F0EC35271B6AE8000D5B44 /* InterfaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */; };
+		52F0EC37271B7BE5000D5B44 /* BSPGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC36271B7BE5000D5B44 /* BSPGenerator.swift */; };
+		52F0EC39271B88FE000D5B44 /* InterfaceElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC38271B88FE000D5B44 /* InterfaceElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,17 +98,75 @@
 		526AAC8127102554009E10D4 /* saga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = saga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		526AAC8427102554009E10D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		526AAC8627102554009E10D4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		526AAC8827102554009E10D4 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		526AAC8A27102554009E10D4 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		526AAC8C27102554009E10D4 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		526AAC8F27102554009E10D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		526AAC9127102556009E10D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		526AAC9427102556009E10D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		526AAC9A27102556009E10D4 /* sagaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sagaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		526AAC9E27102556009E10D4 /* sagaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sagaTests.swift; sourceTree = "<group>"; };
 		526AACA427102556009E10D4 /* sagaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sagaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		526AACA827102556009E10D4 /* sagaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sagaUITests.swift; sourceTree = "<group>"; };
 		526AACAA27102556009E10D4 /* sagaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sagaUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		526AACB727102662009E10D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		526AACBE27102662009E10D4 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		526AACC027102662009E10D4 /* MapConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapConnection.swift; sourceTree = "<group>"; };
+		526AACC127102662009E10D4 /* MapSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSet.swift; sourceTree = "<group>"; };
+		526AACC327102662009E10D4 /* CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
+		526AACC427102662009E10D4 /* CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
+		526AACC827102662009E10D4 /* SelectionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionType.swift; sourceTree = "<group>"; };
+		526AACC927102662009E10D4 /* ContextMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextMenu.swift; sourceTree = "<group>"; };
+		526AACCA27102662009E10D4 /* Selection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
+		526AACCC27102662009E10D4 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		526AACCE27102662009E10D4 /* EntityDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDirection.swift; sourceTree = "<group>"; };
+		526AACCF27102662009E10D4 /* EntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityType.swift; sourceTree = "<group>"; };
+		526AACD027102662009E10D4 /* EntityStatistic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityStatistic.swift; sourceTree = "<group>"; };
+		526AACD127102662009E10D4 /* EntityFaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityFaction.swift; sourceTree = "<group>"; };
+		526AACD427102662009E10D4 /* BottomBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
+		526AACD527102662009E10D4 /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
+		526AACD627102662009E10D4 /* ActionCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCounter.swift; sourceTree = "<group>"; };
+		526AACD827102662009E10D4 /* ButtonType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonType.swift; sourceTree = "<group>"; };
+		526AACD927102662009E10D4 /* Interface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interface.swift; sourceTree = "<group>"; };
+		526AACDA27102662009E10D4 /* FontType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontType.swift; sourceTree = "<group>"; };
+		526AACDB27102662009E10D4 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		526AACDE27102662009E10D4 /* CoreScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreScene.swift; sourceTree = "<group>"; };
+		526AACDF27102662009E10D4 /* InputManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputManager.swift; sourceTree = "<group>"; };
+		526AACE027102662009E10D4 /* CoreScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CoreScene.sks; sourceTree = "<group>"; };
+		526AACE527102662009E10D4 /* DoorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoorType.swift; sourceTree = "<group>"; };
+		526AACE627102662009E10D4 /* WarpTileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpTileType.swift; sourceTree = "<group>"; };
+		526AACE727102662009E10D4 /* Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
+		526AACE827102662009E10D4 /* Door.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Door.swift; sourceTree = "<group>"; };
+		526AACE927102662009E10D4 /* ObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectType.swift; sourceTree = "<group>"; };
+		526AACEA27102662009E10D4 /* WarpTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpTile.swift; sourceTree = "<group>"; };
+		526AACEB27102662009E10D4 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		526AACED27102662009E10D4 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		526AAD1C271030DC009E10D4 /* saga.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = saga.entitlements; sourceTree = "<group>"; };
+		526AAD5C2713CB59009E10D4 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		526AAD5F2713CD2F009E10D4 /* IdleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleComponent.swift; sourceTree = "<group>"; };
+		526AAD622713D8C6009E10D4 /* MoveableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveableComponent.swift; sourceTree = "<group>"; };
+		526AAD642713D933009E10D4 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
+		526AAD6827160D76009E10D4 /* StaticObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticObject.swift; sourceTree = "<group>"; };
+		526AAD6A27160D81009E10D4 /* DynamicObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicObject.swift; sourceTree = "<group>"; };
+		526AAD6C27161417009E10D4 /* Creature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Creature.swift; sourceTree = "<group>"; };
+		526AAD7027161FFF009E10D4 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		526AAD7227168B51009E10D4 /* EntitySelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySelection.swift; sourceTree = "<group>"; };
+		529D68DF2718C43A00CADD63 /* MapGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapGenerator.swift; sourceTree = "<group>"; };
+		529D68E22718F8D800CADD63 /* CAGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAGenerator.swift; sourceTree = "<group>"; };
+		529D68E4271907D400CADD63 /* TileSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileSet.swift; sourceTree = "<group>"; };
+		529D68E627190E1A00CADD63 /* RandomRoomGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomRoomGenerator.swift; sourceTree = "<group>"; };
+		529D68E827190E7400CADD63 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		52B1929D271B8F4B00EE0D00 /* EntityInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityInspector.swift; sourceTree = "<group>"; };
+		52B192A8271BF2D300EE0D00 /* Interface.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Interface.sks; sourceTree = "<group>"; };
+		52B192AC271BFC8F00EE0D00 /* TileSet+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TileSet+Interface.swift"; sourceTree = "<group>"; };
+		52B192AE271CE93100EE0D00 /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
+		52B192B0271D293A00EE0D00 /* TextTileMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTileMap.swift; sourceTree = "<group>"; };
+		52B192B2271D350A00EE0D00 /* TestEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEntities.swift; sourceTree = "<group>"; };
+		52B192B6271E3A6300EE0D00 /* TileSet+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TileSet+Map.swift"; sourceTree = "<group>"; };
+		52B192B8271EAE1800EE0D00 /* HighlightEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightEntity.swift; sourceTree = "<group>"; };
+		52F0EC2D271A3230000D5B44 /* TileTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileTypes.swift; sourceTree = "<group>"; };
+		52F0EC2F271A3243000D5B44 /* TileGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileGroup.swift; sourceTree = "<group>"; };
+		52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceType.swift; sourceTree = "<group>"; };
+		52F0EC36271B7BE5000D5B44 /* BSPGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSPGenerator.swift; sourceTree = "<group>"; };
+		52F0EC38271B88FE000D5B44 /* InterfaceElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,14 +217,18 @@
 		526AAC8327102554009E10D4 /* saga */ = {
 			isa = PBXGroup;
 			children = (
+				526AACBD27102662009E10D4 /* Actions */,
+				526AACEC27102662009E10D4 /* Camera */,
+				526AAD5E2713CD0F009E10D4 /* Components */,
+				526AACDC27102662009E10D4 /* Core */,
+				526AACCB27102662009E10D4 /* Entity */,
+				526AACD327102662009E10D4 /* Interface */,
+				526AACE327102662009E10D4 /* Map */,
+				526AACC227102662009E10D4 /* Math */,
+				526AAD6727160CE0009E10D4 /* Resources */,
 				526AAC8427102554009E10D4 /* AppDelegate.swift */,
-				526AAC8627102554009E10D4 /* GameScene.sks */,
-				526AAC8827102554009E10D4 /* Actions.sks */,
 				526AAC8A27102554009E10D4 /* GameScene.swift */,
 				526AAC8C27102554009E10D4 /* GameViewController.swift */,
-				526AAC8E27102554009E10D4 /* Main.storyboard */,
-				526AAC9127102556009E10D4 /* Assets.xcassets */,
-				526AAC9327102556009E10D4 /* LaunchScreen.storyboard */,
 			);
 			path = saga;
 			sourceTree = "<group>";
@@ -129,6 +248,220 @@
 				526AACAA27102556009E10D4 /* sagaUITestsLaunchTests.swift */,
 			);
 			path = sagaUITests;
+			sourceTree = "<group>";
+		};
+		526AACBD27102662009E10D4 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				526AACBE27102662009E10D4 /* Actions.sks */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		526AACBF27102662009E10D4 /* MapSet */ = {
+			isa = PBXGroup;
+			children = (
+				526AACC027102662009E10D4 /* MapConnection.swift */,
+				526AACC127102662009E10D4 /* MapSet.swift */,
+			);
+			path = MapSet;
+			sourceTree = "<group>";
+		};
+		526AACC227102662009E10D4 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				526AACC327102662009E10D4 /* CGSize.swift */,
+				526AACC427102662009E10D4 /* CGPoint.swift */,
+				52B192AE271CE93100EE0D00 /* CGRect.swift */,
+			);
+			path = Math;
+			sourceTree = "<group>";
+		};
+		526AACC727102662009E10D4 /* Selection */ = {
+			isa = PBXGroup;
+			children = (
+				526AACC827102662009E10D4 /* SelectionType.swift */,
+				526AACC927102662009E10D4 /* ContextMenu.swift */,
+				526AACCA27102662009E10D4 /* Selection.swift */,
+				52B192B8271EAE1800EE0D00 /* HighlightEntity.swift */,
+			);
+			path = Selection;
+			sourceTree = "<group>";
+		};
+		526AACCB27102662009E10D4 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				526AAD6F27161FF6009E10D4 /* Node */,
+				526AAD6E27161A17009E10D4 /* Creatures */,
+				526AAD6627160CA6009E10D4 /* Objects */,
+				526AACCC27102662009E10D4 /* Entity.swift */,
+				526AACCE27102662009E10D4 /* EntityDirection.swift */,
+				526AACD127102662009E10D4 /* EntityFaction.swift */,
+				526AACCF27102662009E10D4 /* EntityType.swift */,
+				526AACD027102662009E10D4 /* EntityStatistic.swift */,
+				526AAD7227168B51009E10D4 /* EntitySelection.swift */,
+				52B192B2271D350A00EE0D00 /* TestEntities.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		526AACD327102662009E10D4 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				52B1929F271B917A00EE0D00 /* Text */,
+				52F0EC33271A4645000D5B44 /* Button */,
+				52F0EC31271A461F000D5B44 /* InterfaceElement */,
+				526AACC727102662009E10D4 /* Selection */,
+				526AACD927102662009E10D4 /* Interface.swift */,
+				52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */,
+				52B192A8271BF2D300EE0D00 /* Interface.sks */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		526AACDC27102662009E10D4 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				526AACDE27102662009E10D4 /* CoreScene.swift */,
+				526AACDF27102662009E10D4 /* InputManager.swift */,
+				526AAD5C2713CB59009E10D4 /* GameState.swift */,
+				526AACE027102662009E10D4 /* CoreScene.sks */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		526AACE327102662009E10D4 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				526AACEB27102662009E10D4 /* Map.swift */,
+				526AACEE27102662009E10D4 /* Tile */,
+				526AACBF27102662009E10D4 /* MapSet */,
+				526AACE427102662009E10D4 /* MapObjects */,
+				529D68E12718F8BF00CADD63 /* MapGenerators */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		526AACE427102662009E10D4 /* MapObjects */ = {
+			isa = PBXGroup;
+			children = (
+				526AACE527102662009E10D4 /* DoorType.swift */,
+				526AACE627102662009E10D4 /* WarpTileType.swift */,
+				526AACE827102662009E10D4 /* Door.swift */,
+				526AACEA27102662009E10D4 /* WarpTile.swift */,
+			);
+			path = MapObjects;
+			sourceTree = "<group>";
+		};
+		526AACEC27102662009E10D4 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				526AACED27102662009E10D4 /* Camera.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		526AACEE27102662009E10D4 /* Tile */ = {
+			isa = PBXGroup;
+			children = (
+				529D68E4271907D400CADD63 /* TileSet.swift */,
+				52F0EC2F271A3243000D5B44 /* TileGroup.swift */,
+				52F0EC2D271A3230000D5B44 /* TileTypes.swift */,
+				52B192AC271BFC8F00EE0D00 /* TileSet+Interface.swift */,
+				52B192B6271E3A6300EE0D00 /* TileSet+Map.swift */,
+			);
+			path = Tile;
+			sourceTree = "<group>";
+		};
+		526AAD5E2713CD0F009E10D4 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				526AAD642713D933009E10D4 /* Component.swift */,
+				526AAD5F2713CD2F009E10D4 /* IdleComponent.swift */,
+				526AAD622713D8C6009E10D4 /* MoveableComponent.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		526AAD6627160CA6009E10D4 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				526AACE727102662009E10D4 /* Object.swift */,
+				526AACE927102662009E10D4 /* ObjectType.swift */,
+				526AAD6827160D76009E10D4 /* StaticObject.swift */,
+				526AAD6A27160D81009E10D4 /* DynamicObject.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		526AAD6727160CE0009E10D4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				526AACB727102662009E10D4 /* Assets.xcassets */,
+				526AAC8E27102554009E10D4 /* Main.storyboard */,
+				526AAC9327102556009E10D4 /* LaunchScreen.storyboard */,
+				526AAD1C271030DC009E10D4 /* saga.entitlements */,
+				526AAC8627102554009E10D4 /* GameScene.sks */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		526AAD6E27161A17009E10D4 /* Creatures */ = {
+			isa = PBXGroup;
+			children = (
+				526AAD6C27161417009E10D4 /* Creature.swift */,
+			);
+			path = Creatures;
+			sourceTree = "<group>";
+		};
+		526AAD6F27161FF6009E10D4 /* Node */ = {
+			isa = PBXGroup;
+			children = (
+				526AAD7027161FFF009E10D4 /* Node.swift */,
+			);
+			path = Node;
+			sourceTree = "<group>";
+		};
+		529D68E12718F8BF00CADD63 /* MapGenerators */ = {
+			isa = PBXGroup;
+			children = (
+				529D68E827190E7400CADD63 /* Room.swift */,
+				529D68DF2718C43A00CADD63 /* MapGenerator.swift */,
+				52F0EC36271B7BE5000D5B44 /* BSPGenerator.swift */,
+				529D68E22718F8D800CADD63 /* CAGenerator.swift */,
+				529D68E627190E1A00CADD63 /* RandomRoomGenerator.swift */,
+			);
+			path = MapGenerators;
+			sourceTree = "<group>";
+		};
+		52B1929F271B917A00EE0D00 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				52B192B0271D293A00EE0D00 /* TextTileMap.swift */,
+				526AACDA27102662009E10D4 /* FontType.swift */,
+			);
+			path = Text;
+			sourceTree = "<group>";
+		};
+		52F0EC31271A461F000D5B44 /* InterfaceElement */ = {
+			isa = PBXGroup;
+			children = (
+				52F0EC38271B88FE000D5B44 /* InterfaceElement.swift */,
+				526AACD427102662009E10D4 /* BottomBar.swift */,
+				526AACD527102662009E10D4 /* SideBar.swift */,
+				526AACD627102662009E10D4 /* ActionCounter.swift */,
+				52B1929D271B8F4B00EE0D00 /* EntityInspector.swift */,
+			);
+			path = InterfaceElement;
+			sourceTree = "<group>";
+		};
+		52F0EC33271A4645000D5B44 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				526AACDB27102662009E10D4 /* Button.swift */,
+				526AACD827102662009E10D4 /* ButtonType.swift */,
+			);
+			path = Button;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,11 +568,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52B192AA271BF2D300EE0D00 /* Interface.sks in Resources */,
+				526AAD612713CF5B009E10D4 /* Assets.xcassets in Resources */,
 				526AAC9027102554009E10D4 /* Main.storyboard in Resources */,
+				526AACF427102662009E10D4 /* Actions.sks in Resources */,
 				526AAC8727102554009E10D4 /* GameScene.sks in Resources */,
-				526AAC9227102556009E10D4 /* Assets.xcassets in Resources */,
 				526AAC9527102556009E10D4 /* LaunchScreen.storyboard in Resources */,
-				526AAC8927102554009E10D4 /* Actions.sks in Resources */,
+				526AAD0F27102662009E10D4 /* CoreScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,9 +599,64 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				526AACF527102662009E10D4 /* MapConnection.swift in Sources */,
+				526AAD652713D933009E10D4 /* Component.swift in Sources */,
+				52B192B3271D350A00EE0D00 /* TestEntities.swift in Sources */,
+				52B192B9271EAE1800EE0D00 /* HighlightEntity.swift in Sources */,
+				526AAD0B27102662009E10D4 /* Button.swift in Sources */,
+				529D68E02718C43A00CADD63 /* MapGenerator.swift in Sources */,
+				526AAD0627102662009E10D4 /* ActionCounter.swift in Sources */,
 				526AAC8B27102554009E10D4 /* GameScene.swift in Sources */,
+				526AAD0427102662009E10D4 /* BottomBar.swift in Sources */,
 				526AAC8D27102554009E10D4 /* GameViewController.swift in Sources */,
+				526AAD5D2713CB59009E10D4 /* GameState.swift in Sources */,
+				526AAD0E27102662009E10D4 /* InputManager.swift in Sources */,
+				526AAD0827102662009E10D4 /* ButtonType.swift in Sources */,
+				52F0EC35271B6AE8000D5B44 /* InterfaceType.swift in Sources */,
+				52B192AF271CE93100EE0D00 /* CGRect.swift in Sources */,
+				52B1929E271B8F4B00EE0D00 /* EntityInspector.swift in Sources */,
+				529D68E727190E1A00CADD63 /* RandomRoomGenerator.swift in Sources */,
+				529D68E927190E7400CADD63 /* Room.swift in Sources */,
+				526AAD1927102662009E10D4 /* Camera.swift in Sources */,
+				526AACF827102662009E10D4 /* CGPoint.swift in Sources */,
+				526AAD1227102662009E10D4 /* DoorType.swift in Sources */,
+				526AAD1827102662009E10D4 /* Map.swift in Sources */,
+				526AACFB27102662009E10D4 /* ContextMenu.swift in Sources */,
+				526AAD6927160D76009E10D4 /* StaticObject.swift in Sources */,
+				526AAD1327102662009E10D4 /* WarpTileType.swift in Sources */,
+				526AAD1627102662009E10D4 /* ObjectType.swift in Sources */,
+				52F0EC2E271A3230000D5B44 /* TileTypes.swift in Sources */,
+				526AAD1727102662009E10D4 /* WarpTile.swift in Sources */,
+				526AAD632713D8C6009E10D4 /* MoveableComponent.swift in Sources */,
+				526AAD0027102662009E10D4 /* EntityType.swift in Sources */,
 				526AAC8527102554009E10D4 /* AppDelegate.swift in Sources */,
+				526AACFC27102662009E10D4 /* Selection.swift in Sources */,
+				529D68E32718F8D800CADD63 /* CAGenerator.swift in Sources */,
+				526AAD0A27102662009E10D4 /* FontType.swift in Sources */,
+				529D68E5271907D400CADD63 /* TileSet.swift in Sources */,
+				526AACFD27102662009E10D4 /* Entity.swift in Sources */,
+				52B192AD271BFC8F00EE0D00 /* TileSet+Interface.swift in Sources */,
+				526AACF727102662009E10D4 /* CGSize.swift in Sources */,
+				526AAD1427102662009E10D4 /* Object.swift in Sources */,
+				526AAD6D27161417009E10D4 /* Creature.swift in Sources */,
+				52F0EC39271B88FE000D5B44 /* InterfaceElement.swift in Sources */,
+				526AACFA27102662009E10D4 /* SelectionType.swift in Sources */,
+				526AACFF27102662009E10D4 /* EntityDirection.swift in Sources */,
+				526AAD1527102662009E10D4 /* Door.swift in Sources */,
+				52F0EC30271A3243000D5B44 /* TileGroup.swift in Sources */,
+				526AAD0527102662009E10D4 /* SideBar.swift in Sources */,
+				52B192B1271D293A00EE0D00 /* TextTileMap.swift in Sources */,
+				52B192B7271E3A6400EE0D00 /* TileSet+Map.swift in Sources */,
+				526AAD7327168B51009E10D4 /* EntitySelection.swift in Sources */,
+				526AAD7127161FFF009E10D4 /* Node.swift in Sources */,
+				526AAD6B27160D81009E10D4 /* DynamicObject.swift in Sources */,
+				526AAD0927102662009E10D4 /* Interface.swift in Sources */,
+				52F0EC37271B7BE5000D5B44 /* BSPGenerator.swift in Sources */,
+				526AACF627102662009E10D4 /* MapSet.swift in Sources */,
+				526AAD0D27102662009E10D4 /* CoreScene.swift in Sources */,
+				526AAD0127102662009E10D4 /* EntityStatistic.swift in Sources */,
+				526AAD0227102662009E10D4 /* EntityFaction.swift in Sources */,
+				526AAD602713CD2F009E10D4 /* IdleComponent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,15 +833,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = saga/Resources/saga.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R85J9KP376;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -459,6 +851,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = cdm.saga;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -470,15 +863,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = saga/Resources/saga.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R85J9KP376;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -486,6 +881,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = cdm.saga;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
