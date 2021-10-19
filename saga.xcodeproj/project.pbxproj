@@ -63,7 +63,6 @@
 		529D68E727190E1A00CADD63 /* RandomRoomGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68E627190E1A00CADD63 /* RandomRoomGenerator.swift */; };
 		529D68E927190E7400CADD63 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68E827190E7400CADD63 /* Room.swift */; };
 		52B1929E271B8F4B00EE0D00 /* EntityInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B1929D271B8F4B00EE0D00 /* EntityInspector.swift */; };
-		52B192AA271BF2D300EE0D00 /* Interface.sks in Resources */ = {isa = PBXBuildFile; fileRef = 52B192A8271BF2D300EE0D00 /* Interface.sks */; };
 		52B192AD271BFC8F00EE0D00 /* TileSet+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192AC271BFC8F00EE0D00 /* TileSet+Interface.swift */; };
 		52B192AF271CE93100EE0D00 /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192AE271CE93100EE0D00 /* CGRect.swift */; };
 		52B192B1271D293A00EE0D00 /* TextTileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192B0271D293A00EE0D00 /* TextTileMap.swift */; };
@@ -155,7 +154,6 @@
 		529D68E627190E1A00CADD63 /* RandomRoomGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomRoomGenerator.swift; sourceTree = "<group>"; };
 		529D68E827190E7400CADD63 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		52B1929D271B8F4B00EE0D00 /* EntityInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityInspector.swift; sourceTree = "<group>"; };
-		52B192A8271BF2D300EE0D00 /* Interface.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Interface.sks; sourceTree = "<group>"; };
 		52B192AC271BFC8F00EE0D00 /* TileSet+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TileSet+Interface.swift"; sourceTree = "<group>"; };
 		52B192AE271CE93100EE0D00 /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
 		52B192B0271D293A00EE0D00 /* TextTileMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTileMap.swift; sourceTree = "<group>"; };
@@ -314,7 +312,6 @@
 				526AACC727102662009E10D4 /* Selection */,
 				526AACD927102662009E10D4 /* Interface.swift */,
 				52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */,
-				52B192A8271BF2D300EE0D00 /* Interface.sks */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -568,7 +565,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52B192AA271BF2D300EE0D00 /* Interface.sks in Resources */,
 				526AAD612713CF5B009E10D4 /* Assets.xcassets in Resources */,
 				526AAC9027102554009E10D4 /* Main.storyboard in Resources */,
 				526AACF427102662009E10D4 /* Actions.sks in Resources */,
