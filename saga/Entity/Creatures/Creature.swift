@@ -38,9 +38,7 @@ final class Creature: Entity {
                    statistics: statistics,
                    idleFrames: textures,
                    entityDelegate: entityDelegate)
-        spriteNode.nodeDelegate = self
         self.addComponent(IdleComponent())
-        self.addComponent(MovableComponent())
     }
 
     public required init?(coder: NSCoder) {

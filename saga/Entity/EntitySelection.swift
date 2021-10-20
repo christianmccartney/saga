@@ -14,19 +14,7 @@ public protocol EntityDelegate: AnyObject {
     func touchUp(_ pos: CGPoint, entity: Entity?)
 }
 
-extension Entity: NodeDelegate {
-    public func touchDown(_ pos: CGPoint) {
-        entityDelegate?.touchDown(pos, entity: self)
-    }
-    
-    public func touchMoved(_ pos: CGPoint) {
-        entityDelegate?.touchMoved(pos, entity: self)
-    }
-    
-    public func touchUp(_ pos: CGPoint) {
-        entityDelegate?.touchUp(pos, entity: self)
-    }
-}
+extension Entity: NodeDelegate {}
 
 extension Entity: Selectable {
     var entityDescription: String {

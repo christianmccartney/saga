@@ -12,21 +12,19 @@ import Combine
 
 class Selection: ObservableObject {
     static let shared = Selection()
-    var highlights: [SelectionType: Entity] = [:]
+    var highlights: [SelectionType: HighlightEntity] = [:]
     @Published var highlightedEntity: Entity?
-    var highlightEntity: Entity?
+    var highlightEntity: HighlightEntity?
 
     private init() {
         for selectionType in SelectionType.allCases {
             let texture = SKTexture(imageNamed: selectionType.rawValue)
             let spriteNode = Node(texture: texture)
-            let highlightEntity = Entity(
+            let highlightEntity = HighlightEntity(
                 id: UUID(),
                 spriteNode: spriteNode,
                 type: selectionType,
-                position: Position(0, 0),
-                faction: .neutral,
-                statistics: []
+                position: Position(0, 0)
             )
             highlightEntity.addComponent(MovableComponent())
             highlightEntity.spriteNode.isUserInteractionEnabled = true
@@ -34,7 +32,7 @@ class Selection: ObservableObject {
         }
     }
 
-    private func highlight(for faction: EntityFaction) -> Entity? {
+    private func highlight(for faction: EntityFaction) -> HighlightEntity? {
         switch faction {
         case .enemy:
             return Selection.shared.highlights[.red_entity_select1]
@@ -55,7 +53,7 @@ class Selection: ObservableObject {
         // get the new highlight
         if let newHighlight = highlight(for: entity.faction) {
             // add the highlight to the new highlighted entity
-            self.highlightedEntity?.addChild(newHighlight)
+            self.highlightedEntity?.addHighlightEntity(newHighlight)
             // set the highlight
             self.highlightEntity = newHighlight
         }
@@ -63,7 +61,7 @@ class Selection: ObservableObject {
 
     private func unhighlight() {
         if let highlightEntity = highlightEntity {
-            self.highlightedEntity?.removeChild(highlightEntity)
+            self.highlightedEntity?.removeHighlightEntity(highlightEntity)
             self.highlightEntity = nil
             self.highlightedEntity = nil
         }

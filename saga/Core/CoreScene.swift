@@ -44,13 +44,13 @@ final class CoreScene: InputManager {
     override func didMove(to view: SKView) {
         // Map
         let caveGenerator = CAGenerator(width: 64, height: 64)
-        let dungeonGenerator = RandomRoomGenerator(width: 64, height: 64, maxRooms: 32)
         let defaultMapGenerator = MapGenerator(width: 32, height: 32)
         let cryptGenerator = BSPGenerator(width: 80, height: 80, divisions: 5)
+        let dungeonGenerator = RandomRoomGenerator(width: 64, height: 64, maxRooms: 32)
 
         let mapGenerator: MapGenerator
         
-        mapGenerator = defaultMapGenerator
+        mapGenerator = dungeonGenerator
         
         let stoneTileDefinition = TileGroupDefinition(
             name: "stoneCobble",

@@ -48,6 +48,7 @@ open class MapGenerator {
             map[y][width-1] = false
             map[y][width-2] = false
         }
+        visualize(map)
         return map
     }
 

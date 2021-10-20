@@ -32,9 +32,7 @@ class DynamicObject: Object {
                    statistics: statistics,
                    idleFrames: [.down: [texture1, texture2]],
                    entityDelegate: entityDelegate)
-        spriteNode.nodeDelegate = self
         self.addComponent(IdleComponent())
-        self.addComponent(MovableComponent())
     }
 
     required init?(coder: NSCoder) {

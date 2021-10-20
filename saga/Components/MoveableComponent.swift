@@ -10,9 +10,9 @@ import GameplayKit
 
 public class MovableComponent: Component {
     public override func didAddToEntity() {
-        if entityPositionCorrect {
-            _entity.updatePosition()
-        }
+//        if entityPositionCorrect {
+//            _entity.updatePosition()
+//        }
     }
 
     public override func willRemoveFromEntity() {

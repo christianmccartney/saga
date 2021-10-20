@@ -41,7 +41,9 @@ open class Map: SKTileMapNode {
         for x in 0..<columns {
             for y in 0..<rows {
                 let gridPosition = mapGridPosition(for: Position(x, y), with: room)
-                setTileGroup(tileSet.mapTileDefinition(for: gridPosition), forColumn: x, row: y)
+                if let tileGroup = tileSet.mapTileDefinition(for: gridPosition) {
+                    setTileGroup(tileGroup, forColumn: x, row: y)
+                }
             }
         }
         self.graph = buildGraph()

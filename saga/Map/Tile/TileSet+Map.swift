@@ -34,10 +34,10 @@ extension SKTileMapNode {
         guard x2 < roomMap[0].count else {
             return 3
         }
-        guard y1 > 0 else {
+        guard y1 >= 0 else {
             return 3
         }
-        guard x1 > 0 else {
+        guard x1 >= 0 else {
             return 3
         }
         if roomMap[y1][tileLocation.column] {
@@ -55,6 +55,10 @@ extension SKTileMapNode {
         if ((roomMap[y1][x1] != roomMap[y2][x1]) != roomMap[y1][x2]) != roomMap[y2][x2] {
             return 2
         }
+        let neighbors = (roomMap[y1][x1] + roomMap[y2][x1]) + (roomMap[y1][x2] + roomMap[y2][x2])
+        if neighbors == 2 || neighbors == 4 {
+            return 2
+        }
         return 3
     }
 }
@@ -63,5 +67,11 @@ extension SKTileSet {
     func mapTileDefinition(for tileType: Int) -> SKTileGroup? {
         guard tileType < tileGroups.count else { return nil }
         return tileGroups[tileType]
+    }
+}
+
+extension Bool {
+    static func + (_ lhs: Bool, _ rhs: Bool) -> Int {
+        return (lhs ? 1 : 0) + (rhs ? 1 : 0)
     }
 }

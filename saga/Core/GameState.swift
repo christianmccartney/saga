@@ -52,8 +52,8 @@ extension CoreScene: GameState {
 
     func addMap(_ map: Map) {
         map.removeFromParent()
-        map.setScale(1.5)
-        map.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
+        map.setScale(1)
+//        map.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         self.addChild(map)
     }
     

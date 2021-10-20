@@ -48,7 +48,7 @@ open class Entity: GKEntity {
                 position: Position,
                 direction: EntityDirection = .down,
                 faction: EntityFaction,
-                statistics: [EntityStatistic],
+                statistics: [EntityStatistic] = [],
                 idleFrames: [EntityDirection: [SKTexture]] = [:],
                 entityDelegate: EntityDelegate? = nil) {
         self.id = id
@@ -61,6 +61,7 @@ open class Entity: GKEntity {
         self.idleFrames = idleFrames
         self.entityDelegate = entityDelegate
         super.init()
+        spriteNode.nodeDelegate = self
     }
 
     public required init?(coder: NSCoder) {
@@ -162,6 +163,18 @@ open class Entity: GKEntity {
             position = Position(lastNode.gridPosition)
         }
         queuedMoves = nil
+    }
+
+    public func touchDown(_ pos: CGPoint) {
+        entityDelegate?.touchDown(pos, entity: self)
+    }
+    
+    public func touchMoved(_ pos: CGPoint) {
+        entityDelegate?.touchMoved(pos, entity: self)
+    }
+    
+    public func touchUp(_ pos: CGPoint) {
+        entityDelegate?.touchUp(pos, entity: self)
     }
 }
 

@@ -26,8 +26,6 @@ class StaticObject: Object {
                    faction: .neutral,
                    statistics: statistics,
                    entityDelegate: entityDelegate)
-        spriteNode.nodeDelegate = self
-        self.addComponent(MovableComponent())
     }
     
     required init?(coder: NSCoder) {
