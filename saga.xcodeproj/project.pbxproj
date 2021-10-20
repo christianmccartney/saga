@@ -69,6 +69,8 @@
 		52B192B3271D350A00EE0D00 /* TestEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192B2271D350A00EE0D00 /* TestEntities.swift */; };
 		52B192B7271E3A6400EE0D00 /* TileSet+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192B6271E3A6300EE0D00 /* TileSet+Map.swift */; };
 		52B192B9271EAE1800EE0D00 /* HighlightEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192B8271EAE1800EE0D00 /* HighlightEntity.swift */; };
+		52B192BB271FEF8D00EE0D00 /* EntityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192BA271FEF8D00EE0D00 /* EntityAction.swift */; };
+		52B192BE271FF42100EE0D00 /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192BD271FF42100EE0D00 /* Statistic.swift */; };
 		52F0EC2E271A3230000D5B44 /* TileTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC2D271A3230000D5B44 /* TileTypes.swift */; };
 		52F0EC30271A3243000D5B44 /* TileGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC2F271A3243000D5B44 /* TileGroup.swift */; };
 		52F0EC35271B6AE8000D5B44 /* InterfaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */; };
@@ -160,6 +162,8 @@
 		52B192B2271D350A00EE0D00 /* TestEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEntities.swift; sourceTree = "<group>"; };
 		52B192B6271E3A6300EE0D00 /* TileSet+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TileSet+Map.swift"; sourceTree = "<group>"; };
 		52B192B8271EAE1800EE0D00 /* HighlightEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightEntity.swift; sourceTree = "<group>"; };
+		52B192BA271FEF8D00EE0D00 /* EntityAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityAction.swift; sourceTree = "<group>"; };
+		52B192BD271FF42100EE0D00 /* Statistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
 		52F0EC2D271A3230000D5B44 /* TileTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileTypes.swift; sourceTree = "<group>"; };
 		52F0EC2F271A3243000D5B44 /* TileGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileGroup.swift; sourceTree = "<group>"; };
 		52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceType.swift; sourceTree = "<group>"; };
@@ -289,6 +293,7 @@
 		526AACCB27102662009E10D4 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				52B192BC271FF41100EE0D00 /* Statistics */,
 				526AAD6F27161FF6009E10D4 /* Node */,
 				526AAD6E27161A17009E10D4 /* Creatures */,
 				526AAD6627160CA6009E10D4 /* Objects */,
@@ -296,8 +301,8 @@
 				526AACCE27102662009E10D4 /* EntityDirection.swift */,
 				526AACD127102662009E10D4 /* EntityFaction.swift */,
 				526AACCF27102662009E10D4 /* EntityType.swift */,
-				526AACD027102662009E10D4 /* EntityStatistic.swift */,
 				526AAD7227168B51009E10D4 /* EntitySelection.swift */,
+				52B192BA271FEF8D00EE0D00 /* EntityAction.swift */,
 				52B192B2271D350A00EE0D00 /* TestEntities.swift */,
 			);
 			path = Entity;
@@ -438,6 +443,15 @@
 				526AACDA27102662009E10D4 /* FontType.swift */,
 			);
 			path = Text;
+			sourceTree = "<group>";
+		};
+		52B192BC271FF41100EE0D00 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				52B192BD271FF42100EE0D00 /* Statistic.swift */,
+				526AACD027102662009E10D4 /* EntityStatistic.swift */,
+			);
+			path = Statistics;
 			sourceTree = "<group>";
 		};
 		52F0EC31271A461F000D5B44 /* InterfaceElement */ = {
@@ -613,10 +627,12 @@
 				52B1929E271B8F4B00EE0D00 /* EntityInspector.swift in Sources */,
 				529D68E727190E1A00CADD63 /* RandomRoomGenerator.swift in Sources */,
 				529D68E927190E7400CADD63 /* Room.swift in Sources */,
+				52B192BE271FF42100EE0D00 /* Statistic.swift in Sources */,
 				526AAD1927102662009E10D4 /* Camera.swift in Sources */,
 				526AACF827102662009E10D4 /* CGPoint.swift in Sources */,
 				526AAD1227102662009E10D4 /* DoorType.swift in Sources */,
 				526AAD1827102662009E10D4 /* Map.swift in Sources */,
+				52B192BB271FEF8D00EE0D00 /* EntityAction.swift in Sources */,
 				526AACFB27102662009E10D4 /* ContextMenu.swift in Sources */,
 				526AAD6927160D76009E10D4 /* StaticObject.swift in Sources */,
 				526AAD1327102662009E10D4 /* WarpTileType.swift in Sources */,

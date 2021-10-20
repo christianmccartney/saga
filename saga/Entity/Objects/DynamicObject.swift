@@ -12,7 +12,7 @@ class DynamicObject: Object {
     public init(id: UUID = UUID(),
                 type: DynamicObjectType,
                 position: Position = Position(0, 0),
-                statistics: [EntityStatistic] = [],
+                statistics: Statistics = Statistics(),
                 entityDelegate: EntityDelegate) {
 
         let texture1 = SKTexture(imageNamed: type.name + "1")

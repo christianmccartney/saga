@@ -21,7 +21,7 @@ extension Entity: Selectable {
         var description = name + "\n"
         description.append("<----------------->\n")
         for statistic in statistics {
-            description.append("\(statistic.statistic) : \(statistic.value)\n")
+            description.append("\(statistic.statisticType) : \(statistic.value)\n")
         }
         return description
     }

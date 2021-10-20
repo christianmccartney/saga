@@ -7,36 +7,41 @@
 
 import Foundation
 
-let fighterStats: [EntityStatistic] = [EntityStatistic(.strength, 16),
-                                       EntityStatistic(.dexterity, 16),
-                                       EntityStatistic(.constitution, 16),
-                                       EntityStatistic(.intelligence, 10),
-                                       EntityStatistic(.wisdom, 10),
-                                       EntityStatistic(.initiative, 5)]
-let jellyStats: [EntityStatistic]   = [EntityStatistic(.strength, 12),
-                                       EntityStatistic(.dexterity, 8),
-                                       EntityStatistic(.constitution, 20),
-                                       EntityStatistic(.intelligence, 3),
-                                       EntityStatistic(.wisdom, 3),
-                                       EntityStatistic(.initiative, 2)]
-let archerStats: [EntityStatistic]  = [EntityStatistic(.strength, 12),
-                                       EntityStatistic(.dexterity, 18),
-                                       EntityStatistic(.constitution, 14),
-                                       EntityStatistic(.intelligence, 10),
-                                       EntityStatistic(.wisdom, 12),
-                                       EntityStatistic(.initiative, 6)]
-let catStats: [EntityStatistic]     = [EntityStatistic(.strength, 8),
-                                       EntityStatistic(.dexterity, 20),
-                                       EntityStatistic(.constitution, 8),
-                                       EntityStatistic(.intelligence, 6),
-                                       EntityStatistic(.wisdom, 12),
-                                       EntityStatistic(.initiative, 4)]
-let druidStats: [EntityStatistic]   = [EntityStatistic(.strength, 10),
-                                       EntityStatistic(.dexterity, 16),
-                                       EntityStatistic(.constitution, 10),
-                                       EntityStatistic(.intelligence, 14),
-                                       EntityStatistic(.wisdom, 18),
-                                       EntityStatistic(.initiative, 2)]
+let fighterStats: EntityStatistics = EntityStatistics(
+    [Statistic(.strength, 16),
+     Statistic(.dexterity, 16),
+     Statistic(.constitution, 16),
+     Statistic(.intelligence, 10),
+     Statistic(.wisdom, 10),
+     Statistic(.initiative, 5)])
+let jellyStats: EntityStatistics = EntityStatistics(
+    [Statistic(.strength, 12),
+     Statistic(.dexterity, 8),
+     Statistic(.constitution, 20),
+     Statistic(.intelligence, 3),
+     Statistic(.wisdom, 3),
+     Statistic(.initiative, 2)])
+let archerStats: EntityStatistics = EntityStatistics(
+    [Statistic(.strength, 12),
+     Statistic(.dexterity, 18),
+     Statistic(.constitution, 14),
+     Statistic(.intelligence, 10),
+     Statistic(.wisdom, 12),
+     Statistic(.initiative, 6)])
+let catStats: EntityStatistics = EntityStatistics(
+    [Statistic(.strength, 8),
+     Statistic(.dexterity, 20),
+     Statistic(.constitution, 8),
+     Statistic(.intelligence, 6),
+     Statistic(.wisdom, 12),
+     Statistic(.initiative, 4)])
+let druidStats: EntityStatistics = EntityStatistics(
+    [Statistic(.strength, 10),
+     Statistic(.dexterity, 16),
+     Statistic(.constitution, 10),
+     Statistic(.intelligence, 14),
+     Statistic(.wisdom, 18),
+     Statistic(.initiative, 2)])
 
 // Entities
 let fighterEntity = Creature(type: .fighter,

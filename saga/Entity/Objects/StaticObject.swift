@@ -12,7 +12,7 @@ class StaticObject: Object {
     public init(id: UUID = UUID(),
                 type: StaticObjectType,
                 position: Position = Position(0, 0),
-                statistics: [EntityStatistic] = [],
+                statistics: Statistics = Statistics(),
                 entityDelegate: EntityDelegate) {
         let texture = SKTexture(imageNamed: type.rawValue)
         texture.filteringMode = .nearest

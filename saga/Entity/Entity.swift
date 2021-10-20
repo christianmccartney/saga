@@ -23,7 +23,7 @@ open class Entity: GKEntity {
 
     var direction: EntityDirection
     var faction: EntityFaction
-    var statistics: [EntityStatistic]
+    var statistics: Statistics
 
     var position: Position {
         didSet {
@@ -48,7 +48,7 @@ open class Entity: GKEntity {
                 position: Position,
                 direction: EntityDirection = .down,
                 faction: EntityFaction,
-                statistics: [EntityStatistic] = [],
+                statistics: Statistics = Statistics(),
                 idleFrames: [EntityDirection: [SKTexture]] = [:],
                 entityDelegate: EntityDelegate? = nil) {
         self.id = id
@@ -135,7 +135,7 @@ open class Entity: GKEntity {
         return texture
     }
 
-    func check(_ statistic: EntityStatistic) -> Int {
+    func check(_ statistic: StatisticType) -> Int {
         return 0
     }
 

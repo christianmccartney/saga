@@ -15,7 +15,7 @@ final class HighlightEntity: Entity {
                 spriteNode: Node,
                 type: SelectionType,
                 position: Position = Position(0, 0),
-                statistics: [EntityStatistic] = [],
+                statistics: Statistics = Statistics(),
                 entityDelegate: EntityDelegate? = nil) {
         spriteNode.name = type.name + "_" + String(describing: id)
         super.init(id: id,

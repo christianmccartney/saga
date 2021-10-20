@@ -14,7 +14,7 @@ final class Creature: Entity {
                 faction: EntityFaction = .neutral,
                 direction: EntityDirection = .down,
                 position: Position = Position(0, 0),
-                statistics: [EntityStatistic],
+                statistics: EntityStatistics,
                 entityDelegate: EntityDelegate? = nil) {
         let texture = SKTexture(imageNamed: type.name + direction.toString())
         texture.filteringMode = .nearest
