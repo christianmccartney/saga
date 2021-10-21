@@ -72,3 +72,13 @@ open class Statistics: Sequence, IteratorProtocol {
         return nil
     }
 }
+
+extension Statistics: CustomStringConvertible {
+    public var description: String {
+        var str = ""
+        for stat in statistics {
+            str.append("\(stat.statisticType): \(stat.value) \(stat.modifier < 0 ? "-" : "+") \(stat.modifier)\n")
+        }
+        return str
+    }
+}

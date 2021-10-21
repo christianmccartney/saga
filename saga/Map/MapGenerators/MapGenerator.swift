@@ -24,15 +24,7 @@ open class MapGenerator {
         self.width = width
     }
 
-    open func initializeMap(map: inout RoomMap) {
-//        for x in 0..<width {
-//            for y in 0..<height {
-//                if x == 0 || y == 0 || x == width-1 || y == height-1 {
-//                    map[y][x] = true
-//                }
-//            }
-//        }
-    }
+    open func initializeMap(map: inout RoomMap) {}
 
     open func generate() -> RoomMap {
         var map: RoomMap = Array(repeating: Array(repeating: true, count: width), count: height)
@@ -48,7 +40,6 @@ open class MapGenerator {
             map[y][width-1] = false
             map[y][width-2] = false
         }
-        visualize(map)
         return map
     }
 

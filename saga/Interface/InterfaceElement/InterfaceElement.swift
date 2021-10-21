@@ -12,6 +12,7 @@ protocol InterfaceDelegate: AnyObject {
     func removeChild(_ entity: Entity)
     func track(_ entity: Entity)
     func untrack(_ entity: Entity)
+    func selectActionType(_ entityAction: EntityAction)
 }
 
 open class InterfaceElement: SKTileMapNode {
@@ -30,10 +31,6 @@ open class InterfaceElement: SKTileMapNode {
     func setupButtons() {}
     func setPosition() {}
 
-    func handleSelection(_ event: UIEvent) -> ButtonAction? {
-        return nil
-    }
-
     func fillWithEdges(_ tileGroup: SKTileGroup) {
         for column in 0..<numberOfColumns {
             for row in 0..<numberOfRows {
@@ -46,10 +43,5 @@ open class InterfaceElement: SKTileMapNode {
                 }
             }
         }
-//        for column in 1..<numberOfColumns {
-//            for row in 1..<numberOfRows {
-//                setTileGroup(tileGroup, forColumn: column, row: row)
-//            }
-//        }
     }
 }

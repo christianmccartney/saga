@@ -26,15 +26,7 @@ public extension SKNode {
     }
 }
 
-final class CoreScene: InputManager {
-    var mapSet: MapSet?
-
-    var interface: Interface = Interface()
-    var cameraNode: SKCameraNode!
-
-    var entities = Set<Entity>()
-    var graphs = [String : GKGraph]()
-    
+final class CoreScene: GameState {
     private var lastUpdateTime : TimeInterval = 0
     
     override func sceneDidLoad() {
@@ -86,6 +78,7 @@ final class CoreScene: InputManager {
         focusOnActive()
         pause(false)
         super.didMove(to: view)
+        beginCombat()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -125,31 +118,7 @@ final class CoreScene: InputManager {
     }
 }
 
-extension CoreScene: EntityDelegate {
-    public func touchDown(_ pos: CGPoint, entity: Entity? = nil) {
-        if let entity = entity {
-            if entity == Selection.shared.highlightedEntity {
-                Selection.shared.highlight(nil)
-                return
-            }
-            Selection.shared.highlight(entity)
-            return
-        }
-        if let highlightedEntity = Selection.shared.highlightedEntity, let scene = scene {
-            //let location = self.convert(pos, to: self)
-            highlightedEntity.move(to: pos, from: scene)
-        }
-        //print("touch down \(pos) : \(entity?.type)")
-    }
-    
-    public func touchMoved(_ pos: CGPoint, entity: Entity? = nil) {
-        //print("touch moved \(pos) : \(entity?.type)")
-    }
-    
-    public func touchUp(_ pos: CGPoint, entity: Entity? = nil) {
-        //print("touch up \(pos) : \(entity?.type)")
-    }
-}
+
 
 extension DefaultStringInterpolation {
     mutating func appendInterpolation<T>(_ optional: T?) {

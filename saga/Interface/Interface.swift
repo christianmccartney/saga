@@ -44,15 +44,6 @@ class Interface {
             element.setScale(scale)
         }
     }
-
-    func handleSelection(_ event: UIEvent) -> ButtonAction? {
-        for element in elements {
-            if let action = element.handleSelection(event) {
-                return action
-            }
-        }
-        return nil
-    }
 }
 
 extension Interface: InterfaceDelegate {
@@ -71,5 +62,9 @@ extension Interface: InterfaceDelegate {
     func untrack(_ entity: Entity) {
         System.shared.removeEntity(entity)
         coreScene?.untrack(entity)
+    }
+
+    func selectActionType(_ entityAction: EntityAction) {
+        coreScene?.selectedActionType = entityAction
     }
 }

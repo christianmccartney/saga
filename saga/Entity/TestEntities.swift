@@ -13,7 +13,7 @@ let fighterStats: EntityStatistics = EntityStatistics(
      Statistic(.constitution, 16),
      Statistic(.intelligence, 10),
      Statistic(.wisdom, 10),
-     Statistic(.initiative, 5)])
+     Statistic(.initiative, 7)])
 let jellyStats: EntityStatistics = EntityStatistics(
     [Statistic(.strength, 12),
      Statistic(.dexterity, 8),

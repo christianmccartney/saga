@@ -18,6 +18,7 @@ open class Entity: GKEntity {
 
     weak var map: Map?
     public weak var entityDelegate: EntityDelegate?
+    public var actionInceptor: EntityActionInceptor
 
     var type: EntityType
 
@@ -69,7 +70,9 @@ open class Entity: GKEntity {
         self.statistics = statistics
         self.idleFrames = idleFrames
         self.entityDelegate = entityDelegate
+        self.actionInceptor = EntityActionInceptor()
         super.init()
+        actionInceptor.entity = self
         spriteNode.nodeDelegate = self
     }
 
@@ -160,33 +163,7 @@ open class Entity: GKEntity {
     }
 
     func check(_ statistic: StatisticType) -> Int {
-        return 0
-    }
-
-    func checkCombatStatus() -> Bool {
-        //let nearbyEntities = map?.getNearbyEntities(to: self)
-        return true
-        //return nearbyEntities?.contains { $0.faction.isHostileTo(self.type) } ?? false
-    }
-
-    func isNearby(_ entity: Entity) -> Bool {
-        if entity.id == self.id { return false }
-
-        guard let position1 = lastNode?.gridPosition,
-            let position2 = lastNode?.gridPosition else { return false }
-
-        return sqrt(pow(Double(position2.x - position1.x), 2) + pow(Double(position2.y - position1.y), 2)) < 5
-    }
-
-    func move() {
-        spriteNode.removeAction(forKey: "idle")
-        if let moves = queuedMoves {
-            spriteNode.run(moves)
-        }
-        if let lastNode = lastNode {
-            position = Position(lastNode.gridPosition)
-        }
-        queuedMoves = nil
+        return statistics.checkStat(statistic)
     }
 
     var isUserInteractionEnabled: Bool {
@@ -209,6 +186,10 @@ open class Entity: GKEntity {
     public func touchUp(_ pos: CGPoint) {
         entityDelegate?.touchUp(pos, entity: self)
     }
+
+    var nearbyEntities: [Entity] {
+        entityDelegate?.nearbyEntities(to: self) ?? []
+    }
 }
 
 // MARK: Helper Functions
@@ -221,5 +202,11 @@ extension Array where Element == Entity {
             nodes.append(entity.spriteNode)
         }
         scene.removeChildren(in: nodes)
+    }
+}
+
+extension Entity {
+    open override var description: String {
+        return "Entity: \(name)\n\(statistics)"
     }
 }

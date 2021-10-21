@@ -51,8 +51,4 @@ class ActionCounter: InterfaceElement {
     
     override func setPosition() {
     }
-
-    override func handleSelection(_ event: UIEvent) -> ButtonAction? {
-        return nil
-    }
 }

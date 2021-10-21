@@ -24,14 +24,9 @@ class BottomBar: InterfaceElement {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setupButtons() {
-    }
+    override func setupButtons() {}
 
     override func setPosition() {
         posByScreen(x: 0.5, y: 0.0)
-    }
-
-    override func handleSelection(_ event: UIEvent) -> ButtonAction? {
-        return nil
     }
 }

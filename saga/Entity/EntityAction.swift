@@ -8,6 +8,7 @@
 import Foundation
 
 public enum EntityAction {
+    case none
     case move
     case attack
     case cast

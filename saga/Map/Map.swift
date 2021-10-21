@@ -22,6 +22,14 @@ public struct Position {
         self.column = Int(vector.x)
         self.row = Int(vector.y)
     }
+
+    private func distanceSquared(_ pos: Position) -> Float {
+        return Float(pos.column - self.column) * Float(pos.column - self.column) + Float(pos.row - self.row) * Float(pos.row - self.row)
+    }
+
+    func distance(_ pos: Position) -> Int {
+        return Int(sqrt(distanceSquared(pos)))
+    }
 }
 
 /// A `Map` is one SKTileMapNode contained in an .sks file.
@@ -31,8 +39,10 @@ open class Map: SKTileMapNode {
     var entities = Set<Entity>()
     var objects: [Object] = []
     var warpTiles: [WarpTile] = []
+    var roomMap: RoomMap
 
     public init(tileSet: SKTileSet, columns: Int, rows: Int, room: RoomMap) {
+        self.roomMap = room
         super.init(tileSet: tileSet,
                    columns: columns,
                    rows: rows,
@@ -62,17 +72,8 @@ open class Map: SKTileMapNode {
         var walls: [GKGridGraphNode] = []
         for x in 0..<numberOfRows {
             for y in 0..<numberOfColumns {
-                guard let tileDefinition = tileDefinition(atColumn: x, row: y),
-                    let userData = tileDefinition.userData else {
-                        if let obstacle = graph.node(atGridPosition: vector2(Int32(x), Int32(y))) {
-                            walls.append(obstacle)
-                        }
-                        continue
-                }
-
-                if userData["isNavigable"] == nil,
-                    let obstacle = graph.node(atGridPosition: vector2(Int32(x), Int32(y))) {
-                    walls.append(obstacle)
+                if !roomMap[y][x], let node = graph.node(atGridPosition: vector_int2(Int32(x), Int32(y))) {
+                    walls.append(node)
                 }
             }
         }
@@ -105,15 +106,15 @@ open class Map: SKTileMapNode {
 //        entities.removeChildren(from: mapNode)
 //    }
 
-    func getNearbyEntities(to entity: Entity) -> Set<Entity> {
-        var nearbyEntities = Set<Entity>()
-        for e in entities {
-            if entity.isNearby(e) {
-                nearbyEntities.insert(e)
-            }
-        }
-        return nearbyEntities
-    }
+//    func getNearbyEntities(to entity: Entity) -> Set<Entity> {
+//        var nearbyEntities = Set<Entity>()
+//        for e in entities {
+//            if entity.isNearby(e) {
+//                nearbyEntities.insert(e)
+//            }
+//        }
+//        return nearbyEntities
+//    }
 
     func updatePositions() {
         for entity in entities {

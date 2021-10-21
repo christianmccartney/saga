@@ -24,7 +24,7 @@ class EntityWindow: InterfaceElement {
         enableAutomapping = false
         fillWithEdges(tileSet.tileGroups.first!)
         
-        Selection.shared.$highlightedEntity
+        Selection.shared.$activeEntity
             .receive(on: DispatchQueue.main)
             .sink { [weak self] highlightedEntity in
                 guard let self = self else { return }
@@ -48,10 +48,6 @@ class EntityWindow: InterfaceElement {
             addChild(entity.spriteNode)
             interfaceDelegate?.track(entity)
         }
-    }
-
-    override func setupButtons() {
-        
     }
 
     override func setPosition() {

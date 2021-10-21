@@ -6,7 +6,6 @@
 //
 
 import SpriteKit
-import GameplayKit
 
 class StaticObject: Object {
     public init(id: UUID = UUID(),

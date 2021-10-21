@@ -15,6 +15,7 @@ class Selection: ObservableObject {
     var highlights: [SelectionType: HighlightEntity] = [:]
     @Published var highlightedEntity: Entity?
     var highlightEntity: HighlightEntity?
+    @Published var activeEntity: Entity?
 
     private init() {
         for selectionType in SelectionType.allCases {

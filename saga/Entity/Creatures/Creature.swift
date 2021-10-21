@@ -39,6 +39,17 @@ final class Creature: Entity {
                    statistics: statistics,
                    idleFrames: textures,
                    entityDelegate: entityDelegate)
+        switch faction {
+        case .player:
+            self.actionInceptor = PlayerEntityActionInceptor()
+        case .friendly:
+            self.actionInceptor = NeutralEntityActionInceptor()
+        case .neutral:
+            self.actionInceptor = NeutralEntityActionInceptor()
+        case .enemy:
+            self.actionInceptor = NeutralEntityActionInceptor()
+        }
+        self.actionInceptor.entity = self
         self.addComponent(IdleComponent())
         System.shared.addEntity(self)
     }

@@ -6,7 +6,6 @@
 //
 
 import SpriteKit
-import GameplayKit
 
 class DynamicObject: Object {
     public init(id: UUID = UUID(),

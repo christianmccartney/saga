@@ -32,15 +32,15 @@ class SideBar: InterfaceElement {
         //let nextTurnButton = Button(type: .arrows, action: { print("next turn") })
         let moveButton = Button(type: .arrow_right, action: { [weak self] button in
             guard let self = self else { return }
-            self.select(button)
+            self.select(button, .move)
         })
         let defendButton = Button(type: .shield, action: { [weak self] button in
             guard let self = self else { return }
-            self.select(button)
+            self.select(button, .defend)
         })
         let swordButton = Button(type: .sword, action: { [weak self] button in
             guard let self = self else { return }
-            self.select(button)
+            self.select(button, .attack)
         })
         
         self.buttons = [bagButton, armorButton, moveButton, defendButton, swordButton]
@@ -50,14 +50,16 @@ class SideBar: InterfaceElement {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func select(_ button: Button) {
+    private func select(_ button: Button, _ actionType: EntityAction = .none) {
         selectedButton?.select()
         if selectedButton == button {
             selectedButton = nil
+            interfaceDelegate?.selectActionType(.none)
             return
         }
         button.select()
         selectedButton = button
+        interfaceDelegate?.selectActionType(actionType)
     }
     
     override func setupButtons() {
