@@ -71,6 +71,9 @@
 		52B192B9271EAE1800EE0D00 /* HighlightEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192B8271EAE1800EE0D00 /* HighlightEntity.swift */; };
 		52B192BB271FEF8D00EE0D00 /* EntityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192BA271FEF8D00EE0D00 /* EntityAction.swift */; };
 		52B192BE271FF42100EE0D00 /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192BD271FF42100EE0D00 /* Statistic.swift */; };
+		52B192C42720EB5100EE0D00 /* EntityWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192C32720EB5100EE0D00 /* EntityWindow.swift */; };
+		52B192C72721103900EE0D00 /* IdleSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192C62721103900EE0D00 /* IdleSystem.swift */; };
+		52B192C92721135100EE0D00 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B192C82721135100EE0D00 /* System.swift */; };
 		52F0EC2E271A3230000D5B44 /* TileTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC2D271A3230000D5B44 /* TileTypes.swift */; };
 		52F0EC30271A3243000D5B44 /* TileGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC2F271A3243000D5B44 /* TileGroup.swift */; };
 		52F0EC35271B6AE8000D5B44 /* InterfaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */; };
@@ -164,6 +167,10 @@
 		52B192B8271EAE1800EE0D00 /* HighlightEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightEntity.swift; sourceTree = "<group>"; };
 		52B192BA271FEF8D00EE0D00 /* EntityAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityAction.swift; sourceTree = "<group>"; };
 		52B192BD271FF42100EE0D00 /* Statistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
+		52B192BF27201A9600EE0D00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52B192C32720EB5100EE0D00 /* EntityWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityWindow.swift; sourceTree = "<group>"; };
+		52B192C62721103900EE0D00 /* IdleSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleSystem.swift; sourceTree = "<group>"; };
+		52B192C82721135100EE0D00 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		52F0EC2D271A3230000D5B44 /* TileTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileTypes.swift; sourceTree = "<group>"; };
 		52F0EC2F271A3243000D5B44 /* TileGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileGroup.swift; sourceTree = "<group>"; };
 		52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceType.swift; sourceTree = "<group>"; };
@@ -221,7 +228,6 @@
 			children = (
 				526AACBD27102662009E10D4 /* Actions */,
 				526AACEC27102662009E10D4 /* Camera */,
-				526AAD5E2713CD0F009E10D4 /* Components */,
 				526AACDC27102662009E10D4 /* Core */,
 				526AACCB27102662009E10D4 /* Entity */,
 				526AACD327102662009E10D4 /* Interface */,
@@ -324,9 +330,11 @@
 		526AACDC27102662009E10D4 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				52B192C52721102700EE0D00 /* Systems */,
+				526AAD5E2713CD0F009E10D4 /* Components */,
+				52B192C02720E2D900EE0D00 /* GameState */,
 				526AACDE27102662009E10D4 /* CoreScene.swift */,
 				526AACDF27102662009E10D4 /* InputManager.swift */,
-				526AAD5C2713CB59009E10D4 /* GameState.swift */,
 				526AACE027102662009E10D4 /* CoreScene.sks */,
 			);
 			path = Core;
@@ -399,6 +407,7 @@
 		526AAD6727160CE0009E10D4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				52B192BF27201A9600EE0D00 /* Info.plist */,
 				526AACB727102662009E10D4 /* Assets.xcassets */,
 				526AAC8E27102554009E10D4 /* Main.storyboard */,
 				526AAC9327102556009E10D4 /* LaunchScreen.storyboard */,
@@ -454,6 +463,23 @@
 			path = Statistics;
 			sourceTree = "<group>";
 		};
+		52B192C02720E2D900EE0D00 /* GameState */ = {
+			isa = PBXGroup;
+			children = (
+				526AAD5C2713CB59009E10D4 /* GameState.swift */,
+			);
+			path = GameState;
+			sourceTree = "<group>";
+		};
+		52B192C52721102700EE0D00 /* Systems */ = {
+			isa = PBXGroup;
+			children = (
+				52B192C82721135100EE0D00 /* System.swift */,
+				52B192C62721103900EE0D00 /* IdleSystem.swift */,
+			);
+			path = Systems;
+			sourceTree = "<group>";
+		};
 		52F0EC31271A461F000D5B44 /* InterfaceElement */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,6 +488,7 @@
 				526AACD527102662009E10D4 /* SideBar.swift */,
 				526AACD627102662009E10D4 /* ActionCounter.swift */,
 				52B1929D271B8F4B00EE0D00 /* EntityInspector.swift */,
+				52B192C32720EB5100EE0D00 /* EntityWindow.swift */,
 			);
 			path = InterfaceElement;
 			sourceTree = "<group>";
@@ -626,6 +653,7 @@
 				52B192AF271CE93100EE0D00 /* CGRect.swift in Sources */,
 				52B1929E271B8F4B00EE0D00 /* EntityInspector.swift in Sources */,
 				529D68E727190E1A00CADD63 /* RandomRoomGenerator.swift in Sources */,
+				52B192C42720EB5100EE0D00 /* EntityWindow.swift in Sources */,
 				529D68E927190E7400CADD63 /* Room.swift in Sources */,
 				52B192BE271FF42100EE0D00 /* Statistic.swift in Sources */,
 				526AAD1927102662009E10D4 /* Camera.swift in Sources */,
@@ -651,11 +679,13 @@
 				526AACF727102662009E10D4 /* CGSize.swift in Sources */,
 				526AAD1427102662009E10D4 /* Object.swift in Sources */,
 				526AAD6D27161417009E10D4 /* Creature.swift in Sources */,
+				52B192C92721135100EE0D00 /* System.swift in Sources */,
 				52F0EC39271B88FE000D5B44 /* InterfaceElement.swift in Sources */,
 				526AACFA27102662009E10D4 /* SelectionType.swift in Sources */,
 				526AACFF27102662009E10D4 /* EntityDirection.swift in Sources */,
 				526AAD1527102662009E10D4 /* Door.swift in Sources */,
 				52F0EC30271A3243000D5B44 /* TileGroup.swift in Sources */,
+				52B192C72721103900EE0D00 /* IdleSystem.swift in Sources */,
 				526AAD0527102662009E10D4 /* SideBar.swift in Sources */,
 				52B192B1271D293A00EE0D00 /* TextTileMap.swift in Sources */,
 				52B192B7271E3A6400EE0D00 /* TileSet+Map.swift in Sources */,
@@ -850,9 +880,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R85J9KP376;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = saga/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -880,9 +912,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R85J9KP376;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = saga/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

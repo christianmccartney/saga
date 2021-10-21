@@ -13,4 +13,3 @@ final class EntityStatistics: Statistics {
         [.strength, .dexterity, .constitution, .intelligence, .wisdom, .initiative, .movement]
     }
 }
-

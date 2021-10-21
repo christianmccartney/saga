@@ -32,6 +32,15 @@ open class Entity: GKEntity {
             }
         }
     }
+    
+    var scale: CGFloat {
+        get {
+            spriteNode.xScale
+        }
+        set {
+            spriteNode.setScale(newValue)
+        }
+    }
 
     var idleFrames: [EntityDirection: [SKTexture]] = [:]
     var graphNodePath: [GKGridGraphNode] = []
@@ -64,8 +73,23 @@ open class Entity: GKEntity {
         spriteNode.nodeDelegate = self
     }
 
+    deinit {
+        System.shared.removeEntity(self)
+    }
+
+    func addComponents(_ components: [Component]) {
+        components.forEach { addComponent($0.copy()) }
+    }
+
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func copy() -> Entity {
+        let entity = Entity(id: UUID(), spriteNode: spriteNode.copy(), type: type, position: position, direction: direction, faction: faction, statistics: statistics, idleFrames: idleFrames, entityDelegate: entityDelegate)
+        entity.addComponents(components.compactMap { $0 as? Component })
+        System.shared.addEntity(entity)
+        return entity
     }
 
     var name: String {  "\(type)" }
@@ -163,6 +187,15 @@ open class Entity: GKEntity {
             position = Position(lastNode.gridPosition)
         }
         queuedMoves = nil
+    }
+
+    var isUserInteractionEnabled: Bool {
+        get {
+            spriteNode.isUserInteractionEnabled
+        }
+        set {
+            spriteNode.isUserInteractionEnabled = newValue
+        }
     }
 
     public func touchDown(_ pos: CGPoint) {

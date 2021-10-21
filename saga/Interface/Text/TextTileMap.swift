@@ -103,6 +103,7 @@ class TextTileMap: SKTileMapNode {
             columns: columns,
             rows: rows,
             tileSize: TEXT_SPRITE_SIZE)
+        anchorPoint = CGPoint(x: 0, y: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

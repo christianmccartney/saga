@@ -15,6 +15,7 @@ class BottomBar: InterfaceElement {
             columns: columns,
             rows: rows,
             tileSize: tileSet.defaultTileSize)
+        anchorPoint = CGPoint(x: 0.5, y: 0.0)
         enableAutomapping = false
         fillWithEdges(tileSet.tileGroups.first!)
     }
@@ -27,7 +28,7 @@ class BottomBar: InterfaceElement {
     }
 
     override func setPosition() {
-        posByScreen(x: 0.5, y: 0.075)
+        posByScreen(x: 0.5, y: 0.0)
     }
 
     override func handleSelection(_ event: UIEvent) -> ButtonAction? {

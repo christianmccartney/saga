@@ -11,17 +11,11 @@ import GameplayKit
 public class IdleComponent: Component {
     var isIdling = false
 
-    public override func didAddToEntity() {
-        idle()
-    }
+    public override func didAddToEntity() {}
 
-    public override func willRemoveFromEntity() {
-    }
+    public override func update(deltaTime seconds: TimeInterval) {}
 
-    public override func update(deltaTime seconds: TimeInterval) {
-    }
-
-    func idleAction() -> SKAction {
+    var idleAction: SKAction {
         if let frames = _entity.idleFrames[_entity.direction] {
             return SKAction.animate(with: frames,
                                     timePerFrame: 0.5,
@@ -32,9 +26,9 @@ public class IdleComponent: Component {
         }
     }
 
-    func idleAction(_ direction: EntityDirection = .down) -> SKAction {
+    var reversedIdleAction: SKAction {
         if let frames = _entity.idleFrames[_entity.direction] {
-            return SKAction.animate(with: frames,
+            return SKAction.animate(with: frames.reversed(),
                                     timePerFrame: 0.5,
                                     resize: false,
                                     restore: true)
@@ -44,10 +38,10 @@ public class IdleComponent: Component {
     }
 
     func idle() {
-        _entity.spriteNode.run(SKAction.repeatForever(idleAction()), withKey: "idle")
+        _entity.spriteNode.run(SKAction.repeatForever(idleAction), withKey: "idle")
     }
 
-    func idle(_ direction: EntityDirection = .down) {
-        _entity.spriteNode.run(SKAction.repeatForever(idleAction(direction)), withKey: "idle")
+    override func copy() -> Component {
+        return IdleComponent()
     }
 }

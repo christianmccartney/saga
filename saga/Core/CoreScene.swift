@@ -32,7 +32,7 @@ final class CoreScene: InputManager {
     var interface: Interface = Interface()
     var cameraNode: SKCameraNode!
 
-    var entities = [GKEntity]()
+    var entities = Set<Entity>()
     var graphs = [String : GKGraph]()
     
     private var lastUpdateTime : TimeInterval = 0
@@ -42,6 +42,7 @@ final class CoreScene: InputManager {
     }
     
     override func didMove(to view: SKView) {
+        IdleSystem.shared.coreScene = self
         // Map
         let caveGenerator = CAGenerator(width: 64, height: 64)
         let defaultMapGenerator = MapGenerator(width: 32, height: 32)
@@ -49,8 +50,7 @@ final class CoreScene: InputManager {
         let dungeonGenerator = RandomRoomGenerator(width: 64, height: 64, maxRooms: 32)
 
         let mapGenerator: MapGenerator
-        
-        mapGenerator = dungeonGenerator
+        mapGenerator = defaultMapGenerator
         
         let stoneTileDefinition = TileGroupDefinition(
             name: "stoneCobble",
@@ -76,11 +76,11 @@ final class CoreScene: InputManager {
 
         cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
 
-        addChild([fighterEntity, jellyEntity, archerEntity, catEntity, druidEntity])
+        addChildren([fighterEntity, jellyEntity, archerEntity, catEntity, druidEntity])
         
         let bedObject = StaticObject(type: .bed, position: Position(10, 15), entityDelegate: self)
         let candleObject = DynamicObject(type: .candle_a, position: Position(7, 8), entityDelegate: self)
-        addChild([bedObject, candleObject])
+        addChildren([bedObject, candleObject])
         
         updatePositions()
         focusOnActive()
@@ -119,6 +119,7 @@ final class CoreScene: InputManager {
         for entity in self.entities {
             entity.update(deltaTime: dt)
         }
+        IdleSystem.shared.update(deltaTime: dt)
         
         self.lastUpdateTime = currentTime
     }

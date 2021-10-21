@@ -30,6 +30,8 @@ class EntityInspector: InterfaceElement {
                 self.updateEntity(highlightedEntity)
             }.store(in: &cancellables)
         addChild(textTileMap)
+        anchorPoint = CGPoint(x: 0, y: 1.0)
+        textTileMap.anchorPoint = CGPoint(x: 0, y: 1.0)
     }
 
     override func setupButtons() {
@@ -37,7 +39,7 @@ class EntityInspector: InterfaceElement {
     }
 
     override func setPosition() {
-        posByScreen(x: 0.125, y: 0.825)
+        posByScreen(x: 0, y: 1.0)
     }
 
     private func updateEntity(_ entity: Entity?) {
@@ -50,7 +52,7 @@ class EntityInspector: InterfaceElement {
     }
 
     private func updateText(_ text: String) {
-        textTileMap.applyString(text, startingAt: Position(1, textTileMap.numberOfRows - 1))
+        textTileMap.applyString(text, startingAt: Position(1, textTileMap.numberOfRows - 2))
 //        addChild(textTileMap)
     }
 

@@ -7,11 +7,20 @@
 
 import SpriteKit
 
+protocol InterfaceDelegate: AnyObject {
+    func addChild(_ entity: Entity)
+    func removeChild(_ entity: Entity)
+    func track(_ entity: Entity)
+    func untrack(_ entity: Entity)
+}
+
 open class InterfaceElement: SKTileMapNode {
+    weak var interfaceDelegate: InterfaceDelegate?
     var buttons = [Button]()
 
     override public init(tileSet: SKTileSet, columns: Int, rows: Int, tileSize: CGSize) {
         super.init(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
+        anchorPoint = CGPoint(x: 0, y: 0)
     }
     
     required public init?(coder aDecoder: NSCoder) {

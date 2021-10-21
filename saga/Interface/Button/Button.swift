@@ -8,18 +8,24 @@
 
 import SpriteKit
 
-public typealias ButtonAction = (() -> Void)
+typealias ButtonAction = ((Button) -> Void)
 
 class Button: SKSpriteNode {
     var type: ButtonType
     var action: ButtonAction
+    
+    private let regularTexture: SKTexture
+    private let pressedTexture: SKTexture
+    private var isPressed = false
 
     public init(type: ButtonType, action: @escaping ButtonAction) {
-        let texture = SKTexture(imageNamed: type.rawValue)
-        texture.filteringMode = .nearest
+        self.regularTexture = SKTexture(imageNamed: type.rawValue)
+        regularTexture.filteringMode = .nearest
+        self.pressedTexture = SKTexture(imageNamed: type.rawValue + "_press")
+        pressedTexture.filteringMode = .nearest
         self.type = type
         self.action = action
-        super.init(texture: texture, color: .clear, size: texture.size())
+        super.init(texture: regularTexture, color: .clear, size: regularTexture.size())
         self.isUserInteractionEnabled = true
         self.name = type.rawValue
     }
@@ -28,7 +34,16 @@ class Button: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func select() {
+        if isPressed {
+            texture = regularTexture
+        } else {
+            texture = pressedTexture
+        }
+        isPressed = !isPressed
+    }
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        action()
+        action(self)
     }
 }

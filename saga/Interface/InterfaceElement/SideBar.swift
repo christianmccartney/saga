@@ -9,27 +9,55 @@
 import SpriteKit
 
 class SideBar: InterfaceElement {
+    private weak var selectedButton: Button?
+
     public init(tileSet: SKTileSet, columns: Int, rows: Int) {
         super.init(
             tileSet: tileSet,
             columns: columns,
             rows: rows,
             tileSize: tileSet.defaultTileSize)
+        anchorPoint = CGPoint(x: 1.0, y: 0.5)
         enableAutomapping = false
         fillWithEdges(tileSet.tileGroups.first!)
     
-        let bagButton = Button(type: .bag, action: { print("bag") })
-        let armorButton = Button(type: .armor, action: { print("armor") })
+        let bagButton = Button(type: .bag, action: { [weak self] button in
+            guard let self = self else { return }
+            self.select(button)
+        })
+        let armorButton = Button(type: .armor, action: { [weak self] button in
+            guard let self = self else { return }
+            self.select(button)
+        })
         //let nextTurnButton = Button(type: .arrows, action: { print("next turn") })
-        let moveButton = Button(type: .arrow_right, action: { print("next turn") })
-        let defendButton = Button(type: .shield, action: { print("defend") })
-        let swordButton = Button(type: .sword, action: { print("sword") })
+        let moveButton = Button(type: .arrow_right, action: { [weak self] button in
+            guard let self = self else { return }
+            self.select(button)
+        })
+        let defendButton = Button(type: .shield, action: { [weak self] button in
+            guard let self = self else { return }
+            self.select(button)
+        })
+        let swordButton = Button(type: .sword, action: { [weak self] button in
+            guard let self = self else { return }
+            self.select(button)
+        })
         
         self.buttons = [bagButton, armorButton, moveButton, defendButton, swordButton]
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func select(_ button: Button) {
+        selectedButton?.select()
+        if selectedButton == button {
+            selectedButton = nil
+            return
+        }
+        button.select()
+        selectedButton = button
     }
     
     override func setupButtons() {
@@ -43,16 +71,7 @@ class SideBar: InterfaceElement {
     }
 
     override func setPosition() {
-        posByScreen(x: 0.925, y: 0.5)
-    }
-
-    override func handleSelection(_ event: UIEvent) -> ButtonAction? {
-//        let selectedNode = node.atPoint(event.location(in: node))
-//
-//        guard let button = findButton(selectedNode) else { return nil }
-//        //print(String(describing: button.node.name))
-//        return button.action
-        return nil
+        posByScreen(x: 1.0, y: 0.5)
     }
 
     func findButton(_ node: SKNode) -> Button? {

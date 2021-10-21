@@ -33,6 +33,7 @@ class DynamicObject: Object {
                    idleFrames: [.down: [texture1, texture2]],
                    entityDelegate: entityDelegate)
         self.addComponent(IdleComponent())
+        System.shared.addEntity(self)
     }
 
     required init?(coder: NSCoder) {

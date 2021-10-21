@@ -28,7 +28,7 @@ public struct Position {
 open class Map: SKTileMapNode {
     var graph: GKGridGraph<GKGridGraphNode>!
 
-    var entities: [Entity] = []
+    var entities = Set<Entity>()
     var objects: [Object] = []
     var warpTiles: [WarpTile] = []
 
@@ -89,9 +89,15 @@ open class Map: SKTileMapNode {
     }
 
     func addChild(_ entity: Entity) {
-        entities.append(entity)
+        entities.insert(entity)
         entity.map = self
         addChild(entity.spriteNode)
+    }
+
+    func removeChild(_ entity: Entity) {
+        entities.remove(entity)
+        entity.map = nil
+        removeChildren(in: [entity.spriteNode])
     }
 
 //    func removeChild(_ entities: [Entity]) {

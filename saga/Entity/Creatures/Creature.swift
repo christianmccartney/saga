@@ -29,6 +29,7 @@ final class Creature: Entity {
             texture2.filteringMode = .nearest
             textures[direction] = [texture1, texture2]
         }
+
         super.init(id: id,
                    spriteNode: spriteNode,
                    type: type,
@@ -39,6 +40,7 @@ final class Creature: Entity {
                    idleFrames: textures,
                    entityDelegate: entityDelegate)
         self.addComponent(IdleComponent())
+        System.shared.addEntity(self)
     }
 
     public required init?(coder: NSCoder) {

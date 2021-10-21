@@ -61,7 +61,7 @@ open class Statistics: Sequence, IteratorProtocol {
     }
     
     func checkStat(_ stat: StatisticType) -> Int {
-        return statistics.first { $0.statisticType == stat }?.statisticType.defaultValue ?? stat.defaultValue
+        return statistics.first { $0.statisticType == stat }?.value ?? stat.defaultValue
     }
 
     public func next() -> Statistic? {

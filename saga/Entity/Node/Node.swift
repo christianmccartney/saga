@@ -40,4 +40,8 @@ public class Node: SKSpriteNode {
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { nodeDelegate?.touchUp(t.location(in: self)) }
     }
+
+    public func copy() -> Node {
+        return Node(texture: self.texture ?? SKTexture(imageNamed: ""))
+    }
 }
