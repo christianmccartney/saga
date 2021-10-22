@@ -54,7 +54,6 @@ class NeutralEntityActionInceptor: EntityActionInceptor {
                 if let firstNode = path.dropFirst().first as? GKGridGraphNode {
                     return Position(Int(firstNode.gridPosition.x), Int(firstNode.gridPosition.y))
                 }
-                print("\(path)")
             }
         }
         return nil

@@ -60,7 +60,7 @@ final class CoreScene: GameState {
         // Camera
         cameraNode = SKCameraNode()
         self.addChild(cameraNode)
-        cameraNode.setScale(1)
+        cameraNode.setScale(0.5)
         self.camera = cameraNode
 
         interface.attachToCamera(cameraNode, self)
@@ -71,7 +71,7 @@ final class CoreScene: GameState {
         addChildren([fighterEntity, jellyEntity, archerEntity, catEntity, druidEntity])
         
         let bedObject = StaticObject(type: .bed, position: Position(10, 15), entityDelegate: self)
-        let candleObject = DynamicObject(type: .candle_a, position: Position(7, 8), entityDelegate: self)
+        let candleObject = DynamicObject(type: .candle_a, position: Position(9, 14), entityDelegate: self)
         addChildren([bedObject, candleObject])
         
         updatePositions()

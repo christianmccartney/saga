@@ -26,21 +26,18 @@ open class Entity: GKEntity {
     var faction: EntityFaction
     var statistics: Statistics
 
-    var position: Position {
-        didSet {
-            if let map = map {
-                spriteNode.position = map.centerOfTile(atColumn: position.column, row: position.row)
-            }
-        }
-    }
+    var position: Position
+//    {
+//        didSet {
+//            if let map = map {
+//                spriteNode.position = map.centerOfTile(atColumn: position.column, row: position.row)
+//            }
+//        }
+//    }
     
     var scale: CGFloat {
-        get {
-            spriteNode.xScale
-        }
-        set {
-            spriteNode.setScale(newValue)
-        }
+        get { spriteNode.xScale }
+        set { spriteNode.setScale(newValue) }
     }
 
     var idleFrames: [EntityDirection: [SKTexture]] = [:]
@@ -115,12 +112,55 @@ open class Entity: GKEntity {
         spriteNode.removeChildren(in: [entity.spriteNode])
     }
 
-    func move(to location: CGPoint, from scene: SKScene) {
+    private func angle(to: simd_float2) -> Float {
+        let from = direction.directionVector
+        let dot = dot(from, to)
+        return acos(dot)
+    }
+
+    private func direction(to newLocation: CGPoint) -> simd_float2 {
+        let spriteNodePosition = simd_float2(Float(spriteNode.position.x), Float(spriteNode.position.y))
+        let newLocationVector = simd_float2(Float(newLocation.x), Float(newLocation.y))
+        let direction = normalize(newLocationVector - spriteNodePosition)
+        return direction
+    }
+    
+    private func rotation(to newLocation: CGPoint) -> EntityDirection? {
+        let direction = direction(to: newLocation)
+        if let entityDirection = EntityDirection.fromDirection(direction) {
+            return entityDirection
+        }
+        let angle = angle(to: direction)
+        if angle > Float.pi/2 {
+            return EntityDirection(rawValue: (self.direction.rawValue + 2) % 4)
+        }
+        return nil
+    }
+
+    func move(to location: CGPoint, from scene: SKScene, _ callback: @escaping (() -> ())) {
         if let mapNode = map {
             let pos = scene.convert(location, to: mapNode)
             let column = mapNode.tileColumnIndex(fromPosition: pos)
             let row = mapNode.tileRowIndex(fromPosition: pos)
+            let center = mapNode.centerOfTile(atColumn: column, row: row)
+            if let newDirection = rotation(to: center) {
+                direction = newDirection
+            }
+            let action = SKAction.move(to: center, duration: 0.25)
             position = Position(column, row)
+            spriteNode.run(action, completion: callback)
+        }
+    }
+
+    func move(to position: Position, _ callback: @escaping (() -> ())) {
+        if let mapNode = map {
+            let location = mapNode.centerOfTile(atColumn: position.column, row: position.row)
+            if let newDirection = rotation(to: location) {
+                direction = newDirection
+            }
+            let action = SKAction.move(to: location, duration: 0.25)
+            self.position = position
+            spriteNode.run(action, completion: callback)
         }
     }
 
@@ -207,6 +247,6 @@ extension Array where Element == Entity {
 
 extension Entity {
     open override var description: String {
-        return "Entity: \(name)\n\(statistics)"
+        return "\(name)\n------------------\n\(statistics.description)"
     }
 }

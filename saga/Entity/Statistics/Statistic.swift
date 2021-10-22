@@ -7,14 +7,14 @@
 
 import Foundation
 
-public enum StatisticType {
-    case strength
-    case dexterity
-    case constitution
-    case intelligence
-    case wisdom
-    case initiative
-    case movement
+public enum StatisticType: String {
+    case strength = "str"
+    case dexterity = "dex"
+    case constitution = "con"
+    case intelligence = "int"
+    case wisdom = "wis"
+    case initiative = "initiative"
+    case movement = "movement"
 
     var defaultValue: Int {
         switch self {
@@ -77,7 +77,7 @@ extension Statistics: CustomStringConvertible {
     public var description: String {
         var str = ""
         for stat in statistics {
-            str.append("\(stat.statisticType): \(stat.value) \(stat.modifier < 0 ? "-" : "+") \(stat.modifier)\n")
+            str.append("\(stat.statisticType.rawValue): \(stat.value) \(stat.modifier < 0 ? "-" : "+") \(stat.modifier)\n")
         }
         return str
     }

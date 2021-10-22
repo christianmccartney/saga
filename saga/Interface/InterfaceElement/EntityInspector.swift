@@ -48,7 +48,7 @@ class EntityInspector: InterfaceElement {
             updateText("nothing selected")
             return
         }
-        updateText(entity.entityDescription)
+        updateText(entity.description)
     }
 
     private func updateText(_ text: String) {

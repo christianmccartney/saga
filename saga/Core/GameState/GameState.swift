@@ -56,6 +56,9 @@ open class GameState: InputManager, StateMachine {
         Selection.shared.activeEntity = activeEntity
         Selection.shared.highlight(activeEntity)
         self.activeEntity = activeEntity
+        if activeEntity.faction == .player {
+            activeEntity
+        }
     }
 
     func beginCombat() {
@@ -93,9 +96,10 @@ open class GameState: InputManager, StateMachine {
                     let touchPosition = Position(map.tileColumnIndex(fromPosition: position),
                                                  map.tileRowIndex(fromPosition: position))
                     if activeEntity.position.distance(touchPosition) <= movement {
-                        activeEntity.move(to: position, from: scene)
-                        Selection.shared.highlight(nil)
-                        advanceTurn()
+                        activeEntity.move(to: position, from: scene) {
+                            Selection.shared.highlight(nil)
+                            self.advanceTurn()
+                        }
                     }
                 }
             case .attack:
@@ -113,7 +117,9 @@ open class GameState: InputManager, StateMachine {
         case .none:
             break
         case .move:
-            activeEntity?.position = position
+            activeEntity?.move(to: position) {
+                self.advanceTurn()
+            }
         case .attack:
             break
         case .cast:
@@ -136,16 +142,10 @@ open class GameState: InputManager, StateMachine {
         if let activeEntity = activeEntity, activeEntity.faction != .player {
             // do an ai here
             if let position = activeEntity.actionInceptor.createAction() {
-//                dispatchGroup.enter()
                 aiInput(position)
-                
-//                DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 0.5) {
-//                    self.dispatchGroup.leave()
-//                }
-//
-//                dispatchGroup.wait()
+            } else {
+                advanceTurn()
             }
-            advanceTurn()
             // activeEntity.offerTurn()
         }
     }

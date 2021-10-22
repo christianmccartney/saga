@@ -55,7 +55,7 @@ let jellyEntity =   Creature(type: .jelly,
 let archerEntity =  Creature(type: .archer,
                              faction: .friendly,
                              direction: .right,
-                             position: Position(6, 6),
+                             position: Position(6, 3),
                              statistics: archerStats)
 let catEntity =     Creature(type: .cat,
                              position: Position(10, 10),

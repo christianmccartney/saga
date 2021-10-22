@@ -18,13 +18,4 @@ public protocol EntityDelegate: AnyObject {
 
 extension Entity: NodeDelegate {}
 
-extension Entity: Selectable {
-    var entityDescription: String {
-        var description = name + "\n"
-        description.append("<----------------->\n")
-        for statistic in statistics {
-            description.append("\(statistic.statisticType) : \(statistic.value)\n")
-        }
-        return description
-    }
-}
+extension Entity: Selectable {}

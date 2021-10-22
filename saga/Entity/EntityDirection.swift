@@ -9,10 +9,36 @@
 import SpriteKit
 
 public enum EntityDirection: Int {
-    case up = 0
-    case right = 90
-    case down = 180
-    case left = 270
+    case down = 0
+    case right = 1
+    case up = 2
+    case left = 3
+
+    var directionVector: simd_float2 {
+        switch self {
+        case .down:
+            return simd_float2(x: 0, y: -1)
+        case .right:
+            return simd_float2(x: 1, y: 0)
+        case .up:
+            return simd_float2(x: 0, y: 1)
+        case .left:
+            return simd_float2(x: -1, y: 0)
+        }
+    }
+
+    static func fromDirection(_ direction: simd_float2) -> EntityDirection? {
+        if direction == simd_float2(x: 0, y: -1) {
+            return .down
+        } else if direction == simd_float2(x: 1, y: 0) {
+            return .right
+        } else if direction == simd_float2(x: 0, y: 1) {
+            return .up
+        } else if direction == simd_float2(x: -1, y: 0) {
+            return .left
+        }
+        return nil
+    }
 }
 
 extension EntityDirection {

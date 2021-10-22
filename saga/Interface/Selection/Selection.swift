@@ -79,5 +79,5 @@ class Selection: ObservableObject {
 }
 
 protocol Selectable {
-    var entityDescription: String { get }
+    var description: String { get }
 }

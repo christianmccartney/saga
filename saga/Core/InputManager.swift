@@ -43,7 +43,7 @@ open class InputManager: SKScene {
             previousCameraScale = camera.xScale
         }
         let newScale = previousCameraScale * 1 / sender.scale
-        if newScale < 2, newScale > 0.5 {
+        if newScale <= 2, newScale >= 0.5 {
             camera.setScale(newScale)
         }
     }
