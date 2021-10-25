@@ -52,7 +52,9 @@ class NeutralEntityActionInceptor: EntityActionInceptor {
                let endNode = map.graph.node(atGridPosition: endPos) {
                 let path = map.graph.findPath(from: startNode, to: endNode)
                 if let firstNode = path.dropFirst().first as? GKGridGraphNode {
-                    return Position(Int(firstNode.gridPosition.x), Int(firstNode.gridPosition.y))
+                    let position = Position(Int(firstNode.gridPosition.x), Int(firstNode.gridPosition.y))
+                    guard closestEnemy.position != position else { return nil }
+                    return position
                 }
             }
         }

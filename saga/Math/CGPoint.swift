@@ -34,4 +34,8 @@ extension CGPoint {
     static func * (point: CGPoint, scalar: Double) -> CGPoint {
         return CGPoint(x: point.x * scalar, y: point.y * scalar)
     }
+
+    static func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
+        return CGPoint(x: point.x / scalar, y: point.y / scalar)
+    }
 }

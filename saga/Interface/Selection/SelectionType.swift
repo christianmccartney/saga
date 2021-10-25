@@ -29,4 +29,23 @@ public enum SelectionType: String, CaseIterable, EntityType {
     case yellow_highlight2 = "tiny_dungeon_interface_select_h2"
     case yellow_crosshair1 = "tiny_dungeon_interface_select_i1"
     case yellow_crosshair2 = "tiny_dungeon_interface_select_i2"
+
+    case blue_crosshair1 = "tiny_dungeon_interface_select_j1"
+    
+    private static var textures: [SelectionType: SKTexture] {
+        var textures = [SelectionType: SKTexture]()
+        for selectionType in SelectionType.allCases {
+            let texture = SKTexture(imageNamed: selectionType.rawValue)
+            texture.filteringMode = .nearest
+            textures[selectionType] = texture
+        }
+        return textures
+    }
+    
+    func texture() -> SKTexture {
+        guard let texture = SelectionType.textures[self] else {
+            fatalError("Could not get texture for selection type \(self)")
+        }
+        return texture
+    }
 }

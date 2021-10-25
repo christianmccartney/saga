@@ -9,29 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-public struct Position {
-    var column: Int
-    var row: Int
-
-    public init(_ column: Int, _ row: Int) {
-        self.column = column
-        self.row = row
-    }
-
-    public init(_ vector: vector_int2) {
-        self.column = Int(vector.x)
-        self.row = Int(vector.y)
-    }
-
-    private func distanceSquared(_ pos: Position) -> Float {
-        return Float(pos.column - self.column) * Float(pos.column - self.column) + Float(pos.row - self.row) * Float(pos.row - self.row)
-    }
-
-    func distance(_ pos: Position) -> Int {
-        return Int(sqrt(distanceSquared(pos)))
-    }
-}
-
 /// A `Map` is one SKTileMapNode contained in an .sks file.
 open class Map: SKTileMapNode {
     var graph: GKGridGraph<GKGridGraphNode>!
@@ -40,6 +17,7 @@ open class Map: SKTileMapNode {
     var objects: [Object] = []
     var warpTiles: [WarpTile] = []
     var roomMap: RoomMap
+    var movementHintNodes = [Node]()
 
     public init(tileSet: SKTileSet, columns: Int, rows: Int, room: RoomMap) {
         self.roomMap = room

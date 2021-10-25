@@ -12,9 +12,13 @@ import Combine
 class EntityInspector: InterfaceElement {
     private var cancellables = Set<AnyCancellable>()
     private var textTileMap: TextTileMap
+    let textColumns: Int
+    let textRows: Int
     
     public init(tileSet: SKTileSet, columns: Int, rows: Int) {
-        self.textTileMap = TextTileMap(fontType: .dark, columns: 20, rows: 17)
+        self.textColumns = ((columns * STANDARD_TEXTURE_WIDTH) - Int(TEXT_SPRITE_WIDTH * 2)) / Int(TEXT_SPRITE_WIDTH)
+        self.textRows = ((columns * STANDARD_TEXTURE_HEIGHT) - Int(TEXT_SPRITE_HEIGHT * 2)) / Int(TEXT_SPRITE_HEIGHT)
+        self.textTileMap = TextTileMap(fontType: .dark, columns: textColumns, rows: textRows)
         super.init(
             tileSet: tileSet,
             columns: columns,
@@ -39,7 +43,7 @@ class EntityInspector: InterfaceElement {
     }
 
     override func setPosition() {
-        posByScreen(x: 0, y: 1.0)
+        posByScreen(x: 0.01, y: 0.99)
     }
 
     private func updateEntity(_ entity: Entity?) {
@@ -48,7 +52,7 @@ class EntityInspector: InterfaceElement {
             updateText("nothing selected")
             return
         }
-        updateText(entity.description)
+        updateText(entity.inspectorDescription(inspectorWidth: textColumns))
     }
 
     private func updateText(_ text: String) {

@@ -8,12 +8,12 @@
 
 import SpriteKit
 import GameplayKit
-
-public typealias HostilityClosure = ((EntityFaction, EntityFaction) -> Bool)
+import Combine
 
 open class Entity: GKEntity {
     let id: UUID
     var spriteNode: Node
+    var attackHintNode: Node?
     //var graphNode: GKGraphNode
 
     weak var map: Map?
@@ -21,19 +21,20 @@ open class Entity: GKEntity {
     public var actionInceptor: EntityActionInceptor
 
     var type: EntityType
-
     var direction: EntityDirection
     var faction: EntityFaction
+    
     var statistics: Statistics
-
     var position: Position
-//    {
-//        didSet {
-//            if let map = map {
-//                spriteNode.position = map.centerOfTile(atColumn: position.column, row: position.row)
-//            }
-//        }
-//    }
+
+    var abilities: [Ability] = [AbilityLibrary.shared.BASIC_ATTACK]
+    var selectedAbility: Ability? = AbilityLibrary.shared.BASIC_ATTACK
+
+    var entityHealthDamageSubject = PassthroughSubject<Float, Never>()
+    var entityHealthHealSubject = PassthroughSubject<Float, Never>()
+    
+    var entityManaDamageSubject = PassthroughSubject<Float, Never>()
+    var entityManaHealSubject = PassthroughSubject<Float, Never>()
     
     var scale: CGFloat {
         get { spriteNode.xScale }
@@ -41,13 +42,9 @@ open class Entity: GKEntity {
     }
 
     var idleFrames: [EntityDirection: [SKTexture]] = [:]
-    var graphNodePath: [GKGridGraphNode] = []
-    var queuedMoves: SKAction?
-    var lastNode: GKGridGraphNode?
-
     private var children = Set<Entity>()
-
-    public static let defaultHostilityClosure: HostilityClosure = { _, _ in return false }
+    
+    private var cancellables = Set<AnyCancellable>()
 
     public init(id: UUID,
                 spriteNode: Node,
@@ -71,10 +68,20 @@ open class Entity: GKEntity {
         super.init()
         actionInceptor.entity = self
         spriteNode.nodeDelegate = self
+        setupSubscriptions()
     }
 
     deinit {
         System.shared.removeEntity(self)
+    }
+    
+    private func setupSubscriptions() {
+        entityHealthDamageSubject.sink { [weak self] damage in
+            self?.applyDamage(damage: damage)
+        }.store(in: &cancellables)
+        entityHealthHealSubject.sink { [weak self] heal in
+            self?.applyHeal(heal: heal)
+        }.store(in: &cancellables)
     }
 
     func addComponents(_ components: [Component]) {
@@ -138,11 +145,12 @@ open class Entity: GKEntity {
     }
 
     func move(to location: CGPoint, from scene: SKScene, _ callback: @escaping (() -> ())) {
-        if let mapNode = map {
-            let pos = scene.convert(location, to: mapNode)
-            let column = mapNode.tileColumnIndex(fromPosition: pos)
-            let row = mapNode.tileRowIndex(fromPosition: pos)
-            let center = mapNode.centerOfTile(atColumn: column, row: row)
+        if let map = map {
+            let pos = scene.convert(location, to: map)
+            let column = map.tileColumnIndex(fromPosition: pos)
+            let row = map.tileRowIndex(fromPosition: pos)
+            let center = map.centerOfTile(atColumn: column, row: row)
+            guard map.roomMap[row][column] else { return }
             if let newDirection = rotation(to: center) {
                 direction = newDirection
             }
@@ -153,8 +161,9 @@ open class Entity: GKEntity {
     }
 
     func move(to position: Position, _ callback: @escaping (() -> ())) {
-        if let mapNode = map {
-            let location = mapNode.centerOfTile(atColumn: position.column, row: position.row)
+        if let map = map {
+            guard map.roomMap[position.row][position.column] else { return }
+            let location = map.centerOfTile(atColumn: position.column, row: position.row)
             if let newDirection = rotation(to: location) {
                 direction = newDirection
             }
@@ -164,42 +173,9 @@ open class Entity: GKEntity {
         }
     }
 
-    func getGraphNode() -> GKGraphNode? {
-        return map?.graph.node(atGridPosition: vector_int2(x: Int32(position.column), y: Int32(position.row)))
-    }
-
-    func createMoveActions() {
-        guard let map = map else { return }
-
-        var actions: [SKAction] = []
-        var previousPosition = position
-        var lastDirection: EntityDirection = direction
-        for graphNode in graphNodePath {
-            let position = graphNode.gridPosition
-            let mapPosition = map.centerOfTile(atColumn: Int(position.x), row: Int(position.y))
-            let newPosition = Position(position)
-
-            //actions.append(SKAction.run {
-            let newDirection = direction.getNewDirection(previousPosition, newPosition, lastDirection)
-            let newTexture = getDirectionTexture(newDirection)
-            //})
-            actions.append(SKAction.setTexture(newTexture))
-            actions.append(SKAction.move(to: mapPosition, duration: 0.5))
-
-            previousPosition = newPosition
-            lastDirection = newDirection
-        }
-        lastNode = graphNodePath.last
-
-        graphNodePath = []
-        queuedMoves = SKAction.sequence(actions)
-    }
-
-    func getDirectionTexture(_ direction: EntityDirection) -> SKTexture {
-        guard let texture = idleFrames[direction]?.first else {
-            fatalError("Could not find texture in " + String(describing: direction))
-        }
-        return texture
+    func wait(_ callback: @escaping (() -> ())) {
+        let action = SKAction.wait(forDuration: 0.25)
+        spriteNode.run(action, completion: callback)
     }
 
     func check(_ statistic: StatisticType) -> Int {
@@ -227,8 +203,12 @@ open class Entity: GKEntity {
         entityDelegate?.touchUp(pos, entity: self)
     }
 
+    func nearbyEntities(within range: Int) -> [Entity] {
+        entityDelegate?.nearbyEntities(to: self, within: range) ?? []
+    }
+
     var nearbyEntities: [Entity] {
-        entityDelegate?.nearbyEntities(to: self) ?? []
+        entityDelegate?.nearbyEntities(to: self, within: 5) ?? []
     }
 }
 
@@ -248,5 +228,13 @@ extension Array where Element == Entity {
 extension Entity {
     open override var description: String {
         return "\(name)\n------------------\n\(statistics.description)"
+    }
+    
+    func inspectorDescription(inspectorWidth: Int) -> String {
+        var line: String = ""
+        for i in 0..<inspectorWidth-1 {
+            line.append("-")
+        }
+        return "\(name)\n\(line)\(statistics.inspectorDescription)"
     }
 }

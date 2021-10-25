@@ -35,7 +35,6 @@ open class GameState: InputManager, StateMachine {
     }
 
     var inCombat: Bool = false
-    var selectedActionType: EntityAction = .none
 
     // take snapshot of the order of entities
     private var currentCombatOrder: [Entity] = []
@@ -45,6 +44,7 @@ open class GameState: InputManager, StateMachine {
     private var currentCombatCount: Int = 0
 
     var activeEntity: Entity? = nil
+    @Published var playerEntity: Entity? = nil
 
     private func updateActiveEntity() {
         guard currentCombatIndex < currentCombatOrder.count else {
@@ -56,9 +56,6 @@ open class GameState: InputManager, StateMachine {
         Selection.shared.activeEntity = activeEntity
         Selection.shared.highlight(activeEntity)
         self.activeEntity = activeEntity
-        if activeEntity.faction == .player {
-            activeEntity
-        }
     }
 
     func beginCombat() {
@@ -76,17 +73,29 @@ open class GameState: InputManager, StateMachine {
                 Selection.shared.highlight(entity)
                 return
             }
-            switch selectedActionType {
-            case .none:
-                if let entity = entity {
-                    if entity == Selection.shared.highlightedEntity {
-                        Selection.shared.highlight(nil)
-                        return
+            
+            // touched an entity, highlight it
+            if let entity = entity {
+                // gonna do an action
+                if let activeEntity = activeEntity,
+                   Selection.shared.highlightedEntity == activeEntity,
+                   let ability = activeEntity.selectedAbility {
+                    if let target = ability.checkAvailable(casting: activeEntity,
+                                                           target: entity) {
+                        ability.act(from: activeEntity, on: entity, target: target)
+                        advanceTurn()
                     }
-                    Selection.shared.highlight(entity)
+                
+                    // attack it
+                }
+                    
+                if entity == Selection.shared.highlightedEntity {
+                    Selection.shared.highlight(nil)
                     return
                 }
-            case .move:
+                Selection.shared.highlight(entity)
+                return
+            } else { // touched an empty square, if its within range move to it
                 if Selection.shared.highlightedEntity != entity, let entity = entity {
                     Selection.shared.highlight(entity)
                     return
@@ -102,23 +111,22 @@ open class GameState: InputManager, StateMachine {
                         }
                     }
                 }
-            case .attack:
-                break
-            case .cast:
-                break
-            case .defend:
-                break
             }
         }
     }
 
-    public func aiInput(_ position: Position, _ action: EntityAction = .move) {
+    public func aiInput(_ position: Position?, _ action: EntityAction = .none) {
         switch action {
         case .none:
+            activeEntity?.wait {
+                self.advanceTurn()
+            }
             break
         case .move:
-            activeEntity?.move(to: position) {
-                self.advanceTurn()
+            if let position = position {
+                activeEntity?.move(to: position) {
+                    self.advanceTurn()
+                }
             }
         case .attack:
             break
@@ -129,22 +137,15 @@ open class GameState: InputManager, StateMachine {
         }
     }
 
-//    func foo() async {
-//        await Task.sleep(UInt64(0.5 * Double(NSEC_PER_SEC)))
-//        // Put your code which should be executed with a delay here
-//    }
-    
-    let dispatchGroup = DispatchGroup()
-
     private func advanceTurn() {
         currentCombatIndex = (currentCombatIndex + 1) % currentCombatOrder.count
         updateActiveEntity()
         if let activeEntity = activeEntity, activeEntity.faction != .player {
             // do an ai here
             if let position = activeEntity.actionInceptor.createAction() {
-                aiInput(position)
+                aiInput(position, .move)
             } else {
-                advanceTurn()
+                aiInput(nil)
             }
             // activeEntity.offerTurn()
         }

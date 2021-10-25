@@ -9,8 +9,6 @@
 import SpriteKit
 
 class SideBar: InterfaceElement {
-    private weak var selectedButton: Button?
-
     public init(tileSet: SKTileSet, columns: Int, rows: Int) {
         super.init(
             tileSet: tileSet,
@@ -32,57 +30,38 @@ class SideBar: InterfaceElement {
         //let nextTurnButton = Button(type: .arrows, action: { print("next turn") })
         let moveButton = Button(type: .arrow_right, action: { [weak self] button in
             guard let self = self else { return }
-            self.select(button, .move)
+            self.select(button)
         })
         let defendButton = Button(type: .shield, action: { [weak self] button in
             guard let self = self else { return }
-            self.select(button, .defend)
-        })
-        let swordButton = Button(type: .sword, action: { [weak self] button in
-            guard let self = self else { return }
-            self.select(button, .attack)
+            self.select(button)
         })
         
-        self.buttons = [bagButton, armorButton, moveButton, defendButton, swordButton]
+        self.buttons = [bagButton, armorButton, moveButton, defendButton]
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func select(_ button: Button, _ actionType: EntityAction = .none) {
-        selectedButton?.select()
-        if selectedButton == button {
-            selectedButton = nil
-            interfaceDelegate?.selectActionType(.none)
-            return
-        }
-        button.select()
-        selectedButton = button
-        interfaceDelegate?.selectActionType(actionType)
+    private func select(_ button: Button) {
+        
     }
     
     override func setupButtons() {
-        var x = 2
+        var x = 0
         for button in buttons {
             addChild(button)
-            button.position = centerOfTile(atColumn: numberOfColumns/2, row: x)
-            button.setScale(1.75)
+            let center1 = (centerOfTile(atColumn: 0, row: x) + centerOfTile(atColumn: 0, row: x)) / 2
+            let center2 = (centerOfTile(atColumn: 1, row: x + 1) + centerOfTile(atColumn: 1, row: x + 1)) / 2
+            button.position = (center1 + center2) / 2
+            button.setScale(1.5)
             x += 2
         }
     }
 
     override func setPosition() {
-        posByScreen(x: 1.0, y: 0.5)
-    }
-
-    func findButton(_ node: SKNode) -> Button? {
-        for button in buttons {
-            if button == node {
-                return button
-            }
-        }
-        return nil
+        posByScreen(x: 0.99, y: 0.5)
     }
 }
 

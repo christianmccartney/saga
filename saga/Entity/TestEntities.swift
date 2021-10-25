@@ -13,7 +13,8 @@ let fighterStats: EntityStatistics = EntityStatistics(
      Statistic(.constitution, 16),
      Statistic(.intelligence, 10),
      Statistic(.wisdom, 10),
-     Statistic(.initiative, 7)])
+     Statistic(.initiative, 7),
+     Statistic(.movement, 2)])
 let jellyStats: EntityStatistics = EntityStatistics(
     [Statistic(.strength, 12),
      Statistic(.dexterity, 8),
@@ -42,6 +43,13 @@ let druidStats: EntityStatistics = EntityStatistics(
      Statistic(.intelligence, 14),
      Statistic(.wisdom, 18),
      Statistic(.initiative, 2)])
+let angelStats: EntityStatistics = EntityStatistics(
+    [Statistic(.strength, 10),
+     Statistic(.dexterity, 16),
+     Statistic(.constitution, 25),
+     Statistic(.intelligence, 14),
+     Statistic(.wisdom, 18),
+     Statistic(.initiative, 2)])
 
 // Entities
 let fighterEntity = Creature(type: .fighter,
@@ -64,3 +72,7 @@ let druidEntity =   Creature(type: .druid,
                              faction: .friendly,
                              position: Position(6, 10),
                              statistics: druidStats)
+let angelEntity =   Creature(type: .angel,
+                             faction: .enemy,
+                             position: Position(16, 10),
+                             statistics: angelStats)

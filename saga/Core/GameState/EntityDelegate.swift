@@ -1,5 +1,5 @@
 //
-//  GameState+EntityDelegate.swift
+//  EntityDelegate.swift
 //  saga
 //
 //  Created by Christian McCartney on 10/21/21.
@@ -21,11 +21,11 @@ extension GameState: EntityDelegate {
         //print("touch up \(pos) : \(entity?.type)")
     }
 
-    public func nearbyEntities(to entity: Entity) -> [Entity] {
+    public func nearbyEntities(to entity: Entity, within range: Int) -> [Entity] {
         var nearbyEntities = [Entity]()
         for e in entities {
             if entity != e {
-                if entity.position.distance(e.position) < 5 {
+                if entity.position.distance(e.position) <= range {
                     nearbyEntities.append(e)
                 }
             }

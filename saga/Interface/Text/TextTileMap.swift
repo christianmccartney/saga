@@ -7,14 +7,6 @@
 
 import SpriteKit
 
-private let TEXT_SPRITE_SHEET_WIDTH: CGFloat = 216
-private let TEXT_SPRITE_SHEET_HEIGHT: CGFloat = 42
-private let TEXT_SPRITE_SHEET_WRAP = 36
-
-private let TEXT_SPRITE_WIDTH: CGFloat = 6
-private let TEXT_SPRITE_HEIGHT: CGFloat = 7
-private let TEXT_SPRITE_SIZE: CGSize = CGSize(width: TEXT_SPRITE_WIDTH, height: TEXT_SPRITE_HEIGHT)
-
 class TextDefinition: SKTileGroupRule {
     let fontType: FontType
     init(fontType: FontType) {

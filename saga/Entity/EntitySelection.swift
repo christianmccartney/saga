@@ -13,9 +13,8 @@ public protocol EntityDelegate: AnyObject {
     func touchMoved(_ pos: CGPoint, entity: Entity?)
     func touchUp(_ pos: CGPoint, entity: Entity?)
 
-    func nearbyEntities(to entity: Entity) -> [Entity]
+    func nearbyEntities(to entity: Entity, within range: Int) -> [Entity]
 }
 
 extension Entity: NodeDelegate {}
 
-extension Entity: Selectable {}

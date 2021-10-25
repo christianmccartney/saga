@@ -10,23 +10,26 @@ import SpriteKit
 import GameplayKit
 
 struct PhysicsCategory {
-  static let none       : UInt32 = 0
-  static let all        : UInt32 = UInt32.max
-  static let player     : UInt32 = 0b1          // 1
-  static let friendly   : UInt32 = 0b10         // 2
-  static let neutral    : UInt32 = 0b100        // 4
-  static let enemy      : UInt32 = 0b1000       // 8
+    static let allCases: [UInt32] = [PhysicsCategory.none, PhysicsCategory.player, PhysicsCategory.friendly, PhysicsCategory.neutral, PhysicsCategory.enemy]
+    static let none       : UInt32 = 0
+    static let player     : UInt32 = 0b1          // 1
+    static let friendly   : UInt32 = 0b10         // 2
+    static let neutral    : UInt32 = 0b100        // 4
+    static let enemy      : UInt32 = 0b1000       // 8
+    static let ui         : UInt32 = 0b10000       // 16
+    static let all        : UInt32 = UInt32.max
 }
 
 public extension SKNode {
     func posByScreen(x: CGFloat, y: CGFloat) {
         self.position = CGPoint(
-            x: CGFloat((screenSizeRect.width * x) + screenSizeRect.origin.x),
-            y: CGFloat((screenSizeRect.height * y) + screenSizeRect.origin.y))
+            x: CGFloat((CoreScene.screenSizeRect.width * x) + CoreScene.screenSizeRect.origin.x),
+            y: CGFloat((CoreScene.screenSizeRect.height * y) + CoreScene.screenSizeRect.origin.y))
     }
 }
 
 final class CoreScene: GameState {
+    static var screenSizeRect: CGRect = CGRect()
     private var lastUpdateTime : TimeInterval = 0
     
     override func sceneDidLoad() {
@@ -34,6 +37,10 @@ final class CoreScene: GameState {
     }
     
     override func didMove(to view: SKView) {
+        view.showsFPS = true
+        view.showsNodeCount = true
+        view.showsPhysics = true
+        physicsWorld.gravity = CGVector(dx: 0, dy: -2.0)
         IdleSystem.shared.coreScene = self
         // Map
         let caveGenerator = CAGenerator(width: 64, height: 64)
@@ -60,19 +67,24 @@ final class CoreScene: GameState {
         // Camera
         cameraNode = SKCameraNode()
         self.addChild(cameraNode)
-        cameraNode.setScale(0.5)
+        cameraNode.setScale(MIN_ZOOM_SCALE)
         self.camera = cameraNode
 
         interface.attachToCamera(cameraNode, self)
-        interface.setScale(2)
+        interface.setScale(2.25)
 
         cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
 
-        addChildren([fighterEntity, jellyEntity, archerEntity, catEntity, druidEntity])
+        addChildren([fighterEntity, jellyEntity, archerEntity, catEntity, druidEntity, angelEntity])
         
         let bedObject = StaticObject(type: .bed, position: Position(10, 15), entityDelegate: self)
         let candleObject = DynamicObject(type: .candle_a, position: Position(9, 14), entityDelegate: self)
         addChildren([bedObject, candleObject])
+        
+        for entity in entities where entity.faction == .player {
+            playerEntity = entity
+            break
+        }
         
         updatePositions()
         focusOnActive()
@@ -117,8 +129,6 @@ final class CoreScene: GameState {
         self.lastUpdateTime = currentTime
     }
 }
-
-
 
 extension DefaultStringInterpolation {
     mutating func appendInterpolation<T>(_ optional: T?) {

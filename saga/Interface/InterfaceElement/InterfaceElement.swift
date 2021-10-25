@@ -12,12 +12,13 @@ protocol InterfaceDelegate: AnyObject {
     func removeChild(_ entity: Entity)
     func track(_ entity: Entity)
     func untrack(_ entity: Entity)
-    func selectActionType(_ entityAction: EntityAction)
 }
 
 open class InterfaceElement: SKTileMapNode {
+    weak var coreScene: CoreScene?
     weak var interfaceDelegate: InterfaceDelegate?
     var buttons = [Button]()
+    var elements = [InterfaceElement]()
 
     override public init(tileSet: SKTileSet, columns: Int, rows: Int, tileSize: CGSize) {
         super.init(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
@@ -42,6 +43,15 @@ open class InterfaceElement: SKTileMapNode {
                                  row: row)
                 }
             }
+        }
+    }
+
+    func attachElements(_ scene: CoreScene) {
+        for child in elements {
+            addChild(child)
+            child.coreScene = scene
+            child.setPosition()
+            child.setupButtons()
         }
     }
 }

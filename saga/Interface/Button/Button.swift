@@ -34,16 +34,12 @@ class Button: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func select() {
-        if isPressed {
-            texture = regularTexture
-        } else {
-            texture = pressedTexture
-        }
-        isPressed = !isPressed
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        texture = pressedTexture
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         action(self)
+        texture = regularTexture
     }
 }

@@ -1,0 +1,79 @@
+//
+//  HealthBar.swift
+//  saga
+//
+//  Created by Christian McCartney on 10/22/21.
+//
+
+import SpriteKit
+import Combine
+
+class HealthBar: InterfaceElement {
+    private var playerEntitySubscription: AnyCancellable?
+    private var playerEntityHealthSubscription: AnyCancellable?
+    var maskNode: SKShapeNode?
+
+    public init(tileSet: SKTileSet, columns: Int, rows: Int) {
+        precondition(columns >= 3)
+        super.init(
+            tileSet: tileSet,
+            columns: columns,
+            rows: rows,
+            tileSize: tileSet.defaultTileSize)
+        anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        enableAutomapping = false
+    
+        let cropNode = SKCropNode()
+        let emptyTextures = ResourceBar.emptyHealth.textures()
+        let fullTextures = ResourceBar.fullHealth.textures()
+        for x in 0..<numberOfColumns {
+            let index: Int
+            if x == 0 {
+                index = 0
+            } else if x == numberOfColumns - 1 {
+                index = 2
+            } else {
+                index = 1
+            }
+            let emptyNode = Node(texture: emptyTextures[index])
+            let fullNode = Node(texture: fullTextures[index])
+            addChild(emptyNode)
+            cropNode.addChild(fullNode)
+            emptyNode.position = centerOfTile(atColumn: x, row: 0)
+            fullNode.position = centerOfTile(atColumn: x, row: 0)
+        }
+        self.maskNode = SKShapeNode(rectOf: mapSize)
+        self.maskNode?.fillColor = .white
+        self.maskNode?.position = CGPoint(x: mapSize.width/2, y: mapSize.height/2)
+        cropNode.maskNode = maskNode
+        addChild(cropNode)
+    }
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
+    override func setPosition() {
+        guard let parent = parent else { return }
+        position = CGPoint(x: -parent.frame.width/2, y: parent.frame.height)
+    }
+
+    override func setupButtons() {
+        guard let coreScene = coreScene else { return }
+
+        playerEntitySubscription = coreScene.$playerEntity
+            .sink { [weak self] playerEntity in
+                guard let self = self else { return }
+                if let playerEntity = playerEntity {
+                    self.playerEntityHealthSubscription = playerEntity.entityHealthDamageSubject
+                        .sink { [weak self] _ in
+                            guard let self = self else { return }
+                            let movePercent = 1.0 - CGFloat(playerEntity.statistics.health / playerEntity.statistics.maxHealth)
+                            self.maskNode?.position = CGPoint(
+                                x: (self.mapSize.width/2) - (self.mapSize.width * movePercent),
+                                y: self.mapSize.height/2)
+                        }
+                } else {
+                    self.playerEntityHealthSubscription = nil
+                }
+        }
+    }
+}

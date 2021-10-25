@@ -21,4 +21,8 @@ extension CGSize {
     func containsY(_ y: CGFloat) -> Bool {
         return y > 0 && y < self.height
     }
+
+    var smallestDim: CGFloat {
+        return min(width, height)
+    }
 }

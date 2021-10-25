@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 public enum StatisticType: String {
     case strength = "str"
@@ -42,11 +43,26 @@ public struct Statistic {
         self.value = statisticType.defaultValue
         self.modifier = 0
     }
+
+    func get() -> Int {
+        switch statisticType {
+        case .initiative:
+            return value + modifier
+        case .movement:
+            return value + modifier
+        default:
+            return Int(floor((Float(value) + Float(modifier)) - 10) / 2)
+        }
+    }
 }
 
 extension Statistic: Equatable {}
 
-open class Statistics: Sequence, IteratorProtocol {
+open class Statistics: Sequence, IteratorProtocol, ObservableObject {
+    var health: Float = 1.0
+    var maxHealth: Float = 1.0
+    var mana: Float = 0.0
+    var maxMana: Float = 0.0
     var count = 0
     var statistics: [Statistic]
     var defaultStatisticTypes: [StatisticType] { [] }
@@ -55,7 +71,18 @@ open class Statistics: Sequence, IteratorProtocol {
         self.statistics = []
         var allStatistics = [Statistic]()
         for statisticType in defaultStatisticTypes {
-            allStatistics.append(statistics.first { $0.statisticType == statisticType } ?? Statistic(statisticType))
+            let statistic = statistics.first(where: { $0.statisticType == statisticType }) ?? Statistic(statisticType)
+            allStatistics.append(statistic)
+            switch statisticType {
+            case .constitution:
+                health = Float(statistic.value + statistic.value)
+                maxHealth = Float(statistic.value + statistic.value)
+            case .intelligence:
+                mana = Float(statistic.value + statistic.value)
+                maxMana = Float(statistic.value + statistic.value)
+            default:
+                break
+            }
         }
         self.statistics = allStatistics
     }
@@ -64,9 +91,13 @@ open class Statistics: Sequence, IteratorProtocol {
         return statistics.first { $0.statisticType == stat }?.value ?? stat.defaultValue
     }
 
+    func checkModifier(_ stat: StatisticType) -> Int {
+        return statistics.first { $0.statisticType == stat }?.get() ?? 0
+    }
+
     public func next() -> Statistic? {
         while count < statistics.count {
-            defer { count += 1}
+            defer { count += 1 }
             return statistics[count]
         }
         return nil
@@ -78,6 +109,14 @@ extension Statistics: CustomStringConvertible {
         var str = ""
         for stat in statistics {
             str.append("\(stat.statisticType.rawValue): \(stat.value) \(stat.modifier < 0 ? "-" : "+") \(stat.modifier)\n")
+        }
+        return str
+    }
+    
+    public var inspectorDescription: String {
+        var str = ""
+        for stat in statistics {
+            str.append("\(stat.statisticType.rawValue):\(stat.value)\(stat.modifier < 0 ? "-" : "+")\(stat.modifier)\n")
         }
         return str
     }
