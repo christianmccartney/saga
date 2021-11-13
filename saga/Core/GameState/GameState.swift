@@ -15,7 +15,7 @@ import Combine
 // 4. Ready to accept new state
 
 open class GameState: InputManager, StateMachine {
-    var cameraNode: SKCameraNode!
+    var cameraNode: Camera!
     var interface: Interface = Interface()
     var mapSet: MapSet?
     var entities = Set<Entity>()
@@ -80,9 +80,7 @@ open class GameState: InputManager, StateMachine {
                 if let activeEntity = activeEntity,
                    Selection.shared.highlightedEntity == activeEntity,
                    let ability = activeEntity.selectedAbility {
-                    if let target = ability.checkAvailable(casting: activeEntity,
-                                                           target: entity) {
-                        ability.act(from: activeEntity, on: entity, target: target)
+                    if ability.act(from: activeEntity, on: entity, position: entity.position) {
                         advanceTurn()
                     }
                 
@@ -95,7 +93,8 @@ open class GameState: InputManager, StateMachine {
                 }
                 Selection.shared.highlight(entity)
                 return
-            } else { // touched an empty square, if its within range move to it
+            } else { // touched an empty square
+    
                 if Selection.shared.highlightedEntity != entity, let entity = entity {
                     Selection.shared.highlight(entity)
                     return
@@ -104,6 +103,17 @@ open class GameState: InputManager, StateMachine {
                     let movement = activeEntity.check(.movement)
                     let touchPosition = Position(map.tileColumnIndex(fromPosition: position),
                                                  map.tileRowIndex(fromPosition: position))
+                    // gonna do an action
+                    if Selection.shared.highlightedEntity == activeEntity,
+                       let ability = activeEntity.selectedAbility {
+                        if ability.act(from: activeEntity, on: nil, position: touchPosition) {
+                            advanceTurn()
+                            return
+                        }
+                        // attack it
+                    }
+                    
+                    // no selected ability, move instead
                     if activeEntity.position.distance(touchPosition) <= movement {
                         activeEntity.move(to: position, from: scene) {
                             Selection.shared.highlight(nil)

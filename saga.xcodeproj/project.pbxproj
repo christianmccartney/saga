@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		526AAC8727102554009E10D4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 526AAC8627102554009E10D4 /* GameScene.sks */; };
-		526AAC9027102554009E10D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 526AAC8E27102554009E10D4 /* Main.storyboard */; };
-		526AAC9527102556009E10D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 526AAC9327102556009E10D4 /* LaunchScreen.storyboard */; };
+		52616F11273F67AC0084DC74 /* DamagingAbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F10273F67AC0084DC74 /* DamagingAbility.swift */; };
+		52616F13273F680F0084DC74 /* MovementAbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F12273F680F0084DC74 /* MovementAbility.swift */; };
+		52616F15273F684F0084DC74 /* HealingAbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F14273F684F0084DC74 /* HealingAbility.swift */; };
+		52616F17273F6CB70084DC74 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F16273F6CB70084DC74 /* Range.swift */; };
 		526AAC9F27102556009E10D4 /* sagaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAC9E27102556009E10D4 /* sagaTests.swift */; };
 		526AACA927102556009E10D4 /* sagaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACA827102556009E10D4 /* sagaUITests.swift */; };
 		526AACAB27102556009E10D4 /* sagaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACAA27102556009E10D4 /* sagaUITestsLaunchTests.swift */; };
@@ -78,8 +79,18 @@
 		52790B9A2726608F00198FC9 /* FMImageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790B992726608F00198FC9 /* FMImageViews.swift */; };
 		52790B9C272660BA00198FC9 /* FMPaletteViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790B9B272660BA00198FC9 /* FMPaletteViews.swift */; };
 		52790B9E27267C1900198FC9 /* FMContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790B9D27267C1900198FC9 /* FMContext.swift */; };
-		52790BA127269A4D00198FC9 /* PaletteColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BA027269A4D00198FC9 /* PaletteColors.swift */; };
-		52790BA327269A5700198FC9 /* PaletteButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BA227269A5700198FC9 /* PaletteButtons.swift */; };
+		52790BA127269A4D00198FC9 /* FMPaletteColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BA027269A4D00198FC9 /* FMPaletteColors.swift */; };
+		52790BA327269A5700198FC9 /* FMPaletteButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BA227269A5700198FC9 /* FMPaletteButtons.swift */; };
+		52790BA52727542200198FC9 /* FMNewFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BA42727542200198FC9 /* FMNewFileView.swift */; };
+		52790BAA272760B800198FC9 /* WeaponComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BA9272760B800198FC9 /* WeaponComponents.swift */; };
+		52790BAC272760CF00198FC9 /* WeaponTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BAB272760CF00198FC9 /* WeaponTypes.swift */; };
+		52790BAE2727614100198FC9 /* Weapons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BAD2727614100198FC9 /* Weapons.swift */; };
+		52790BB02727622000198FC9 /* WeaponGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BAF2727622000198FC9 /* WeaponGenerator.swift */; };
+		52790BB22727630F00198FC9 /* WeaponProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BB12727630F00198FC9 /* WeaponProperty.swift */; };
+		52790BB4272765B500198FC9 /* WeaponEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BB3272765B500198FC9 /* WeaponEnchantment.swift */; };
+		52790BB6272784E000198FC9 /* LootTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BB5272784E000198FC9 /* LootTable.swift */; };
+		52790BB82728DD2200198FC9 /* WeaponTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BB72728DD2200198FC9 /* WeaponTransform.swift */; };
+		52790BBA2728E29E00198FC9 /* WeaponForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52790BB92728E29E00198FC9 /* WeaponForm.swift */; };
 		529D68E02718C43A00CADD63 /* MapGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68DF2718C43A00CADD63 /* MapGenerator.swift */; };
 		529D68E32718F8D800CADD63 /* CAGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68E22718F8D800CADD63 /* CAGenerator.swift */; };
 		529D68E5271907D400CADD63 /* TileSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529D68E4271907D400CADD63 /* TileSet.swift */; };
@@ -105,6 +116,12 @@
 		52F0EC35271B6AE8000D5B44 /* InterfaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */; };
 		52F0EC37271B7BE5000D5B44 /* BSPGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC36271B7BE5000D5B44 /* BSPGenerator.swift */; };
 		52F0EC39271B88FE000D5B44 /* InterfaceElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC38271B88FE000D5B44 /* InterfaceElement.swift */; };
+		52FED4EA272CBCE100B9DB55 /* WeaponBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FED4E9272CBCE100B9DB55 /* WeaponBlueprint.swift */; };
+		52FED4ED272CCA3200B9DB55 /* SwordBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FED4EC272CCA3200B9DB55 /* SwordBlueprint.swift */; };
+		52FED502272CDCEC00B9DB55 /* EquipmentInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FED501272CDCEC00B9DB55 /* EquipmentInspector.swift */; };
+		52FED579272EC7B100B9DB55 /* ShapeMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FED578272EC7B100B9DB55 /* ShapeMask.swift */; };
+		52FED57B272EC91C00B9DB55 /* SpearBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FED57A272EC91C00B9DB55 /* SpearBlueprint.swift */; };
+		52FED5B4272ED1BA00B9DB55 /* ItemSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FED5B3272ED1BA00B9DB55 /* ItemSlot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,10 +142,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52616F10273F67AC0084DC74 /* DamagingAbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DamagingAbility.swift; sourceTree = "<group>"; };
+		52616F12273F680F0084DC74 /* MovementAbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementAbility.swift; sourceTree = "<group>"; };
+		52616F14273F684F0084DC74 /* HealingAbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealingAbility.swift; sourceTree = "<group>"; };
+		52616F16273F6CB70084DC74 /* Range.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
 		526AAC8127102554009E10D4 /* saga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = saga.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		526AAC8627102554009E10D4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		526AAC8F27102554009E10D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		526AAC9427102556009E10D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		526AAC9A27102556009E10D4 /* sagaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sagaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		526AAC9E27102556009E10D4 /* sagaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sagaTests.swift; sourceTree = "<group>"; };
 		526AACA427102556009E10D4 /* sagaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sagaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,8 +219,18 @@
 		52790B992726608F00198FC9 /* FMImageViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMImageViews.swift; sourceTree = "<group>"; };
 		52790B9B272660BA00198FC9 /* FMPaletteViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMPaletteViews.swift; sourceTree = "<group>"; };
 		52790B9D27267C1900198FC9 /* FMContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMContext.swift; sourceTree = "<group>"; };
-		52790BA027269A4D00198FC9 /* PaletteColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteColors.swift; sourceTree = "<group>"; };
-		52790BA227269A5700198FC9 /* PaletteButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteButtons.swift; sourceTree = "<group>"; };
+		52790BA027269A4D00198FC9 /* FMPaletteColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMPaletteColors.swift; sourceTree = "<group>"; };
+		52790BA227269A5700198FC9 /* FMPaletteButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMPaletteButtons.swift; sourceTree = "<group>"; };
+		52790BA42727542200198FC9 /* FMNewFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMNewFileView.swift; sourceTree = "<group>"; };
+		52790BA9272760B800198FC9 /* WeaponComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponComponents.swift; sourceTree = "<group>"; };
+		52790BAB272760CF00198FC9 /* WeaponTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponTypes.swift; sourceTree = "<group>"; };
+		52790BAD2727614100198FC9 /* Weapons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapons.swift; sourceTree = "<group>"; };
+		52790BAF2727622000198FC9 /* WeaponGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponGenerator.swift; sourceTree = "<group>"; };
+		52790BB12727630F00198FC9 /* WeaponProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponProperty.swift; sourceTree = "<group>"; };
+		52790BB3272765B500198FC9 /* WeaponEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponEnchantment.swift; sourceTree = "<group>"; };
+		52790BB5272784E000198FC9 /* LootTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LootTable.swift; sourceTree = "<group>"; };
+		52790BB72728DD2200198FC9 /* WeaponTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponTransform.swift; sourceTree = "<group>"; };
+		52790BB92728E29E00198FC9 /* WeaponForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponForm.swift; sourceTree = "<group>"; };
 		529D68DF2718C43A00CADD63 /* MapGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapGenerator.swift; sourceTree = "<group>"; };
 		529D68E22718F8D800CADD63 /* CAGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAGenerator.swift; sourceTree = "<group>"; };
 		529D68E4271907D400CADD63 /* TileSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileSet.swift; sourceTree = "<group>"; };
@@ -229,6 +257,12 @@
 		52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceType.swift; sourceTree = "<group>"; };
 		52F0EC36271B7BE5000D5B44 /* BSPGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSPGenerator.swift; sourceTree = "<group>"; };
 		52F0EC38271B88FE000D5B44 /* InterfaceElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceElement.swift; sourceTree = "<group>"; };
+		52FED4E9272CBCE100B9DB55 /* WeaponBlueprint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeaponBlueprint.swift; sourceTree = "<group>"; };
+		52FED4EC272CCA3200B9DB55 /* SwordBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwordBlueprint.swift; sourceTree = "<group>"; };
+		52FED501272CDCEC00B9DB55 /* EquipmentInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquipmentInspector.swift; sourceTree = "<group>"; };
+		52FED578272EC7B100B9DB55 /* ShapeMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeMask.swift; sourceTree = "<group>"; };
+		52FED57A272EC91C00B9DB55 /* SpearBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpearBlueprint.swift; sourceTree = "<group>"; };
+		52FED5B3272ED1BA00B9DB55 /* ItemSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSlot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +290,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52616F0F273F679B0084DC74 /* AbilityLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				526C681327236C5400BCB225 /* AbilityLibrary.swift */,
+				52616F10273F67AC0084DC74 /* DamagingAbility.swift */,
+				52616F14273F684F0084DC74 /* HealingAbility.swift */,
+				52616F12273F680F0084DC74 /* MovementAbility.swift */,
+			);
+			path = AbilityLibrary;
+			sourceTree = "<group>";
+		};
 		526AAC7827102554009E10D4 = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +331,7 @@
 				526AACDC27102662009E10D4 /* Core */,
 				526AACCB27102662009E10D4 /* Entity */,
 				52790B882723EFEB00198FC9 /* File */,
+				52790BA72727607E00198FC9 /* Generation */,
 				526AACD327102662009E10D4 /* Interface */,
 				526AACE327102662009E10D4 /* Map */,
 				526AACC227102662009E10D4 /* Math */,
@@ -340,6 +386,7 @@
 				52B192AE271CE93100EE0D00 /* CGRect.swift */,
 				526C68202723AF3000BCB225 /* CGFloat.swift */,
 				526C681E2723AE4700BCB225 /* Easing.swift */,
+				52616F16273F6CB70084DC74 /* Range.swift */,
 			);
 			path = Math;
 			sourceTree = "<group>";
@@ -410,7 +457,6 @@
 				526AACEE27102662009E10D4 /* Tile */,
 				526AACBF27102662009E10D4 /* MapSet */,
 				526AACE427102662009E10D4 /* MapObjects */,
-				529D68E12718F8BF00CADD63 /* MapGenerators */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -472,10 +518,7 @@
 			children = (
 				52B192BF27201A9600EE0D00 /* Info.plist */,
 				526AACB727102662009E10D4 /* Assets.xcassets */,
-				526AAC8E27102554009E10D4 /* Main.storyboard */,
-				526AAC9327102556009E10D4 /* LaunchScreen.storyboard */,
 				526AAD1C271030DC009E10D4 /* saga.entitlements */,
-				526AAC8627102554009E10D4 /* GameScene.sks */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -500,9 +543,9 @@
 		526C680E27235A1E00BCB225 /* Abilities */ = {
 			isa = PBXGroup;
 			children = (
+				52616F0F273F679B0084DC74 /* AbilityLibrary */,
 				526C681B2723A9E900BCB225 /* AbilityChecker */,
 				526C680F27235A2A00BCB225 /* Ability.swift */,
-				526C681327236C5400BCB225 /* AbilityLibrary.swift */,
 				526C681527236C6D00BCB225 /* AbilityTarget.swift */,
 			);
 			path = Abilities;
@@ -548,9 +591,9 @@
 		52790B982726606700198FC9 /* FMViews */ = {
 			isa = PBXGroup;
 			children = (
+				52790BA62727605900198FC9 /* FMFileViews */,
 				52790B9F27269A3300198FC9 /* PaletteViews */,
 				52790B9D27267C1900198FC9 /* FMContext.swift */,
-				52790B942724088800198FC9 /* FMFileViews.swift */,
 				52790B992726608F00198FC9 /* FMImageViews.swift */,
 			);
 			path = FMViews;
@@ -560,10 +603,46 @@
 			isa = PBXGroup;
 			children = (
 				52790B9B272660BA00198FC9 /* FMPaletteViews.swift */,
-				52790BA227269A5700198FC9 /* PaletteButtons.swift */,
-				52790BA027269A4D00198FC9 /* PaletteColors.swift */,
+				52790BA227269A5700198FC9 /* FMPaletteButtons.swift */,
+				52790BA027269A4D00198FC9 /* FMPaletteColors.swift */,
 			);
 			path = PaletteViews;
+			sourceTree = "<group>";
+		};
+		52790BA62727605900198FC9 /* FMFileViews */ = {
+			isa = PBXGroup;
+			children = (
+				52790B942724088800198FC9 /* FMFileViews.swift */,
+				52790BA42727542200198FC9 /* FMNewFileView.swift */,
+			);
+			path = FMFileViews;
+			sourceTree = "<group>";
+		};
+		52790BA72727607E00198FC9 /* Generation */ = {
+			isa = PBXGroup;
+			children = (
+				52790BA82727609900198FC9 /* WeaponGenerators */,
+				529D68E12718F8BF00CADD63 /* MapGenerators */,
+			);
+			path = Generation;
+			sourceTree = "<group>";
+		};
+		52790BA82727609900198FC9 /* WeaponGenerators */ = {
+			isa = PBXGroup;
+			children = (
+				52FED4EB272CCA1D00B9DB55 /* Blueprints */,
+				52790BAF2727622000198FC9 /* WeaponGenerator.swift */,
+				52790BAB272760CF00198FC9 /* WeaponTypes.swift */,
+				52790BB92728E29E00198FC9 /* WeaponForm.swift */,
+				52790BA9272760B800198FC9 /* WeaponComponents.swift */,
+				52790BB3272765B500198FC9 /* WeaponEnchantment.swift */,
+				52790BB12727630F00198FC9 /* WeaponProperty.swift */,
+				52790BAD2727614100198FC9 /* Weapons.swift */,
+				52790BB5272784E000198FC9 /* LootTable.swift */,
+				52790BB72728DD2200198FC9 /* WeaponTransform.swift */,
+				52FED578272EC7B100B9DB55 /* ShapeMask.swift */,
+			);
+			path = WeaponGenerators;
 			sourceTree = "<group>";
 		};
 		529D68E12718F8BF00CADD63 /* MapGenerators */ = {
@@ -626,6 +705,7 @@
 		52F0EC31271A461F000D5B44 /* InterfaceElement */ = {
 			isa = PBXGroup;
 			children = (
+				52FED5B2272ED19900B9DB55 /* EquipmentInspector */,
 				52790B822723E82300198FC9 /* ResourceBars */,
 				52F0EC38271B88FE000D5B44 /* InterfaceElement.swift */,
 				526AACD427102662009E10D4 /* BottomBar.swift */,
@@ -644,6 +724,25 @@
 				526AACD827102662009E10D4 /* ButtonType.swift */,
 			);
 			path = Button;
+			sourceTree = "<group>";
+		};
+		52FED4EB272CCA1D00B9DB55 /* Blueprints */ = {
+			isa = PBXGroup;
+			children = (
+				52FED4E9272CBCE100B9DB55 /* WeaponBlueprint.swift */,
+				52FED4EC272CCA3200B9DB55 /* SwordBlueprint.swift */,
+				52FED57A272EC91C00B9DB55 /* SpearBlueprint.swift */,
+			);
+			path = Blueprints;
+			sourceTree = "<group>";
+		};
+		52FED5B2272ED19900B9DB55 /* EquipmentInspector */ = {
+			isa = PBXGroup;
+			children = (
+				52FED501272CDCEC00B9DB55 /* EquipmentInspector.swift */,
+				52FED5B3272ED1BA00B9DB55 /* ItemSlot.swift */,
+			);
+			path = EquipmentInspector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -751,11 +850,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				526AAD612713CF5B009E10D4 /* Assets.xcassets in Resources */,
-				526AAC9027102554009E10D4 /* Main.storyboard in Resources */,
 				526AACF427102662009E10D4 /* Actions.sks in Resources */,
 				526C681227235F4200BCB225 /* README.md in Resources */,
-				526AAC8727102554009E10D4 /* GameScene.sks in Resources */,
-				526AAC9527102556009E10D4 /* LaunchScreen.storyboard in Resources */,
 				526AAD0F27102662009E10D4 /* CoreScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -785,16 +881,21 @@
 				52790B7D2723C66100198FC9 /* HealthBar.swift in Sources */,
 				526C681027235A2A00BCB225 /* Ability.swift in Sources */,
 				526AAD652713D933009E10D4 /* Component.swift in Sources */,
+				52FED502272CDCEC00B9DB55 /* EquipmentInspector.swift in Sources */,
+				52FED579272EC7B100B9DB55 /* ShapeMask.swift in Sources */,
 				52790B8A2723F00400198FC9 /* Bitmap.swift in Sources */,
 				52B192B3271D350A00EE0D00 /* TestEntities.swift in Sources */,
 				52790B812723E81400198FC9 /* ManaBar.swift in Sources */,
 				52B192B9271EAE1800EE0D00 /* HighlightEntity.swift in Sources */,
+				52790BB22727630F00198FC9 /* WeaponProperty.swift in Sources */,
 				52790B952724088800198FC9 /* FMFileViews.swift in Sources */,
 				52790B9E27267C1900198FC9 /* FMContext.swift in Sources */,
 				526AAD0B27102662009E10D4 /* Button.swift in Sources */,
 				52790B9A2726608F00198FC9 /* FMImageViews.swift in Sources */,
 				52790B93272406FF00198FC9 /* FileNode.swift in Sources */,
 				52790B7B2723B68D00198FC9 /* PrototypeNumberView.swift in Sources */,
+				52790BAC272760CF00198FC9 /* WeaponTypes.swift in Sources */,
+				52790BB82728DD2200198FC9 /* WeaponTransform.swift in Sources */,
 				529D68E02718C43A00CADD63 /* MapGenerator.swift in Sources */,
 				526AAD0627102662009E10D4 /* ActionCounter.swift in Sources */,
 				526AAD0427102662009E10D4 /* BottomBar.swift in Sources */,
@@ -804,8 +905,10 @@
 				52F0EC35271B6AE8000D5B44 /* InterfaceType.swift in Sources */,
 				526C681A27239DA800BCB225 /* EntityDamage.swift in Sources */,
 				526C681F2723AE4700BCB225 /* Easing.swift in Sources */,
+				52790BB6272784E000198FC9 /* LootTable.swift in Sources */,
 				52B192AF271CE93100EE0D00 /* CGRect.swift in Sources */,
 				52B1929E271B8F4B00EE0D00 /* EntityInspector.swift in Sources */,
+				52616F15273F684F0084DC74 /* HealingAbility.swift in Sources */,
 				529D68E727190E1A00CADD63 /* RandomRoomGenerator.swift in Sources */,
 				526C681427236C5400BCB225 /* AbilityLibrary.swift in Sources */,
 				52B192C42720EB5100EE0D00 /* EntityWindow.swift in Sources */,
@@ -836,16 +939,20 @@
 				52B192CD272152C700EE0D00 /* GameState.swift in Sources */,
 				529D68E32718F8D800CADD63 /* CAGenerator.swift in Sources */,
 				526AAD0A27102662009E10D4 /* FontType.swift in Sources */,
-				52790BA327269A5700198FC9 /* PaletteButtons.swift in Sources */,
+				52790BAA272760B800198FC9 /* WeaponComponents.swift in Sources */,
+				52790BA327269A5700198FC9 /* FMPaletteButtons.swift in Sources */,
+				52790BA52727542200198FC9 /* FMNewFileView.swift in Sources */,
 				529D68E5271907D400CADD63 /* TileSet.swift in Sources */,
 				526AACFD27102662009E10D4 /* Entity.swift in Sources */,
 				52B192AD271BFC8F00EE0D00 /* TileSet+Interface.swift in Sources */,
+				52616F11273F67AC0084DC74 /* DamagingAbility.swift in Sources */,
 				52790B9C272660BA00198FC9 /* FMPaletteViews.swift in Sources */,
 				526AACF727102662009E10D4 /* CGSize.swift in Sources */,
 				526AAD1427102662009E10D4 /* Object.swift in Sources */,
 				526AAD6D27161417009E10D4 /* Creature.swift in Sources */,
 				526C681D2723A9FC00BCB225 /* AbilityChecker.swift in Sources */,
-				52790BA127269A4D00198FC9 /* PaletteColors.swift in Sources */,
+				52790BA127269A4D00198FC9 /* FMPaletteColors.swift in Sources */,
+				52616F17273F6CB70084DC74 /* Range.swift in Sources */,
 				52790B842723E83200198FC9 /* ResourceBar.swift in Sources */,
 				52B192C92721135100EE0D00 /* System.swift in Sources */,
 				52F0EC39271B88FE000D5B44 /* InterfaceElement.swift in Sources */,
@@ -854,20 +961,29 @@
 				526AACFF27102662009E10D4 /* EntityDirection.swift in Sources */,
 				526AAD1527102662009E10D4 /* Door.swift in Sources */,
 				52F0EC30271A3243000D5B44 /* TileGroupDefinition.swift in Sources */,
+				52FED4ED272CCA3200B9DB55 /* SwordBlueprint.swift in Sources */,
+				52FED5B4272ED1BA00B9DB55 /* ItemSlot.swift in Sources */,
 				52B192C72721103900EE0D00 /* IdleSystem.swift in Sources */,
+				52790BB4272765B500198FC9 /* WeaponEnchantment.swift in Sources */,
 				52790B7F2723D48900198FC9 /* CreatureType.swift in Sources */,
 				526AAD0527102662009E10D4 /* SideBar.swift in Sources */,
 				52B192B1271D293A00EE0D00 /* TextTileMap.swift in Sources */,
 				52B192B7271E3A6400EE0D00 /* TileSet+Map.swift in Sources */,
+				52790BAE2727614100198FC9 /* Weapons.swift in Sources */,
 				526AAD7327168B51009E10D4 /* EntitySelection.swift in Sources */,
 				526AAD7127161FFF009E10D4 /* Node.swift in Sources */,
+				52FED4EA272CBCE100B9DB55 /* WeaponBlueprint.swift in Sources */,
 				526AAD6B27160D81009E10D4 /* DynamicObject.swift in Sources */,
 				526AAD0927102662009E10D4 /* Interface.swift in Sources */,
+				52FED57B272EC91C00B9DB55 /* SpearBlueprint.swift in Sources */,
 				52F0EC37271B7BE5000D5B44 /* BSPGenerator.swift in Sources */,
 				526AACF627102662009E10D4 /* MapSet.swift in Sources */,
+				52616F13273F680F0084DC74 /* MovementAbility.swift in Sources */,
 				526AAD0D27102662009E10D4 /* CoreScene.swift in Sources */,
+				52790BBA2728E29E00198FC9 /* WeaponForm.swift in Sources */,
 				526AAD0127102662009E10D4 /* EntityStatistic.swift in Sources */,
 				526AAD0227102662009E10D4 /* EntityFaction.swift in Sources */,
+				52790BB02727622000198FC9 /* WeaponGenerator.swift in Sources */,
 				526AAD602713CD2F009E10D4 /* IdleComponent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -903,25 +1019,6 @@
 			targetProxy = 526AACA527102556009E10D4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		526AAC8E27102554009E10D4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				526AAC8F27102554009E10D4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		526AAC9327102556009E10D4 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				526AAC9427102556009E10D4 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		526AACAC27102556009E10D4 /* Debug */ = {
@@ -975,13 +1072,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "2,6";
 			};
 			name = Debug;
 		};
@@ -1030,12 +1128,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "2,6";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1052,12 +1151,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = saga/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1068,7 +1167,7 @@
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -1084,12 +1183,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = saga/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.7;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1100,7 +1199,7 @@
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

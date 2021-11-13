@@ -10,7 +10,13 @@ import SpriteKit
 import GameplayKit
 import Combine
 
-open class Entity: GKEntity {
+enum MoveType {
+    case walk
+    case push
+    case teleport
+}
+
+open class Entity: GKEntity, ObservableObject {
     let id: UUID
     var spriteNode: Node
     var attackHintNode: Node?
@@ -27,8 +33,8 @@ open class Entity: GKEntity {
     var statistics: Statistics
     var position: Position
 
-    var abilities: [Ability] = [AbilityLibrary.shared.BASIC_ATTACK]
-    var selectedAbility: Ability? = AbilityLibrary.shared.BASIC_ATTACK
+    var abilities: [Ability] = []
+    @Published var selectedAbility: Ability?
 
     var entityHealthDamageSubject = PassthroughSubject<Float, Never>()
     var entityHealthHealSubject = PassthroughSubject<Float, Never>()
@@ -160,6 +166,7 @@ open class Entity: GKEntity {
         }
     }
 
+    // TODO 7: Need to distinguish different types of moves, eg. walked pushed teleported etc
     func move(to position: Position, _ callback: @escaping (() -> ())) {
         if let map = map {
             guard map.roomMap[position.row][position.column] else { return }
@@ -204,11 +211,15 @@ open class Entity: GKEntity {
     }
 
     func nearbyEntities(within range: Int) -> [Entity] {
+        entityDelegate?.nearbyEntities(to: self, within: 0...range) ?? []
+    }
+
+    func nearbyEntities(within range: ClosedRange<Int>) -> [Entity] {
         entityDelegate?.nearbyEntities(to: self, within: range) ?? []
     }
 
     var nearbyEntities: [Entity] {
-        entityDelegate?.nearbyEntities(to: self, within: 5) ?? []
+        entityDelegate?.nearbyEntities(to: self, within: 0...5) ?? []
     }
 }
 

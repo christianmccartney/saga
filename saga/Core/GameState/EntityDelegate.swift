@@ -21,11 +21,11 @@ extension GameState: EntityDelegate {
         //print("touch up \(pos) : \(entity?.type)")
     }
 
-    public func nearbyEntities(to entity: Entity, within range: Int) -> [Entity] {
+    public func nearbyEntities(to entity: Entity, within range: ClosedRange<Int>) -> [Entity] {
         var nearbyEntities = [Entity]()
         for e in entities {
             if entity != e {
-                if entity.position.distance(e.position) <= range {
+                if entity.position.distance(e.position) < range.upperBound {
                     nearbyEntities.append(e)
                 }
             }

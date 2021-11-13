@@ -12,34 +12,15 @@ struct CasterTargetDelta {
     let targetHealthManaDelta: (Float?, Float?)
 }
 
+struct CasterTargetMovement {
+    let casterNewPosition: Position?
+    let targetNewPosition: Position?
+}
+
 protocol AbilityChecker {
-    func damageCheck(_ caster: Statistics, _ target: Statistics, _ targetType: AbilityTarget) -> CasterTargetDelta?
-    func healCheck(_ caster: Statistics, _ target: Statistics, _ targetType: AbilityTarget) -> CasterTargetDelta?
-    func statChangeCheck(_ caster: Statistics, _ target: Statistics, _ targetType: AbilityTarget)
-}
-
-class StrengthDamageAbilityChecker: AbilityChecker {
-    func damageCheck(_ caster: Statistics, _ target: Statistics, _ targetType: AbilityTarget) -> CasterTargetDelta? {
-        return CasterTargetDelta(
-            casterHealthManaDelta: (1, 1),
-            targetHealthManaDelta: (Float(1 + caster.checkModifier(.strength)), nil))
-    }
-
-    func healCheck(_ caster: Statistics, _ target: Statistics, _ targetType: AbilityTarget) -> CasterTargetDelta? {
-        return nil
-    }
-
-    func statChangeCheck(_ caster: Statistics, _ target: Statistics, _ targetType: AbilityTarget) {}
-}
-
-class IntelligenceHealAbilityChecker: AbilityChecker {
-    func damageCheck(_ caster: Statistics, _ target: Statistics, _ targetType: AbilityTarget) -> CasterTargetDelta? { return nil }
-
-    func healCheck(_ caster: Statistics, _ target: Statistics, _ targetType: AbilityTarget) -> CasterTargetDelta? {
-        return CasterTargetDelta(
-            casterHealthManaDelta: (nil, nil),
-            targetHealthManaDelta: (Float(1 + caster.checkModifier(.intelligence)), nil))
-    }
-
-    func statChangeCheck(_ caster: Statistics, _ target: Statistics, _ targetType: AbilityTarget) {}
+    func damageCheck(_ caster: Entity, _ target: Entity, _ targetType: AbilityTarget) -> CasterTargetDelta?
+    func healCheck(_ caster: Entity, _ target: Entity, _ targetType: AbilityTarget) -> CasterTargetDelta?
+    func statChangeCheck(_ caster: Entity, _ target: Entity, _ targetType: AbilityTarget)
+    func rangeCheck(_ caster: Entity) -> ClosedRange<Int>
+    func movementCheck(_ caster: Entity, _ target: Entity?, position: Position) -> CasterTargetMovement?
 }

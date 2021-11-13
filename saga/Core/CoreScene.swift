@@ -65,7 +65,7 @@ final class CoreScene: GameState {
         addMapSet(mapSet)
 
         // Camera
-        cameraNode = SKCameraNode()
+        cameraNode = Camera()
         self.addChild(cameraNode)
         cameraNode.setScale(MIN_ZOOM_SCALE)
         self.camera = cameraNode
@@ -94,11 +94,21 @@ final class CoreScene: GameState {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchDown(t.location(in: self)) }
+        for t in touches {
+            if let modal = interface.presentedModal, modal.contains(t.location(in: cameraNode)) {
+                continue
+            }
+            self.touchDown(t.location(in: self))
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(t.location(in: self)) }
+        for t in touches {
+            if let modal = interface.presentedModal, modal.contains(t.location(in: cameraNode)) {
+                continue
+            }
+            self.touchMoved(t.location(in: self))
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

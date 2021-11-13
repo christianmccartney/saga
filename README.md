@@ -8,3 +8,4 @@ TODOs:
 4. Generalize InterfaceElements to nest as deep as I want. Probably not necessary but who cares
 5. Make fill actions undoable
 6. Add new file dialogue to name new images
+7. Need to distinguish different types of moves, eg. walked pushed teleported etc

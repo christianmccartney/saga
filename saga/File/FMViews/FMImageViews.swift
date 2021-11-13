@@ -10,7 +10,6 @@ import SwiftUI
 struct FMEditableImageView: View {
     @EnvironmentObject var context: FMContext
     var bitmap: Bitmap?
-//    var touchedCellsOnDrag = [[Int]]()
     @State var cellsDragged = Set<Position>()
     @State var cellsSet = Set<Position>()
     
@@ -90,7 +89,6 @@ struct FMEditableImagePixelView: View {
                 if let color = context.selectedColor {
                     context.applyColor(x: x, y: y, color: color)
                 }
-                print("\(x), \(y)")
             }
     }
 }

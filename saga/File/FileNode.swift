@@ -14,12 +14,13 @@ public enum FMNodeType {
 }
 
 open class FMNode: Identifiable {
-    public let id = UUID()
+    public let id: UUID
     let url: URL
     let type: FMNodeType
     var children = [FMNode]()
 
     public init(url: URL, type: FMNodeType = .none) {
+        self.id = UUID()
         self.url = url
         self.type = type
     }
@@ -31,7 +32,7 @@ open class FMNode: Identifiable {
 
 extension FMNode: Equatable {
     public static func == (lhs: FMNode, rhs: FMNode) -> Bool {
-        return lhs.url == lhs.url && lhs.children == rhs.children
+        return lhs.id == rhs.id && lhs.url == lhs.url && lhs.children == rhs.children
     }
 }
 

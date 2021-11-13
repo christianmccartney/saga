@@ -25,7 +25,7 @@ class SideBar: InterfaceElement {
         })
         let armorButton = Button(type: .armor, action: { [weak self] button in
             guard let self = self else { return }
-            self.select(button)
+            self.interfaceDelegate?.presentModal(EquipmentInspector.self)
         })
         //let nextTurnButton = Button(type: .arrows, action: { print("next turn") })
         let moveButton = Button(type: .arrow_right, action: { [weak self] button in

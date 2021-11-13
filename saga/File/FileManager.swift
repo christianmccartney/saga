@@ -108,12 +108,12 @@ final class FM {
         }
     }
 
-    func addFile(of type: FileType, to url: URL, node: FMNode) -> UIImage? {
+    func addFile(of type: FileType, to url: URL, node: FMNode) -> URL? {
         var shouldMakeNode = false
         if !FileManager.default.fileExists(atPath: url.path) {
             shouldMakeNode = true
         }
-        let bmp = Bitmap(width: 32, height: 32)
+        let bmp = Bitmap(width: STANDARD_WEAPON_WIDTH, height: STANDARD_WEAPON_HEIGHT)
         bmp.generate(closure: { x, y in
 //            var r: Float = 0
 //            var g: Float = 0
@@ -138,12 +138,13 @@ final class FM {
         })
         if bmp.writePng(url: url) {
             print("Wrote png to \(url)")
+            if shouldMakeNode {
+                node.addChild(FileNode(url: url))
+            }
+            return url
         }
         
-        if shouldMakeNode {
-            node.addChild(FileNode(url: url))
-        }
-        return UIImage(contentsOfFile: url.path)
+        return nil
     }
 
     func writeImage(image: UIImage, to url: URL) -> Bool {

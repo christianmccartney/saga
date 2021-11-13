@@ -25,19 +25,19 @@ struct PrototypeNumberView: View {
                           value: $float1,
                           formatter: NumberChanger.shared.floatFormatter) { _ in NumberChanger.shared.float1 = float1 }
                     .disableAutocorrection(true)
-                    .border(.blue)
+                    .border(Color.blue)
                     .keyboardType(.numberPad)
                 TextField("float2",
                           value: $float2,
                           formatter: NumberChanger.shared.floatFormatter) { _ in NumberChanger.shared.float2 = float2 }
                     .disableAutocorrection(true)
-                    .border(.blue)
+                    .border(Color.blue)
                     .keyboardType(.numberPad)
                 TextField("float3",
                           value: $float3,
                           formatter: NumberChanger.shared.floatFormatter) { _ in NumberChanger.shared.float3 = float3 }
                     .disableAutocorrection(true)
-                    .border(.blue)
+                    .border(Color.blue)
                     .keyboardType(.numberPad)
             }
             VStack {
@@ -45,24 +45,24 @@ struct PrototypeNumberView: View {
                           value: $int1,
                           formatter: NumberChanger.shared.intFormatter) { _ in NumberChanger.shared.int1 = int1 }
                     .disableAutocorrection(true)
-                    .border(.blue)
+                    .border(Color.blue)
                     .keyboardType(.numberPad)
                 TextField("int2",
                           value: $int2,
                           formatter: NumberChanger.shared.intFormatter) { _ in NumberChanger.shared.int2 = int2 }
                     .disableAutocorrection(true)
-                    .border(.blue)
+                    .border(Color.blue)
                     .keyboardType(.numberPad)
                 TextField("int3",
                           value: $int3,
                           formatter: NumberChanger.shared.intFormatter) { _ in NumberChanger.shared.int3 = int3 }
                     .disableAutocorrection(true)
-                    .border(.blue)
+                    .border(Color.blue)
                     .keyboardType(.numberPad)
             }
         }
         .frame(width: size.width/4, height: size.height/4, alignment: .top)
-        .background(.black)
+        .background(Color.black)
     }
 }
 

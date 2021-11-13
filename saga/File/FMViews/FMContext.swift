@@ -58,6 +58,30 @@ class FMContext: ObservableObject {
         activeImage = image
     }
 
+    func applyBlueprint(_ blueprint: Blueprint) {
+        guard let image = activeImage, let bmp = bitmap else { return }
+//        let x = Int(blueprint.origin.x * CGFloat(bmp.width))
+//        let y = Int(blueprint.origin.y * CGFloat(bmp.height))
+        var newImage: UIImage?
+        
+        for shape in blueprint.shapes {
+            for x in 0..<bmp.width {
+                for y in 0..<bmp.height {
+                    if shape.contains(CGPoint(x: CGFloat(x) / CGFloat(bmp.width),
+                                              y: CGFloat(y) / CGFloat(bmp.height))) {
+                        newImage = bmp.setPixel(x: x, y: y,
+                                                color: PixelRGBU8(255, 0, 0),
+                                                scale: image.scale,
+                                                orientation: image.imageOrientation)
+                    }
+                }
+            }
+        }
+        if let newImage = newImage {
+            activeImage = newImage
+        }
+    }
+
     func applyColor(x: Int, y: Int, color: PixelRGBU8, undoable: Bool = true) {
         func apply(bmp: Bitmap, x: Int, y: Int, color: PixelRGBU8, scale: CGFloat, orientation: UIImage.Orientation) -> UIImage? {
             return bmp.setPixel(x: x, y: y,

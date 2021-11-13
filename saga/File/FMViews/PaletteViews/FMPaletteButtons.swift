@@ -1,5 +1,5 @@
 //
-//  PaletteButtons.swift
+//  FMPaletteButtons.swift
 //  saga
 //
 //  Created by Christian McCartney on 10/25/21.
@@ -30,10 +30,11 @@ struct FMPaletteBrushView: View {
     
     var body: some View {
         HStack {
+            Spacer()
             FMPalettePixelView(selectedX: $selectedX, selectedY: $selectedY,
                                x: selectedX, y: selectedY)
                 .aspectRatio(1.0, contentMode: .fit)
-                .onAppear { context.selectedColor = palette[selectedX][selectedY] }
+                .onAppear { context.selectedColor = PixelRGBU8.palette[selectedX][selectedY] }
             Divider()
             Image(systemName: "pencil")
                 .resizable()
@@ -41,7 +42,7 @@ struct FMPaletteBrushView: View {
                 .aspectRatio(1.0, contentMode: .fit)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(context.brushType == .paint ? .red : .blue, lineWidth: 1)
+                        .stroke(context.brushType == .paint ? Color.red : Color.blue, lineWidth: 1)
                 )
                 .onTapGesture { context.brushType = .paint }
             Image(systemName: "drop.fill")
@@ -50,7 +51,7 @@ struct FMPaletteBrushView: View {
                 .aspectRatio(1.0, contentMode: .fit)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(context.brushType == .fill ? .red : .blue, lineWidth: 1)
+                        .stroke(context.brushType == .fill ? Color.red : Color.blue, lineWidth: 1)
                 )
                 .onTapGesture { context.brushType = .fill }
             Spacer()
@@ -71,7 +72,7 @@ struct FMPaletteButtonView: View {
             .padding()
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(pressed ? .red : .blue, lineWidth: 1)
+                    .stroke(pressed ? Color.red : Color.blue, lineWidth: 1)
             )
 //            .onTapGesture {
 //                pressed = true

@@ -17,11 +17,11 @@ struct PixelRGBU8 {
     let b: UInt8
     let u: UInt8 // Unused byte, for 32-bit alignment
     
-    init(_ r: UInt8, _ g: UInt8, _ b: UInt8) {
+    init(_ r: UInt8, _ g: UInt8, _ b: UInt8, _ u: UInt8 = 255) {
         self.r = r
         self.g = g
         self.b = b
-        self.u = 0
+        self.u = u
     }
     
     init(r: Float, g: Float, b: Float) {
@@ -32,7 +32,7 @@ struct PixelRGBU8 {
     }
     
     var uiColor: UIColor {
-        UIColor(red: r, green: g, blue: b, alpha: 255)
+        UIColor(red: r, green: g, blue: b, alpha: u)
     }
 }
 

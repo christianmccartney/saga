@@ -12,6 +12,8 @@ protocol InterfaceDelegate: AnyObject {
     func removeChild(_ entity: Entity)
     func track(_ entity: Entity)
     func untrack(_ entity: Entity)
+    func unpresentModal()
+    func presentModal(_ ofType: InterfaceElement.Type)
 }
 
 open class InterfaceElement: SKTileMapNode {

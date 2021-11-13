@@ -9,24 +9,21 @@
 import SpriteKit
 import GameplayKit
 
-final class Camera {
-
-    var cameraNode: SKCameraNode
-
-    public init() {
-        self.cameraNode = SKCameraNode()
-    }
-
-    public init(cameraNode: SKCameraNode) {
-        self.cameraNode = cameraNode
-    }
-
-    func setScale(_ scale: CGFloat) {
-        cameraNode.setScale(scale)
-    }
-
-    func focus(on position: CGPoint) {
-        cameraNode.position = position
-    }
+class Camera: SKCameraNode {
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//
+//    }
+//
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//
+//    }
+//
+//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//
+//    }
+//
+//    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+//
+//    }
 }
-

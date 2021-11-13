@@ -9,8 +9,11 @@
 import SpriteKit
 
 class Interface {
+    weak var camera: Camera?
     weak var coreScene: CoreScene?
     var elements = [InterfaceElement]()
+    var modalElements = [InterfaceElement]()
+    var presentedModal: InterfaceElement?
 
     public init() {
         let stoneInterface = TileSet(InterfaceTileGroupDefinition(name: "stone_a", interfaceType: .stone_a))
@@ -24,18 +27,31 @@ class Interface {
         bottomBar.elements = resourceBars
         
         let sideBar = SideBar(tileSet: stoneInterface, columns: 2, rows: 12)
+        
         let entityInspector = EntityInspector(tileSet: scrollInterface, columns: 7, rows: 7)
         let entityWindow = EntityWindow(tileSet: windowInterface, columns: 5, rows: 5)
         self.elements = [bottomBar, sideBar, entityInspector, entityWindow]
+        
+        let equipmentInspector = EquipmentInspector(tileSet: stoneInterface, columns: 20, rows: 16)
+        let headSlot = ItemSlot(tileSet: windowInterface, columns: 2, rows: 2, type: .head)
+        let chestSlot = ItemSlot(tileSet: windowInterface, columns: 4, rows: 4, type: .chest)
+        let rightArmSlot = ItemSlot(tileSet: windowInterface, columns: 3, rows: 2, type: .rightArm)
+        let leftArmSlot = ItemSlot(tileSet: windowInterface, columns: 3, rows: 2, type: .leftArm)
+        let itemSlots: [InterfaceElement] = [headSlot, chestSlot, rightArmSlot, leftArmSlot]
+//        equipmentInspector.elements = itemSlots
+        self.modalElements = [equipmentInspector]
 
         for element in elements {
             element.interfaceDelegate = self
+        }
+        for modalElement in modalElements {
+            modalElement.interfaceDelegate = self
         }
     }
     
     required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
-    func attachToCamera(_ camera: SKCameraNode, _ scene: CoreScene) {
+    func attachToCamera(_ camera: Camera, _ scene: CoreScene) {
         for element in elements {
             camera.addChild(element)
             element.zPosition = 8
@@ -44,12 +60,31 @@ class Interface {
             element.coreScene = scene
             element.attachElements(scene)
         }
+        self.camera = camera
         self.coreScene = scene
+    }
+
+    fileprivate func attachToCamera(_ element: InterfaceElement) {
+        guard let camera = camera, let scene = coreScene else { return }
+        camera.addChild(element)
+        element.zPosition = 9
+        element.setPosition()
+        element.setupButtons()
+        element.coreScene = scene
+        element.attachElements(scene)
+    }
+
+    fileprivate func unattachFromCamera(_ element: InterfaceElement) {
+        guard let camera = camera else { return }
+        camera.removeChildren(in: [element])
     }
 
     func setScale(_ scale: CGFloat) {
         for element in elements {
             element.setScale(scale)
+        }
+        for modalElement in modalElements {
+            modalElement.setScale(scale)
         }
     }
 }
@@ -70,5 +105,21 @@ extension Interface: InterfaceDelegate {
     func untrack(_ entity: Entity) {
         System.shared.removeEntity(entity)
         coreScene?.untrack(entity)
+    }
+    
+    func unpresentModal() {
+        guard let element = presentedModal else { return }
+        unattachFromCamera(element)
+        presentedModal = nil
+    }
+    
+    func presentModal(_ type: InterfaceElement.Type) {
+        func isType<T>(instance: Any, of kind: T.Type) -> Bool { return instance is T }
+        guard let element = modalElements.first(where: { isType(instance: $0, of: type) }) else { return }
+        guard element != presentedModal else { unpresentModal(); return }
+        unpresentModal()
+        element.setupButtons()
+        presentedModal = element
+        attachToCamera(element)
     }
 }

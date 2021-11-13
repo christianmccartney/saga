@@ -19,15 +19,34 @@ class BottomBar: InterfaceElement {
         enableAutomapping = false
         fillWithEdges(tileSet.tileGroups.first!)
         
-        let swordButton = Button(type: .sword, action: { [weak self] button in
+        let swordButton = Button(type: .sword, toggleable: true, action: { [weak self] button in
             guard let self = self else { return }
-            
-        })
+            self.coreScene?.playerEntity?.selectedAbility = DamagingAbility.strAttack.ability
+            self.toggleOthers(button: button)
+        }, actionOff: { [weak self] _ in self?.resetAbility() })
+    
+        let dashButton = Button(type: .arrow_right, toggleable: true, action: { [weak self] button in
+            guard let self = self else { return }
+            self.coreScene?.playerEntity?.selectedAbility = MovementAbility.dash.ability
+            self.toggleOthers(button: button)
+        }, actionOff: { [weak self] _ in self?.resetAbility() })
         
-        self.buttons = [swordButton]
+        self.buttons = [swordButton, dashButton]
     }
     
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
+    private func toggleOthers(button: Button) {
+        if button.isPressed {
+            self.buttons.forEach { if $0 != button { $0.toggleOff() } }
+        }
+    }
+
+    private func resetAbility() {
+        if self.buttons.allSatisfy({ !$0.isPressed }) {
+            self.coreScene?.playerEntity?.selectedAbility = nil
+        }
+    }
     
     override func setupButtons() {
         var x = 0

@@ -17,6 +17,8 @@ class Selection: ObservableObject {
     var highlightEntity: HighlightEntity?
     @Published var activeEntity: Entity?
 
+    private var playerEntityHintsSubscription: AnyCancellable?
+
     private init() {
         for selectionType in SelectionType.allCases {
             let spriteNode = Node(texture: selectionType.texture())
@@ -51,8 +53,19 @@ class Selection: ObservableObject {
         // set the new entity to be highlighted as the highlighted entity
         self.highlightedEntity = entity
         if entity.faction == .player {
-            entity.map?.addMovementHints(to: entity)
-            entity.addEntityHints()
+            playerEntityHintsSubscription?.cancel()
+            playerEntityHintsSubscription = nil
+            playerEntityHintsSubscription = entity.$selectedAbility.sink { ability in
+                if let ability = ability {
+                    entity.map?.removeMovementHints()
+                    entity.map?.removeAbilityHints()
+                    entity.map?.addAbilityHints(to: entity, ability: ability)
+                } else {
+                    entity.map?.removeAbilityHints()
+                    entity.map?.addMovementHints(to: entity)
+                }
+                entity.addEntityHints(ability: ability)
+            }
         }
         // get the new highlight
         if let newHighlight = highlight(for: entity.faction) {
@@ -86,32 +99,56 @@ class Selection: ObservableObject {
 extension Map {
     func addMovementHints(to entity: Entity) {
         let movement = entity.check(.movement)
-        for x in entity.position.column-movement...entity.position.column+movement {
-            for y in entity.position.row-movement...entity.position.row+movement {
-                if x == entity.position.column, y == entity.position.row { continue }
-                if x < 0 || x > numberOfColumns || y < 0 || y > numberOfColumns { continue }
-                if roomMap[y][x], entity.nearbyEntities.allSatisfy({ $0.position != Position(x, y) }) {
-                    let movementHintNode = Node(texture: SelectionType.blue_crosshair1.texture())
-                    movementHintNode.isUserInteractionEnabled = false
-                    movementHintNode.position = centerOfTile(atColumn: x, row: y)
-                    addChild(movementHintNode)
-                    movementHintNodes.append(movementHintNode)
-                }
-            }
-        }
+        let movementHintTexture = SelectionType.blue_crosshair1.texture()
+        addHintNodes(to: entity, range: 0...movement, hintTexture: movementHintTexture, addTo: &movementHintNodes)
     }
 
     func removeMovementHints() {
         removeChildren(in: movementHintNodes)
         movementHintNodes = []
     }
+
+    func addAbilityHints(to entity: Entity, ability: Ability) {
+        let range = ability.abilityChecker.rangeCheck(entity)
+        let abilityHintTexture = SelectionType.yellow_crosshair1.texture()
+        addHintNodes(to: entity, range: range, hintTexture: abilityHintTexture, addTo: &abilityHintNodes)
+    }
+    
+    func removeAbilityHints() {
+        removeChildren(in: abilityHintNodes)
+        abilityHintNodes = []
+    }
+
+    private func addHintNodes(to entity: Entity, range: ClosedRange<Int>, hintTexture: SKTexture, addTo hintNodes: inout [Node]) {
+        let colUpperBound = entity.position.column+range.upperBound
+        let colLowerBound = entity.position.column-range.upperBound
+        let rowUpperBound = entity.position.row+range.upperBound
+        let rowLowerBound = entity.position.row-range.upperBound
+        for x in colLowerBound...colUpperBound {
+            for y in rowLowerBound...rowUpperBound {
+                if x == entity.position.column, y == entity.position.row { continue }
+                if x < 0 || x > numberOfColumns || y < 0 || y > numberOfColumns { continue }
+                if Position(x, y).distance(entity.position) < range.upperBound { continue }
+                if roomMap[y][x], entity.nearbyEntities.allSatisfy({ $0.position != Position(x, y) }) {
+                    let node = Node(texture: hintTexture)
+                    node.isUserInteractionEnabled = false
+                    node.position = centerOfTile(atColumn: x, row: y)
+                    addChild(node)
+                    hintNodes.append(node)
+                }
+            }
+        }
+    }
 }
 
 extension Entity {
-    func addEntityHints() {
-        guard let ability = selectedAbility else { return }
-        for entity in nearbyEntities(within: ability.range) {
-            if let target = ability.checkAvailable(casting: self, target: entity) {
+    func addEntityHints(ability: Ability?) {
+        guard let ability = ability else {
+            removeEntityHints()
+            return
+        }
+        for entity in nearbyEntities(within: ability.abilityChecker.rangeCheck(self)) {
+            if let target = ability.checkAvailable(caster: self, target: entity, position: entity.position) {
                 if let texture = target.texture() {
                     let attackHintNode = Node(texture: texture)
                     attackHintNode.isUserInteractionEnabled = false

@@ -18,6 +18,7 @@ open class Map: SKTileMapNode {
     var warpTiles: [WarpTile] = []
     var roomMap: RoomMap
     var movementHintNodes = [Node]()
+    var abilityHintNodes = [Node]()
 
     public init(tileSet: SKTileSet, columns: Int, rows: Int, room: RoomMap) {
         self.roomMap = room

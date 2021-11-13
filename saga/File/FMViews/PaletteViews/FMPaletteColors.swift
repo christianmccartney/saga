@@ -1,5 +1,5 @@
 //
-//  PaletteColors.swift
+//  FMPaletteColors.swift
 //  saga
 //
 //  Created by Christian McCartney on 10/25/21.
@@ -13,9 +13,9 @@ struct FMPaletteColorsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ForEach(0..<palette.count, id: \.self) { y in
+            ForEach(0..<PixelRGBU8.palette.count, id: \.self) { y in
                 HStack(spacing: 0) {
-                    ForEach(0..<palette[0].count, id: \.self) { x in
+                    ForEach(0..<PixelRGBU8.palette[0].count, id: \.self) { x in
                         FMPalettePixelView(selectedX: $selectedX, selectedY: $selectedY,
                                            x: x, y: y)
                     }
@@ -34,11 +34,11 @@ struct FMPalettePixelView: View {
     
     var body: some View {
         Rectangle()
-            .fill(Color(palette[y][x].uiColor))
+            .fill(Color(PixelRGBU8.palette[y][x].uiColor))
             .onTapGesture {
                 selectedX = x
                 selectedY = y
-                context.selectedColor = palette[y][x]
+                context.selectedColor = PixelRGBU8.palette[y][x]
             }
     }
 }

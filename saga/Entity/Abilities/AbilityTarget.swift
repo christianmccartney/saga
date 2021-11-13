@@ -12,8 +12,12 @@ enum AbilityTarget {
     case friendly
     case neutral
     case enemy
+    case none
 
-    func checkAvailable(casting: EntityFaction, target: EntityFaction) -> Bool {
+    func checkAvailable(casting: EntityFaction, target: EntityFaction?) -> Bool {
+        guard let target = target else {
+            return true
+        }
         switch (casting, target) {
         case (.player, .player):
             return self == .caster
@@ -44,6 +48,8 @@ enum AbilityTarget {
             return SelectionType.yellow_crosshair2.texture()
         case .enemy:
             return SelectionType.red_crosshair2.texture()
+        case .none:
+            return SelectionType.blue_crosshair1.texture()
         }
     }
 }
