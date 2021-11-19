@@ -13,6 +13,7 @@ open class EntityActionInceptor {
 
     func interpretSurroundings() -> Entity? { return nil }
     
+    @MainActor
     func createAction() -> Position? { return nil }
 }
 
@@ -21,6 +22,7 @@ class PlayerEntityActionInceptor: EntityActionInceptor {
         return nil
     }
     
+    @MainActor
     override func createAction() -> Position? {
         return nil
     }
@@ -44,6 +46,7 @@ class NeutralEntityActionInceptor: EntityActionInceptor {
         return closestEnemy
     }
     
+    @MainActor
     override func createAction() -> Position? {
         if let closestEnemy = interpretSurroundings(), let map = entity.map {
             let startPos = vector_int2(Int32(entity.position.column), Int32(entity.position.row))

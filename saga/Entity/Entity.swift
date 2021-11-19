@@ -19,7 +19,6 @@ enum MoveType {
 open class Entity: GKEntity, ObservableObject {
     let id: UUID
     var spriteNode: Node
-    var attackHintNode: Node?
     //var graphNode: GKGraphNode
 
     weak var map: Map?
@@ -31,16 +30,30 @@ open class Entity: GKEntity, ObservableObject {
     var faction: EntityFaction
     
     var statistics: Statistics
-    var position: Position
+    var position: Position {
+        willSet {
+            updatePosition()
+        }
+    }
 
     var abilities: [Ability] = []
-    @Published var selectedAbility: Ability?
-
-    var entityHealthDamageSubject = PassthroughSubject<Float, Never>()
-    var entityHealthHealSubject = PassthroughSubject<Float, Never>()
-    
-    var entityManaDamageSubject = PassthroughSubject<Float, Never>()
-    var entityManaHealSubject = PassthroughSubject<Float, Never>()
+    @Published var selectedAbility: Ability? {
+        didSet {
+            if faction == .player {
+                DispatchQueue.main.async {
+                    if let ability = self.selectedAbility {
+                        self.map?.removeHintNodes()
+                        self.map?.addAbilityHints(to: self, ability: ability)
+                        self.map?.addAttackHints(to: self, ability: ability)
+                    } else {
+                        self.map?.removeHintNodes()
+                        self.map?.removeAttackNodes()
+                        self.map?.addMovementHints(to: self)
+                    }
+                }
+            }
+        }
+    }
     
     var scale: CGFloat {
         get { spriteNode.xScale }
@@ -51,7 +64,7 @@ open class Entity: GKEntity, ObservableObject {
     private var children = Set<Entity>()
     
     private var cancellables = Set<AnyCancellable>()
-
+    
     public init(id: UUID,
                 spriteNode: Node,
                 type: EntityType,
@@ -74,20 +87,11 @@ open class Entity: GKEntity, ObservableObject {
         super.init()
         actionInceptor.entity = self
         spriteNode.nodeDelegate = self
-        setupSubscriptions()
+        spriteNode.entity = self
     }
 
     deinit {
         System.shared.removeEntity(self)
-    }
-    
-    private func setupSubscriptions() {
-        entityHealthDamageSubject.sink { [weak self] damage in
-            self?.applyDamage(damage: damage)
-        }.store(in: &cancellables)
-        entityHealthHealSubject.sink { [weak self] heal in
-            self?.applyHeal(heal: heal)
-        }.store(in: &cancellables)
     }
 
     func addComponents(_ components: [Component]) {
@@ -97,7 +101,8 @@ open class Entity: GKEntity, ObservableObject {
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    @MainActor
     func copy() -> Entity {
         let entity = Entity(id: UUID(), spriteNode: spriteNode.copy(), type: type, position: position, direction: direction, faction: faction, statistics: statistics, idleFrames: idleFrames, entityDelegate: entityDelegate)
         entity.addComponents(components.compactMap { $0 as? Component })
@@ -114,15 +119,19 @@ open class Entity: GKEntity, ObservableObject {
     }
 
     var mapPosition: CGPoint? { map?.centerOfTile(atColumn: position.column, row: position.row) }
-
+    
     func addChild(_ entity: Entity) {
         children.insert(entity)
-        spriteNode.addChild(entity.spriteNode)
+        DispatchQueue.main.async {
+            self.spriteNode.addChild(entity.spriteNode)
+        }
     }
-
+    
     func removeChild(_ entity: Entity) {
         children.remove(entity)
-        spriteNode.removeChildren(in: [entity.spriteNode])
+        DispatchQueue.main.async {
+            self.spriteNode.removeChildren(in: [entity.spriteNode])
+        }
     }
 
     private func angle(to: simd_float2) -> Float {
@@ -150,39 +159,39 @@ open class Entity: GKEntity, ObservableObject {
         return nil
     }
 
-    func move(to location: CGPoint, from scene: SKScene, _ callback: @escaping (() -> ())) {
+    func move(to location: CGPoint, from scene: SKScene) async {
         if let map = map {
-            let pos = scene.convert(location, to: map)
-            let column = map.tileColumnIndex(fromPosition: pos)
-            let row = map.tileRowIndex(fromPosition: pos)
-            let center = map.centerOfTile(atColumn: column, row: row)
-            guard map.roomMap[row][column] else { return }
+            let pos = await scene.convert(location, to: map)
+            let column = await map.tileColumnIndex(fromPosition: pos)
+            let row = await map.tileRowIndex(fromPosition: pos)
+            let center = await map.centerOfTile(atColumn: column, row: row)
+            guard await map.roomMap[row][column] else { return }
             if let newDirection = rotation(to: center) {
                 direction = newDirection
             }
             let action = SKAction.move(to: center, duration: 0.25)
             position = Position(column, row)
-            spriteNode.run(action, completion: callback)
+            await spriteNode.run(action)
         }
     }
 
     // TODO 7: Need to distinguish different types of moves, eg. walked pushed teleported etc
-    func move(to position: Position, _ callback: @escaping (() -> ())) {
+    func move(to position: Position) async {
         if let map = map {
-            guard map.roomMap[position.row][position.column] else { return }
-            let location = map.centerOfTile(atColumn: position.column, row: position.row)
+            guard await map.roomMap[position.row][position.column] else { return }
+            let location = await map.centerOfTile(atColumn: position.column, row: position.row)
             if let newDirection = rotation(to: location) {
                 direction = newDirection
             }
             let action = SKAction.move(to: location, duration: 0.25)
             self.position = position
-            spriteNode.run(action, completion: callback)
+            await spriteNode.run(action)
         }
     }
 
-    func wait(_ callback: @escaping (() -> ())) {
+    func wait() async {
         let action = SKAction.wait(forDuration: 0.25)
-        spriteNode.run(action, completion: callback)
+        await spriteNode.run(action)
     }
 
     func check(_ statistic: StatisticType) -> Int {
@@ -201,11 +210,11 @@ open class Entity: GKEntity, ObservableObject {
     public func touchDown(_ pos: CGPoint) {
         entityDelegate?.touchDown(pos, entity: self)
     }
-    
+
     public func touchMoved(_ pos: CGPoint) {
         entityDelegate?.touchMoved(pos, entity: self)
     }
-    
+
     public func touchUp(_ pos: CGPoint) {
         entityDelegate?.touchUp(pos, entity: self)
     }
@@ -238,7 +247,7 @@ extension Array where Element == Entity {
 
 extension Entity {
     open override var description: String {
-        return "\(name)\n------------------\n\(statistics.description)"
+        return "\(name)"
     }
     
     func inspectorDescription(inspectorWidth: Int) -> String {

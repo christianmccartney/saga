@@ -9,16 +9,17 @@
 import SpriteKit
 
 class Interface {
+    static let shared = Interface()
     weak var camera: Camera?
     weak var coreScene: CoreScene?
     var elements = [InterfaceElement]()
     var modalElements = [InterfaceElement]()
     var presentedModal: InterfaceElement?
 
-    public init() {
-        let stoneInterface = TileSet(InterfaceTileGroupDefinition(name: "stone_a", interfaceType: .stone_a))
-        let scrollInterface = TileSet(InterfaceTileGroupDefinition(name: "scroll_a", interfaceType: .scroll_a))
-        let windowInterface = TileSet(InterfaceTileGroupDefinition(name: "window", interfaceType: .window))
+    private init() {
+        let stoneInterface = TileSet(InterfaceTileGroupDefinition(name: "stone_a", adjacencyTextureProvider: InterfaceType.stone_a))
+        let scrollInterface = TileSet(InterfaceTileGroupDefinition(name: "scroll_a", adjacencyTextureProvider: InterfaceType.scroll_a))
+        let windowInterface = TileSet(InterfaceTileGroupDefinition(name: "window", adjacencyTextureProvider: InterfaceType.window))
         
         let bottomBar = BottomBar(tileSet: stoneInterface, columns: 15, rows: 2)
         let healthBar = HealthBar(tileSet: windowInterface, columns: 6, rows: 1)
@@ -28,16 +29,16 @@ class Interface {
         
         let sideBar = SideBar(tileSet: stoneInterface, columns: 2, rows: 12)
         
-        let entityInspector = EntityInspector(tileSet: scrollInterface, columns: 7, rows: 7)
+        let entityInspector = EntityInspector(tileSet: scrollInterface, columns: 8, rows: 8)
         let entityWindow = EntityWindow(tileSet: windowInterface, columns: 5, rows: 5)
         self.elements = [bottomBar, sideBar, entityInspector, entityWindow]
         
         let equipmentInspector = EquipmentInspector(tileSet: stoneInterface, columns: 20, rows: 16)
-        let headSlot = ItemSlot(tileSet: windowInterface, columns: 2, rows: 2, type: .head)
-        let chestSlot = ItemSlot(tileSet: windowInterface, columns: 4, rows: 4, type: .chest)
-        let rightArmSlot = ItemSlot(tileSet: windowInterface, columns: 3, rows: 2, type: .rightArm)
-        let leftArmSlot = ItemSlot(tileSet: windowInterface, columns: 3, rows: 2, type: .leftArm)
-        let itemSlots: [InterfaceElement] = [headSlot, chestSlot, rightArmSlot, leftArmSlot]
+//        let headSlot = ItemSlot(tileSet: windowInterface, columns: 2, rows: 2, type: .head)
+//        let chestSlot = ItemSlot(tileSet: windowInterface, columns: 4, rows: 4, type: .chest)
+//        let rightArmSlot = ItemSlot(tileSet: windowInterface, columns: 3, rows: 2, type: .rightArm)
+//        let leftArmSlot = ItemSlot(tileSet: windowInterface, columns: 3, rows: 2, type: .leftArm)
+//        let itemSlots: [InterfaceElement] = [headSlot, chestSlot, rightArmSlot, leftArmSlot]
 //        equipmentInspector.elements = itemSlots
         self.modalElements = [equipmentInspector]
 
@@ -91,11 +92,15 @@ class Interface {
 
 extension Interface: InterfaceDelegate {
     func addChild(_ entity: Entity) {
-        coreScene?.addChild(entity)
+        Task {
+            await coreScene?.addChild(entity)
+        }
     }
     
     func removeChild(_ entity: Entity) {
-        coreScene?.removeChild(entity)
+        Task {
+            await coreScene?.removeChild(entity)
+        }
     }
     
     func track(_ entity: Entity) {

@@ -8,6 +8,11 @@
 
 public enum StaticObjectType: String, EntityType {
     case bed = "td_world_bed"
+    case blood_a = "td_world_blood_a"
+    case blood_b = "td_world_blood_b"
+    case blood_bone = "td_world_blood_bone"
+    case blood_c = "td_world_blood_c"
+    case blood_d = "td_world_blood_d"
     case bookshelf_full = "td_world_bookshelf_a"
     case bookshelf_empty = "td_world_bookshelf_b"
     case campfire_stones = "td_world_campfire_stones"

@@ -30,17 +30,17 @@ final class HighlightEntity: Entity {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func touchDown(_ pos: CGPoint) {
-        entity?.touchDown(pos)
-    }
-    
-    public override func touchMoved(_ pos: CGPoint) {
-        entity?.touchMoved(pos)
-    }
-    
-    public override func touchUp(_ pos: CGPoint) {
-        entity?.touchUp(pos)
-    }
+//    public override func touchDown(_ pos: CGPoint) {
+//        entity?.touchDown(pos)
+//    }
+//
+//    public override func touchMoved(_ pos: CGPoint) {
+//        entity?.touchMoved(pos)
+//    }
+//
+//    public override func touchUp(_ pos: CGPoint) {
+//        entity?.touchUp(pos)
+//    }
 }
 
 extension Entity {
@@ -48,7 +48,7 @@ extension Entity {
         highlightEntity.entity = self
         addChild(highlightEntity)
     }
-
+    
     func removeHighlightEntity(_ highlightEntity: HighlightEntity) {
         highlightEntity.entity = nil
         removeChild(highlightEntity)

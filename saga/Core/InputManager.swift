@@ -12,9 +12,11 @@ import GameplayKit
 open class InputManager: SKScene {
     var previousCameraPoint = CGPoint.zero
     var previousCameraScale = CGFloat.zero
+    var panning: Bool = false
 
     open override func didMove(to view: SKView) {
         let panGesture = UIPanGestureRecognizer()
+        panGesture.delaysTouchesBegan = true
         panGesture.addTarget(self, action: #selector(panGestureAction(_:)))
         view.addGestureRecognizer(panGesture)
         let pinchGesture = UIPinchGestureRecognizer()
@@ -23,6 +25,7 @@ open class InputManager: SKScene {
     }
     
     @objc func panGestureAction(_ sender: UIPanGestureRecognizer) {
+        panning = true
         guard let camera = self.camera else {
             return
         }
@@ -32,6 +35,7 @@ open class InputManager: SKScene {
         let translation = sender.translation(in: self.view) * camera.xScale
         let newPosition = CGPoint(x: previousCameraPoint.x + translation.x * -1, y: previousCameraPoint.y + translation.y)
         camera.position = newPosition
+        panning = false
     }
 
     @objc func pinchGestureAction(_ sender: UIPinchGestureRecognizer) {

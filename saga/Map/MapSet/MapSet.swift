@@ -11,6 +11,7 @@ import GameplayKit
 
 /// A `MapSet` is a group of maps described by an .sks file.
 public class MapSet {
+    weak var gameState: GameState?
     var sceneName: String
     var sourceScene: SKScene
 
@@ -19,20 +20,27 @@ public class MapSet {
     var currentMap: Map?
     
     var roomGenerator: MapGenerator
-
-    init(sceneName: String, tileSet: SKTileSet, roomGenerator: MapGenerator) {
+    
+    init(gameState: GameState, sceneName: String, tileSet: SKTileSet, roomGenerator: MapGenerator) {
+        self.gameState = gameState
         self.sceneName = sceneName
         self.sourceScene = SKScene(size: CGSize(width: roomGenerator.width,
                                                 height: roomGenerator.height))
         
         self.maps = []
         self.roomGenerator = roomGenerator
-        maps.append(Map(tileSet: tileSet,
-                        columns: roomGenerator.width,
-                        rows: roomGenerator.height,
-                        room: roomGenerator.generate()))
+        let map = Map(tileSet: tileSet,
+                      columns: roomGenerator.width,
+                      rows: roomGenerator.height,
+                      room: roomGenerator.generate())
+        maps.append(map)
         self.initialMap = maps.first
         self.currentMap = maps.first
+        map.mapSet = self
+    }
+
+    func removeChild(_ entity: Entity) {
+//        gameState?.removeChild(entity)
     }
 
 //    public init(sceneName: String, mapCount: Int) {

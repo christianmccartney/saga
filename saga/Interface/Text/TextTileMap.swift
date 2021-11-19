@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-class TextDefinition: SKTileGroupRule {
+fileprivate class TextDefinition: SKTileGroupRule {
     let fontType: FontType
     init(fontType: FontType) {
         self.fontType = fontType
@@ -37,7 +37,7 @@ class TextDefinition: SKTileGroupRule {
     }
 }
 
-class TextTileGroup: SKTileGroup {
+fileprivate class TextTileGroup: SKTileGroup {
     var textDefinition: TextDefinition {
         guard let textDefinition = rules.first as? TextDefinition else {
             fatalError("Could not cast as TextDefinition")
@@ -84,7 +84,7 @@ class TextTileSet: SKTileSet {
 class TextTileMap: SKTileMapNode {
     let fontType: FontType
 
-    var tileGroup: TextTileGroup {
+    fileprivate var tileGroup: TextTileGroup {
         return tileSet.tileGroups[FontType.allCases.firstIndex(of: fontType) ?? 0] as! TextTileGroup
     }
     

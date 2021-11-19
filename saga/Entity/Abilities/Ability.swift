@@ -5,15 +5,28 @@
 //  Created by Christian McCartney on 10/22/21.
 //
 
+import SpriteKit
+
 class Ability {
     var name: String
     var targets: [AbilityTarget]
     var abilityChecker: AbilityChecker
+    var abilityTextureName: String
+    var abilityTexture: SKTexture
+    var abilityAnimation: AbilityAnimation
 
-    public init(name: String, targets: [AbilityTarget], abilityChecker: AbilityChecker) {
+    public init(name: String,
+                targets: [AbilityTarget],
+                abilityChecker: AbilityChecker,
+                abilityTextureName: String,
+                abilityAnimation: @escaping AbilityAnimation = defaultAbilityAnimation) {
         self.name = name
         self.targets = targets
         self.abilityChecker = abilityChecker
+        self.abilityTexture = SKTexture(imageNamed: abilityTextureName)
+        self.abilityTexture.filteringMode = .nearest
+        self.abilityTextureName = abilityTextureName
+        self.abilityAnimation = abilityAnimation
     }
 
     func checkAvailable(caster: Entity, target: Entity?, position: Position) -> AbilityTarget? {
@@ -25,44 +38,50 @@ class Ability {
         return nil
     }
 
-    func act(from caster: Entity, on target: Entity?, position: Position) -> Bool {
+    func act(from caster: Entity, on target: Entity?, position: Position) async -> Bool {
         guard let targetType = checkAvailable(caster: caster, target: target, position: position) else { return false }
+        if let manaCost = abilityChecker.manaCost, manaCost > caster.statistics.mana { return false }
+        if let healthCost = abilityChecker.healthCost, healthCost > caster.statistics.health { return false }
+        await abilityAnimation(caster, target, position)
         
-        if let target = target, let damage = abilityChecker.damageCheck(caster, target, targetType) {
+        if let manaCost = abilityChecker.manaCost {
+            applyManaDamage(damage: manaCost, to: caster)
+        }
+        if let healthCost = abilityChecker.healthCost {
+            applyHealthDamage(damage: healthCost, to: caster)
+        }
+        
+        if let damage = abilityChecker.damageCheck(caster, target, targetType) {
             if let casterHealthDamage = damage.casterHealthManaDelta.0 {
-                caster.statistics.health -= casterHealthDamage
-                caster.entityHealthDamageSubject.send(casterHealthDamage)
+                applyHealthDamage(damage: casterHealthDamage, to: caster)
             }
             if let casterManaDamage = damage.casterHealthManaDelta.1 {
-                caster.statistics.mana -=  casterManaDamage
-                caster.entityManaDamageSubject.send(casterManaDamage)
+                applyManaDamage(damage: casterManaDamage, to: caster)
             }
-            if let targetHealthDamage = damage.targetHealthManaDelta.0 {
-                target.statistics.health -= targetHealthDamage
-                target.entityHealthDamageSubject.send(targetHealthDamage)
-            }
-            if let targetManaDamage = damage.targetHealthManaDelta.1 {
-                target.statistics.mana -= targetManaDamage
-                caster.entityManaDamageSubject.send(targetManaDamage)
+            if let target = target {
+                if let targetHealthDamage = damage.targetHealthManaDelta.0 {
+                    applyHealthDamage(damage: targetHealthDamage, to: target)
+                }
+                if let targetManaDamage = damage.targetHealthManaDelta.1 {
+                    applyManaDamage(damage: targetManaDamage, to: target)
+                }
             }
         }
     
-        if let target = target, let heal = abilityChecker.healCheck(caster, target, targetType) {
+        if let heal = abilityChecker.healCheck(caster, target, targetType) {
             if let casterHealthHeal = heal.casterHealthManaDelta.0 {
-                caster.statistics.health += casterHealthHeal
-                caster.entityHealthHealSubject.send(casterHealthHeal)
+                applyHealthHeal(heal: casterHealthHeal, to: caster)
             }
             if let casterManaHeal = heal.casterHealthManaDelta.1 {
-                caster.statistics.mana += casterManaHeal
-                caster.entityManaHealSubject.send(casterManaHeal)
+                applyManaHeal(heal: casterManaHeal, to: caster)
             }
-            if let targetHealthHeal = heal.targetHealthManaDelta.0 {
-                target.statistics.health += targetHealthHeal
-                target.entityHealthHealSubject.send(targetHealthHeal)
-            }
-            if let targetManaHeal = heal.targetHealthManaDelta.1 {
-                target.statistics.mana += targetManaHeal
-                target.entityManaHealSubject.send(targetManaHeal)
+            if let target = target {
+                if let targetHealthHeal = heal.targetHealthManaDelta.0 {
+                    applyHealthHeal(heal: targetHealthHeal, to: target)
+                }
+                if let targetManaHeal = heal.targetHealthManaDelta.1 {
+                    applyManaHeal(heal: targetManaHeal, to: target)
+                }
             }
         }
     
@@ -70,13 +89,36 @@ class Ability {
 
         if let movement = abilityChecker.movementCheck(caster, target, position: position) {
             if let casterNewPosition = movement.casterNewPosition {
-                caster.move(to: casterNewPosition, {})
+                await caster.move(to: casterNewPosition)
             }
             if let target = target, let targetNewPosition = movement.targetNewPosition {
-                target.move(to: targetNewPosition, {})
+                await target.move(to: targetNewPosition)
             }
         }
 
         return true
+    }
+
+    private func applyHealthDamage(damage: Float, to entity: Entity) {
+        guard let position = entity.mapPosition else { return }
+        entity.statistics.health -= damage
+        entity.applyDamage(damage: damage, position: position)
+        if entity.statistics.health < 0 {
+            ActorSystem.shared.enqueueAction(bloodFountainAnimation, entity)
+        }
+    }
+
+    private func applyHealthHeal(heal: Float, to entity: Entity) {
+        guard let position = entity.mapPosition else { return }
+        entity.statistics.health += heal
+        entity.applyHeal(heal: heal, position: position)
+    }
+    
+    private func applyManaDamage(damage: Float, to entity: Entity) {
+        entity.statistics.mana -= damage
+    }
+
+    private func applyManaHeal(heal: Float, to entity: Entity) {
+        entity.statistics.mana += heal
     }
 }

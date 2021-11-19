@@ -19,19 +19,27 @@ class Button: SKSpriteNode {
     private let regularTexture: SKTexture
     private let pressedTexture: SKTexture
     public private(set) var isPressed = false
+    private var abilityNode: SKSpriteNode?
 
     public init(type: ButtonType, toggleable: Bool = false, action: @escaping ButtonAction, actionOff: ButtonAction? = nil) {
-        self.regularTexture = SKTexture(imageNamed: type.rawValue)
+        if case .ability(let ability) = type {
+            self.regularTexture = SKTexture(imageNamed: ButtonType.blank.textureName)
+            self.pressedTexture = SKTexture(imageNamed: ButtonType.blank.textureName + "_press")
+            self.abilityNode = SKSpriteNode(texture: ability.abilityTexture)
+        } else {
+            self.regularTexture = SKTexture(imageNamed: type.textureName)
+            self.pressedTexture = SKTexture(imageNamed: type.textureName + "_press")
+        }
         regularTexture.filteringMode = .nearest
-        self.pressedTexture = SKTexture(imageNamed: type.rawValue + "_press")
         pressedTexture.filteringMode = .nearest
         self.type = type
         self.action = action
         self.actionOff = actionOff
         self.toggleable = toggleable
         super.init(texture: regularTexture, color: .clear, size: regularTexture.size())
+        if let abilityNode = abilityNode { self.addChild(abilityNode) }
         self.isUserInteractionEnabled = true
-        self.name = type.rawValue
+        self.name = type.textureName
     }
     
     required init?(coder aDecoder: NSCoder) {

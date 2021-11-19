@@ -63,13 +63,14 @@ class ManaBar: InterfaceElement {
             .sink { [weak self] playerEntity in
                 guard let self = self else { return }
                 if let playerEntity = playerEntity {
-                    self.playerEntityManaSubscription = playerEntity.entityManaDamageSubject
-                        .sink { [weak self] _ in
+                    self.playerEntityManaSubscription = playerEntity.statistics.$mana
+                        .sink { [weak self] mana in
                             guard let self = self else { return }
-                            let movePercent = 1.0 - CGFloat(playerEntity.statistics.mana / playerEntity.statistics.maxMana)
-                            self.maskNode?.position = CGPoint(
-                                x: (-self.mapSize.width/2) + (self.mapSize.width * movePercent),
-                                y: self.mapSize.height/2)
+                            let movePercent = 1.0 - CGFloat(mana / playerEntity.statistics.maxMana)
+                            let newPos = CGPoint(x: (-self.mapSize.width/2) + (self.mapSize.width * movePercent),
+                                                 y: self.mapSize.height/2)
+                            let animation = SKAction.move(to: newPos, duration: 0.25)
+                            self.maskNode?.run(animation)
                         }
                 } else {
                     self.playerEntityManaSubscription = nil

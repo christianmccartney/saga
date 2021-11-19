@@ -47,11 +47,11 @@ class TileSet: SKTileSet {
         print("TileSet \(tileGroupDefinition.name) init: \(Double(time)/1000000)")
     }
 
-    public init(_ interfaceTileGroupDefinition: InterfaceTileGroupDefinition) {
+    public init(_ adjacencyTileGroupDefinition: AdjacencyTileGroupDefinition) {
         let timeStarted = DispatchTime.now()
     
         var textureDefinitions = [SKTileDefinition]()
-        for texture in interfaceTileGroupDefinition.interfaceType.textures {
+        for texture in adjacencyTileGroupDefinition.adjacencyTextureProvider.textures {
             let texture = SKTexture(imageNamed: texture)
             let textureDefinition = SKTileDefinition(texture: texture)
             textureDefinitions.append(textureDefinition)
@@ -62,7 +62,7 @@ class TileSet: SKTileSet {
     
         let timeFinished = DispatchTime.now()
         let time = timeFinished.uptimeNanoseconds - timeStarted.uptimeNanoseconds
-        print("TileSet \(interfaceTileGroupDefinition.name) init: \(Double(time)/1000000)")
+        print("TileSet \(adjacencyTileGroupDefinition.name) init: \(Double(time)/1000000)")
     }
     
     required init?(coder: NSCoder) {

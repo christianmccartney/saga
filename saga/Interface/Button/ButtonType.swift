@@ -6,21 +6,58 @@
 //  Copyright © 2020 Christian McCartney. All rights reserved.
 //
 
-public enum ButtonType: String {
-    case armor = "td_interface_option_equip"
-    case arrow_up = "td_interface_option_go"
-    case arrow_right = "td_interface_option_go_right"
-    case bag = "td_interface_option_bag"
-    case blank = "td_interface_option_blank"
-    case cancel = "td_interface_option_cancel"
-    case close_stone = "td_interface_close_stone"
-    case close_scroll = "td_interface_close_scroll"
-    case circle = "td_interface_option_magic"
-    case exclamation = "td_interface_option_alert"
-    case potion = "td_interface_option_item"
-    case questionmark = "td_interface_option_setting"
-    case shield = "td_interface_option_defend"
-    case sword = "td_interface_option_attack"
+enum ButtonType {
+    case ability(Ability)
+    case armor
+    case arrow_up
+    case arrow_right
+    case bag
+    case blank
+    case cancel
+    case close_stone
+    case close_scroll
+    case circle
+    case exclamation
+    case potion
+    case questionmark
+    case shield
+    case sword
+    
+    var textureName: String {
+        switch self {
+        case .ability(let ability):
+            return ability.abilityTextureName
+        case .armor:
+            return "td_interface_option_equip"
+        case .arrow_up:
+            return "td_interface_option_go"
+        case .arrow_right:
+            return "td_interface_option_go_right"
+        case .bag:
+            return "td_interface_option_bag"
+        case .blank:
+            return "td_interface_option_blank"
+        case .cancel:
+            return "td_interface_option_cancel"
+        case .close_stone:
+            return "td_interface_close_stone"
+        case .close_scroll:
+            return "td_interface_close_scroll"
+        case .circle:
+            return "td_interface_option_magic"
+        case .exclamation:
+            return "td_interface_option_alert"
+        case .potion:
+            return "td_interface_option_item"
+        case .questionmark:
+            return "td_interface_option_setting"
+        case .shield:
+            return "td_interface_option_defend"
+        case .sword:
+            return "td_interface_option_attack"
+        }
+        
+    }
 }
 
 public enum CursorType: String {

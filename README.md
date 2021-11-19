@@ -9,3 +9,4 @@ TODOs:
 5. Make fill actions undoable
 6. Add new file dialogue to name new images
 7. Need to distinguish different types of moves, eg. walked pushed teleported etc
+8. Figure out what happens when an entity dies

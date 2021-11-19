@@ -5,12 +5,6 @@
 //  Created by Christian McCartney on 10/22/21.
 //
 
-import Foundation
-
-protocol AbilityProviding {
-    var ability: Ability { get }
-}
-
 class AbilityLibrary {
     static let shared = AbilityLibrary()
     
@@ -19,6 +13,5 @@ class AbilityLibrary {
 //    var healingAbilities: [Ability] { HealingAbility.allCases.map { $0.ability } }
 //    var movementAbilities: [Ability] { MovementAbility.allCases.map { $0.ability } }
     
-    private init() {
-    }
+    private init() {}
 }

@@ -63,13 +63,14 @@ class HealthBar: InterfaceElement {
             .sink { [weak self] playerEntity in
                 guard let self = self else { return }
                 if let playerEntity = playerEntity {
-                    self.playerEntityHealthSubscription = playerEntity.entityHealthDamageSubject
-                        .sink { [weak self] _ in
+                    self.playerEntityHealthSubscription = playerEntity.statistics.$health
+                        .sink { [weak self] health in
                             guard let self = self else { return }
-                            let movePercent = 1.0 - CGFloat(playerEntity.statistics.health / playerEntity.statistics.maxHealth)
-                            self.maskNode?.position = CGPoint(
-                                x: (self.mapSize.width/2) - (self.mapSize.width * movePercent),
-                                y: self.mapSize.height/2)
+                            let movePercent = 1.0 - CGFloat(health / playerEntity.statistics.maxHealth)
+                            let newPos = CGPoint(x: (self.mapSize.width/2) - (self.mapSize.width * movePercent),
+                                                 y: self.mapSize.height/2)
+                            let animation = SKAction.move(to: newPos, duration: 0.25)
+                            self.maskNode?.run(animation)
                         }
                 } else {
                     self.playerEntityHealthSubscription = nil

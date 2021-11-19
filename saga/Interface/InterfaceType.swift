@@ -8,12 +8,12 @@
 import Foundation
 import SpriteKit
 
-struct InterfaceTileGroupDefinition {
+struct InterfaceTileGroupDefinition: AdjacencyTileGroupDefinition {
     let name: String
-    let interfaceType: InterfaceType
+    let adjacencyTextureProvider: AdjacencyTextureProviding
 }
 
-enum InterfaceType: String {
+enum InterfaceType: String, AdjacencyTextureProviding {
     case stone_a
     case stone_b
     case window

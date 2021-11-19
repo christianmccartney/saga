@@ -41,7 +41,7 @@ final class CoreScene: GameState {
         view.showsNodeCount = true
         view.showsPhysics = true
         physicsWorld.gravity = CGVector(dx: 0, dy: -2.0)
-        IdleSystem.shared.coreScene = self
+        ActorSystem.shared.gameState = self
         // Map
         let caveGenerator = CAGenerator(width: 64, height: 64)
         let defaultMapGenerator = MapGenerator(width: 32, height: 32)
@@ -57,6 +57,7 @@ final class CoreScene: GameState {
             horizontalWallType: .stone,
             floorType: .cobble2)
         let mapSet = MapSet(
+            gameState: self,
             sceneName: "scene1",
             tileSet: TileSet(stoneTileDefinition),
             roomGenerator: mapGenerator)
@@ -76,11 +77,11 @@ final class CoreScene: GameState {
         cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
 
         addChildren([fighterEntity, jellyEntity, archerEntity, catEntity, druidEntity, angelEntity])
-        
+
         let bedObject = StaticObject(type: .bed, position: Position(10, 15), entityDelegate: self)
         let candleObject = DynamicObject(type: .candle_a, position: Position(9, 14), entityDelegate: self)
         addChildren([bedObject, candleObject])
-        
+
         for entity in entities where entity.faction == .player {
             playerEntity = entity
             break
@@ -98,7 +99,10 @@ final class CoreScene: GameState {
             if let modal = interface.presentedModal, modal.contains(t.location(in: cameraNode)) {
                 continue
             }
-            self.touchDown(t.location(in: self))
+            let location = t.location(in: self)
+            let touchedNodes = nodes(at: location)
+            let entity = touchedNodes.compactMap { $0.entity as? Entity }.first
+            self.touchDown(location, entity: entity)
         }
     }
     
@@ -135,6 +139,7 @@ final class CoreScene: GameState {
             entity.update(deltaTime: dt)
         }
         IdleSystem.shared.update(deltaTime: dt)
+        ActorSystem.shared.update(deltaTime: dt)
         
         self.lastUpdateTime = currentTime
     }

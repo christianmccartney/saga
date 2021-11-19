@@ -16,15 +16,11 @@ import Combine
 
 open class GameState: InputManager, StateMachine {
     var cameraNode: Camera!
-    var interface: Interface = Interface()
+    var interface: Interface = Interface.shared
     var mapSet: MapSet?
     var entities = Set<Entity>()
 
-    private var mutating = false
-    
-    open override func didMove(to view: SKView) {
-        super.didMove(to: view)
-    }
+    public private(set) var acting: Bool = false
 
     // MARK: - Game State
     
@@ -65,40 +61,78 @@ open class GameState: InputManager, StateMachine {
         updateActiveEntity()
         focusOnActive()
     }
+
+    // This is not how it should work
+    private func recalculateCombatOrder() {
+        currentCombatOrder = sortedEntities
+        currentCombatCount = currentCombatOrder.count
+        updateActiveEntity()
+    }
+
     
-    public func input(_ position: CGPoint, _ entity: Entity?) {
-        //guard !mutating else { return }
+    public func offerTurn() async {
+        if let activeEntity = activeEntity, activeEntity.faction != .player {
+            acting = true
+            // do an ai here
+            if let position = activeEntity.actionInceptor.createAction() {
+                if await aiInput(position, .move) {
+                    advanceTurn()
+                }
+            } else {
+                if await aiInput(nil) {
+                    advanceTurn()
+                }
+            }
+        }
+    }
+
+    public func offerTurn(_ position: CGPoint, _ entity: Entity?) async {
+        if let activeEntity = activeEntity, activeEntity.faction == .player {
+            if await input(position, entity) {
+                advanceTurn()
+            }
+        }
+    }
+    
+    private func input(_ position: CGPoint, _ entity: Entity?) async -> Bool {
+        guard !acting else { return false }
         if inCombat {
             if Selection.shared.highlightedEntity == nil, let entity = entity {
                 Selection.shared.highlight(entity)
-                return
+                return false
             }
             
             // touched an entity, highlight it
             if let entity = entity {
-                // gonna do an action
+                // have a selected ability, try to do it on the selected entity
                 if let activeEntity = activeEntity,
                    Selection.shared.highlightedEntity == activeEntity,
                    let ability = activeEntity.selectedAbility {
-                    if ability.act(from: activeEntity, on: entity, position: entity.position) {
-                        advanceTurn()
+                    acting = true
+                    if await ability.act(from: activeEntity, on: entity, position: entity.position) {
+                        Selection.shared.highlight(nil)
+                        return true
+                    } else {
+                        acting = false
                     }
-                
-                    // attack it
                 }
-                    
+
+                // if we couldnt act on self, but we selected self, then deselect self
                 if entity == Selection.shared.highlightedEntity {
                     Selection.shared.highlight(nil)
-                    return
+                    return false
                 }
+                
+                // otherwise the selected entity was out of range of the selected ability, so select that entity
                 Selection.shared.highlight(entity)
-                return
+                return false
             } else { // touched an empty square
     
-                if Selection.shared.highlightedEntity != entity, let entity = entity {
-                    Selection.shared.highlight(entity)
-                    return
+                // if theres an active entity but it isnt the selected entity, dont do an action
+                if let activeEntity = activeEntity, Selection.shared.highlightedEntity != activeEntity {
+                    return false
                 }
+                
                 if let activeEntity = activeEntity, let map = mapSet?.currentMap, let scene = scene {
                     let movement = activeEntity.check(.movement)
                     let touchPosition = Position(map.tileColumnIndex(fromPosition: position),
@@ -106,37 +140,37 @@ open class GameState: InputManager, StateMachine {
                     // gonna do an action
                     if Selection.shared.highlightedEntity == activeEntity,
                        let ability = activeEntity.selectedAbility {
-                        if ability.act(from: activeEntity, on: nil, position: touchPosition) {
-                            advanceTurn()
-                            return
+                        acting = true
+                        if await ability.act(from: activeEntity, on: nil, position: touchPosition) {
+                            Selection.shared.highlight(nil)
+                            return true
+                        } else {
+                            acting = false
                         }
-                        // attack it
                     }
                     
                     // no selected ability, move instead
                     if activeEntity.position.distance(touchPosition) <= movement {
-                        activeEntity.move(to: position, from: scene) {
-                            Selection.shared.highlight(nil)
-                            self.advanceTurn()
-                        }
+                        acting = true
+                        await activeEntity.move(to: position, from: scene)
+                        Selection.shared.highlight(nil)
+                        return true
                     }
                 }
             }
         }
+        return false
     }
 
-    public func aiInput(_ position: Position?, _ action: EntityAction = .none) {
+    private func aiInput(_ position: Position?, _ action: EntityAction = .none) async -> Bool {
         switch action {
         case .none:
-            activeEntity?.wait {
-                self.advanceTurn()
-            }
-            break
+            await activeEntity?.wait()
+            return true
         case .move:
             if let position = position {
-                activeEntity?.move(to: position) {
-                    self.advanceTurn()
-                }
+                await activeEntity?.move(to: position)
+                return true
             }
         case .attack:
             break
@@ -145,27 +179,22 @@ open class GameState: InputManager, StateMachine {
         case .defend:
             break
         }
+        return false
     }
 
-    private func advanceTurn() {
+    public func advanceTurn() {
         currentCombatIndex = (currentCombatIndex + 1) % currentCombatOrder.count
         updateActiveEntity()
-        if let activeEntity = activeEntity, activeEntity.faction != .player {
-            // do an ai here
-            if let position = activeEntity.actionInceptor.createAction() {
-                aiInput(position, .move)
-            } else {
-                aiInput(nil)
-            }
-            // activeEntity.offerTurn()
-        }
-    }
-
-    private func mutate() {
-        mutating = true
-        
-        
-        mutating = false
+        acting = false
+//        if let activeEntity = activeEntity, activeEntity.faction != .player {
+//            // do an ai here
+//            if let position = activeEntity.actionInceptor.createAction() {
+//                aiInput(position, .move)
+//            } else {
+//                aiInput(nil)
+//            }
+//            // activeEntity.offerTurn()
+//        }
     }
 
     // MARK: --------------------
@@ -183,7 +212,7 @@ open class GameState: InputManager, StateMachine {
         entities.insert(entity)
         mapSet?.currentMap?.addChild(entity)
     }
-
+    
     func addChildren(_ entities: [Entity]) {
         for entity in entities {
             entity.entityDelegate = self
@@ -194,6 +223,7 @@ open class GameState: InputManager, StateMachine {
     func removeChild(_ entity: Entity) {
         entities.remove(entity)
         mapSet?.currentMap?.removeChild(entity)
+        if inCombat { recalculateCombatOrder() }
     }
     
     func removeChildren(_ entities: [Entity]) {

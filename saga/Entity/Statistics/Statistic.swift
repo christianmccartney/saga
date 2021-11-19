@@ -59,9 +59,9 @@ public struct Statistic {
 extension Statistic: Equatable {}
 
 open class Statistics: Sequence, IteratorProtocol, ObservableObject {
-    var health: Float = 1.0
+    @Published var health: Float = 1.0
     var maxHealth: Float = 1.0
-    var mana: Float = 0.0
+    @Published var mana: Float = 0.0
     var maxMana: Float = 0.0
     var count = 0
     var statistics: [Statistic]

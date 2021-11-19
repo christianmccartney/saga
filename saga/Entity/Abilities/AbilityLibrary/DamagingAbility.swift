@@ -5,34 +5,35 @@
 //  Created by Christian McCartney on 11/12/21.
 //
 
-import Foundation
-
-enum DamagingAbility: AbilityProviding, CaseIterable {
-    case strAttack
-    
-    var ability: Ability {
-        switch self {
-        case .strAttack:
-            return Ability(name: "strAttack", targets: [.enemy, .friendly, .neutral], abilityChecker: StrengthDamageAbilityChecker())
-        }
-    }
-}
+let strAttack = Ability(name: "strAttack",
+                        targets: [.enemy, .friendly, .neutral],
+                        abilityChecker: StrengthDamageAbilityChecker(),
+                        abilityTextureName: "",
+                        abilityAnimation: basicAttackAnimation)
 
 
 class StrengthDamageAbilityChecker: AbilityChecker {
-    func damageCheck(_ caster: Entity, _ target: Entity, _ targetType: AbilityTarget) -> CasterTargetDelta? {
+    override func damageCheck(_ caster: Entity, _ target: Entity?, _ targetType: AbilityTarget) -> CasterTargetDelta? {
         return CasterTargetDelta(
-            casterHealthManaDelta: (1, 1),
-            targetHealthManaDelta: (Float(1 + caster.statistics.checkModifier(.strength)), nil))
+            casterHealthManaDelta: (nil, nil),
+            targetHealthManaDelta: (Float(60 + caster.statistics.checkModifier(.strength)), nil))
     }
-
-    func healCheck(_ caster: Entity, _ target: Entity, _ targetType: AbilityTarget) -> CasterTargetDelta? { nil }
-
-    func statChangeCheck(_ caster: Entity, _ target: Entity, _ targetType: AbilityTarget) {}
     
-    func rangeCheck(_ caster: Entity) -> ClosedRange<Int> {
+    override func rangeCheck(_ caster: Entity) -> ClosedRange<Int> {
         return 1...1
     }
-    
-    func movementCheck(_ caster: Entity, _ target: Entity?, position: Position) -> CasterTargetMovement? { nil }
+}
+
+class IntelligenceDamageAbilityChecker: AbilityChecker {
+    override var manaCost: Float? { 8.0 }
+
+    override func damageCheck(_ caster: Entity, _ target: Entity?, _ targetType: AbilityTarget) -> CasterTargetDelta? {
+        return CasterTargetDelta(
+            casterHealthManaDelta: (nil, nil),
+            targetHealthManaDelta: (Float(60 + caster.statistics.checkModifier(.intelligence)), nil))
+    }
+
+    override func rangeCheck(_ caster: Entity) -> ClosedRange<Int> {
+        return 2...5
+    }
 }

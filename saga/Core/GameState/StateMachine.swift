@@ -15,7 +15,7 @@ protocol StateMachine {
     
     func addChild(_ entity: Entity)
     func addChildren(_ entities: [Entity])
-
+    
     func removeChild(_ entity: Entity)
     func removeChildren(_ entities: [Entity])
 

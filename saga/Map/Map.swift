@@ -9,6 +9,11 @@
 import SpriteKit
 import GameplayKit
 
+@MainActor
+final class MapCoordinator {
+    
+}
+
 /// A `Map` is one SKTileMapNode contained in an .sks file.
 open class Map: SKTileMapNode {
     var graph: GKGridGraph<GKGridGraphNode>!
@@ -17,8 +22,12 @@ open class Map: SKTileMapNode {
     var objects: [Object] = []
     var warpTiles: [WarpTile] = []
     var roomMap: RoomMap
-    var movementHintNodes = [Node]()
-    var abilityHintNodes = [Node]()
+//    var movementHintNodes = [Node]()
+//    var abilityHintNodes = [Node]()
+    var attackHintNodes = [Node]()
+    var hintNodes = [SKTileMapNode]()
+    
+    weak var mapSet: MapSet?
 
     public init(tileSet: SKTileSet, columns: Int, rows: Int, room: RoomMap) {
         self.roomMap = room
@@ -68,33 +77,6 @@ open class Map: SKTileMapNode {
         return entities.first { $0.spriteNode == node }
     }
 
-    func addChild(_ entity: Entity) {
-        entities.insert(entity)
-        entity.map = self
-        addChild(entity.spriteNode)
-    }
-
-    func removeChild(_ entity: Entity) {
-        entities.remove(entity)
-        entity.map = nil
-        removeChildren(in: [entity.spriteNode])
-    }
-
-//    func removeChild(_ entities: [Entity]) {
-//        self.entities = self.entities.filter { !entities.contains($0) }\
-//        entities.removeChildren(from: mapNode)
-//    }
-
-//    func getNearbyEntities(to entity: Entity) -> Set<Entity> {
-//        var nearbyEntities = Set<Entity>()
-//        for e in entities {
-//            if entity.isNearby(e) {
-//                nearbyEntities.insert(e)
-//            }
-//        }
-//        return nearbyEntities
-//    }
-
     func updatePositions() {
         for entity in entities {
             entity.updatePosition()
@@ -114,5 +96,56 @@ open class Map: SKTileMapNode {
         }
 
         graph.remove(objectNodes)
+    }
+}
+
+extension Map {
+    func addHintNode(_ node: SKTileMapNode) {
+        hintNodes.append(node)
+        addChild(node)
+    }
+    
+    func removeHintNodes() {
+//        DispatchQueue.main.async {
+            self.removeChildren(in: self.hintNodes)
+            self.hintNodes = []
+//        }
+    }
+
+    func addAttackNode(_ node: Node) {
+        attackHintNodes.append(node)
+        addChild(node)
+    }
+    
+    func removeAttackNodes() {
+//        DispatchQueue.main.async {
+            self.removeChildren(in: self.attackHintNodes)
+//        }
+    }
+
+    func addChild(_ entity: Entity) {
+            entities.insert(entity)
+            entity.map = self
+            addChild(entity.spriteNode)
+    }
+    
+    func removeChild(_ entity: Entity) {
+        DispatchQueue.main.async {
+            self.entities.remove(entity)
+            entity.map = nil
+            self.removeChildren(in: [entity.spriteNode])
+        }
+    }
+
+    func addChild(_ emitter: Emitter) {
+        for child in emitter.emitters {
+            self.addChild(child)
+        }
+    }
+
+    func removeChild(_ emitter: Emitter) {
+        DispatchQueue.main.async {
+            self.removeChildren(in: emitter.emitters)
+        }
     }
 }

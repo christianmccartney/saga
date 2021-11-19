@@ -35,7 +35,8 @@ extension Entity {
         body.applyImpulse(CGVector(dx: 0, dy: 6.0))
     }
     
-    func applyDamage(damage: Float) {
+    func applyDamage(damage: Float, position: CGPoint) {
+        guard let map = map else { return }
         let truncatedDamage = floor(damage * 10) / 10
         let text = "-" + String(truncatedDamage)
         let textTileMap = TextTileMap(fontType: .light, columns: text.count + 1, rows: 1)
@@ -43,18 +44,20 @@ extension Entity {
         textTileMap.color = .red
         textTileMap.colorBlendFactor = 1.0
         textTileMap.applyString(text, startingAt: Position(0, 0))
-        spriteNode.addChild(textTileMap)
+        textTileMap.position = position
+        map.addChild(textTileMap)
         
         let fadeIn = SKAction.fadeIn(withDuration: 0.1)
         let fadeOut = SKAction.fadeOut(withDuration: 0.5)
         let sequence = SKAction.sequence([fadeIn, fadeOut])
-        textTileMap.run(sequence) {
-            self.spriteNode.removeChildren(in: [textTileMap])
-        }
         applyRandomForceScaled(to: textTileMap, scale: CGFloat(damage))
+        textTileMap.run(sequence) {
+            map.removeChildren(in: [textTileMap])
+        }
     }
     
-    func applyHeal(heal: Float) {
+    func applyHeal(heal: Float, position: CGPoint)  {
+        guard let map = map else { return }
         let truncatedDamage = floor(heal * 10) / 10
         let text = "+" + String(truncatedDamage)
         let textTileMap = TextTileMap(fontType: .light, columns: text.count + 1, rows: 1)
@@ -62,14 +65,15 @@ extension Entity {
         textTileMap.color = .green
         textTileMap.colorBlendFactor = 1.0
         textTileMap.applyString(text, startingAt: Position(0, 0))
-        spriteNode.addChild(textTileMap)
+        textTileMap.position = position
+        map.addChild(textTileMap)
         
         let fadeIn = SKAction.fadeIn(withDuration: 0.1)
         let fadeOut = SKAction.fadeOut(withDuration: 0.5)
         let sequence = SKAction.sequence([fadeIn, fadeOut])
-        textTileMap.run(sequence) {
-            self.spriteNode.removeChildren(in: [textTileMap])
-        }
         applyConstantForce(to: textTileMap)
+        textTileMap.run(sequence) {
+            map.removeChildren(in: [textTileMap])
+        }
     }
 }

@@ -5,33 +5,17 @@
 //  Created by Christian McCartney on 11/12/21.
 //
 
-import Foundation
-
-enum HealingAbility: AbilityProviding, CaseIterable {
-    case intHeal
-    
-    var ability: Ability {
-        switch self {
-        case .intHeal:
-            return Ability(name: "heal", targets: [.enemy, .friendly, .neutral], abilityChecker: IntelligenceHealAbilityChecker())
-        }
-    }
-}
+let intHeal = Ability(name: "heal", targets: [.enemy, .friendly, .neutral], abilityChecker: IntelligenceHealAbilityChecker(), abilityTextureName: "")
 
 class IntelligenceHealAbilityChecker: AbilityChecker {
-    func damageCheck(_ caster: Entity, _ target: Entity, _ targetType: AbilityTarget) -> CasterTargetDelta? { nil }
-
-    func healCheck(_ caster: Entity, _ target: Entity, _ targetType: AbilityTarget) -> CasterTargetDelta? {
+    override var manaCost: Float? { 16.0 }
+    override func healCheck(_ caster: Entity, _ target: Entity?, _ targetType: AbilityTarget) -> CasterTargetDelta? {
         return CasterTargetDelta(
-            casterHealthManaDelta: (nil, nil),
+            casterHealthManaDelta: (10, nil),
             targetHealthManaDelta: (Float(1 + caster.statistics.checkModifier(.intelligence)), nil))
     }
 
-    func statChangeCheck(_ caster: Entity, _ target: Entity, _ targetType: AbilityTarget) {}
-    
-    func rangeCheck(_ caster: Entity) -> ClosedRange<Int> {
+    override func rangeCheck(_ caster: Entity) -> ClosedRange<Int> {
         return 1...2
     }
-    
-    func movementCheck(_ caster: Entity, _ target: Entity?, position: Position) -> CasterTargetMovement? { nil }
 }

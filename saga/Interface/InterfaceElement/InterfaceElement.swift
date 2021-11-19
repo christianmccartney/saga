@@ -34,20 +34,6 @@ open class InterfaceElement: SKTileMapNode {
     func setupButtons() {}
     func setPosition() {}
 
-    func fillWithEdges(_ tileGroup: SKTileGroup) {
-        for column in 0..<numberOfColumns {
-            for row in 0..<numberOfRows {
-                let gridPosition = interfaceGridPosition(for: Position(column, row))
-                if let tileDefinition = tileGroup.interfaceTileDefinition(for: gridPosition) {
-                    setTileGroup(tileGroup,
-                                 andTileDefinition: tileDefinition,
-                                 forColumn: column,
-                                 row: row)
-                }
-            }
-        }
-    }
-
     func attachElements(_ scene: CoreScene) {
         for child in elements {
             addChild(child)

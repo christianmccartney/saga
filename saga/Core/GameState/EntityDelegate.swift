@@ -9,7 +9,7 @@ import CoreGraphics
 
 extension GameState: EntityDelegate {
     public func touchDown(_ pos: CGPoint, entity: Entity? = nil) {
-        input(pos, entity)
+        offerTurn(pos, entity)
         //print("touch down \(pos) : \(entity?.type)")
     }
     
@@ -25,7 +25,7 @@ extension GameState: EntityDelegate {
         var nearbyEntities = [Entity]()
         for e in entities {
             if entity != e {
-                if entity.position.distance(e.position) < range.upperBound {
+                if range.contains(entity.position.distance(e.position)) {
                     nearbyEntities.append(e)
                 }
             }
