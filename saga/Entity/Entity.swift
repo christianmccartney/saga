@@ -24,7 +24,7 @@ open class Entity: GKEntity, ObservableObject {
     private var map: SKTileMapNode { mapController.map }
 
     public weak var entityDelegate: EntityDelegate?
-    public var actionInceptor: EntityActionInceptor
+    public var ai: EntityAI
 
     var type: EntityType
     var direction: EntityDirection
@@ -37,22 +37,7 @@ open class Entity: GKEntity, ObservableObject {
     var attackable = true
 
     var abilities: [Ability] = []
-    @Published var selectedAbility: Ability? {
-        didSet {
-            if faction == .player {
-                if let ability = self.selectedAbility {
-                    self.mapController.removeHintNodes()
-                    self.mapController.removeAttackNodes()
-                    self.mapController.addAbilityHints(to: self, ability: ability)
-                    self.mapController.addAttackHints(to: self, ability: ability)
-                } else {
-                    self.mapController.removeHintNodes()
-                    self.mapController.removeAttackNodes()
-                    self.mapController.addMovementHints(to: self)
-                }
-            }
-        }
-    }
+    var selectedAbility: Ability?
     
     var scale: CGFloat {
         get { spriteNode.xScale }
@@ -82,9 +67,9 @@ open class Entity: GKEntity, ObservableObject {
         self.statistics = statistics
         self.idleFrames = idleFrames
         self.entityDelegate = entityDelegate
-        self.actionInceptor = EntityActionInceptor()
+        self.ai = EntityAI()
         super.init()
-        actionInceptor.entity = self
+        ai.entity = self
         spriteNode.nodeDelegate = self
         spriteNode.entity = self
     }
@@ -110,26 +95,6 @@ open class Entity: GKEntity, ObservableObject {
 
     var name: String {  "\(type)" }
 
-    func updatePosition() {
-        spriteNode.position = map.centerOfTile(atColumn: position.column, row: position.row)
-    }
-
-    var mapPosition: CGPoint { map.centerOfTile(atColumn: position.column, row: position.row) }
-    
-    func addChild(_ entity: Entity) {
-        children.insert(entity)
-        spriteNode.addChild(entity.spriteNode)
-    }
-    
-    func removeChild(_ entity: Entity) {
-        children.remove(entity)
-        spriteNode.removeChildren(in: [entity.spriteNode])
-    }
-    
-    func setPosition(_ position: Position) {
-        self.position = position
-        spriteNode.position = map.centerOfTile(atColumn: position.column, row: position.row)
-    }
 
     private func angle(to: simd_float2) -> Float {
         let from = direction.directionVector
@@ -157,35 +122,33 @@ open class Entity: GKEntity, ObservableObject {
     }
 
     func move(to location: CGPoint, from scene: SKScene, _ closure: @escaping () -> ()) {
-//        if let map = map {
-//            let pos = scene.convert(location, to: map)
-//            let column = map.tileColumnIndex(fromPosition: pos)
-//            let row = map.tileRowIndex(fromPosition: pos)
-//            let center = map.centerOfTile(atColumn: column, row: row)
-//            guard map.roomMap[row][column] else { return }
-//            if let newDirection = rotation(to: center) {
-//                direction = newDirection
-//            }
-//            let action = SKAction.move(to: center, duration: 0.25)
-//            position = Position(column, row)
-//            spriteNode.run(action) {
-//                closure()
-//            }
-//        }
+        let pos = scene.convert(location, to: map)
+        let column = mapController.tileColumnIndex(pos)
+        let row = mapController.tileRowIndex(pos)
+        let center = mapController.centerOfTile(column, row)
+        guard mapController.roomMap[row][column] else { return }
+        if let newDirection = rotation(to: center) {
+            direction = newDirection
+        }
+        let action = SKAction.move(to: center, duration: 0.25)
+        position = Position(column, row)
+        spriteNode.run(action) {
+            closure()
+        }
     }
 
     // TODO 7: Need to distinguish different types of moves, eg. walked pushed teleported etc
     func move(to position: Position, _ closure: @escaping () -> ()) {
-//            guard map.roomMap[position.row][position.column] else { return }
-//            let location = map.centerOfTile(atColumn: position.column, row: position.row)
-//            if let newDirection = rotation(to: location) {
-//                direction = newDirection
-//            }
-//            let action = SKAction.move(to: location, duration: 0.25)
-//            self.position = position
-//            spriteNode.run(action) {
-//                closure()
-//            }
+        guard mapController.roomMap[position.row][position.column] else { return }
+        let location = mapController.centerOfTile(position.column, position.row)
+        if let newDirection = rotation(to: location) {
+            direction = newDirection
+        }
+        let action = SKAction.move(to: location, duration: 0.25)
+        self.position = position
+        spriteNode.run(action) {
+            closure()
+        }
     }
     
 //    func move(to position: Position) async {
@@ -245,17 +208,6 @@ open class Entity: GKEntity, ObservableObject {
 }
 
 // MARK: Helper Functions
-
-extension Array where Element == Entity {
-//    func removeChildren(from scene: SKNode) {
-//        var nodes: [SKNode] = []
-//        for entity in self {
-//            nodes.append(entity.spriteNode)
-//        }
-//        scene.removeChildren(in: nodes)
-//    }
-}
-
 extension Entity {
     open override var description: String {
         return "\(name)"
@@ -263,9 +215,40 @@ extension Entity {
     
     func inspectorDescription(inspectorWidth: Int) -> String {
         var line: String = ""
-        for i in 0..<inspectorWidth-1 {
+        for _ in 0..<inspectorWidth-1 {
             line.append("-")
         }
         return "\(name)\n\(line)\(statistics.inspectorDescription)"
     }
+}
+
+// MARK: Forwading to underlying SpriteNode
+extension Entity {
+    
+    // TODO: Figure out a nicer solution for this position mess
+    func updatePosition() {
+        spriteNode.position = mapController.centerOfTile(position.column, position.row)
+    }
+    
+    func setPosition(_ position: Position) {
+        self.position = position
+        spriteNode.position = mapController.centerOfTile(position.column, position.row)
+    }
+    
+    var mapPosition: CGPoint { mapController.centerOfTile(position.column, position.row) }
+    
+    func addChild(_ entity: Entity) {
+        children.insert(entity)
+        spriteNode.addChild(entity.spriteNode)
+    }
+    
+    func removeChild(_ entity: Entity) {
+        children.remove(entity)
+        spriteNode.removeChildren(in: [entity.spriteNode])
+    }
+    
+    func addChild(_ node: SKNode) { spriteNode.addChild(node) }
+    func addChildren(_ nodes: [SKNode]) { nodes.forEach { addChild($0) } }
+    func removeChild(_ node: SKNode) { spriteNode.removeChildren(in: [node]) }
+    func removeChildren(_ nodes: [SKNode]) { spriteNode.removeChildren(in: nodes) }
 }

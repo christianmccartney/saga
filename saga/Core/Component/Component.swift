@@ -13,10 +13,6 @@ open class Component: GKComponent {
         guard let e = entity as? Entity else { fatalError("Could not cast as Entity") }
         return e
     }
-
-    func reset() {
-        
-    }
     
     func copy() -> Component {
         return Component()

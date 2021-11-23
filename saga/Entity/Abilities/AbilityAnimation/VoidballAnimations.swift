@@ -12,9 +12,9 @@ let voidballAttackAnimation: AbilityAnimation = { caster, target, position, clos
     let casterPosition = caster.mapPosition
     let point: CGPoint
     if let target = target {
-        point = mapController.map.centerOfTile(atColumn: target.position.column, row: target.position.row)
+        point = mapController.centerOfTile(target.position.column, target.position.row)
     } else {
-        point = mapController.map.centerOfTile(atColumn: position.column, row: position.row)
+        point = mapController.centerOfTile(position.column, position.row)
     }
     guard let voidballTexture = EffectType.textures[EffectType.voidball],
           let explosionTextures = AnimatedEffect.textures[.voidImpact] else {
@@ -28,8 +28,7 @@ let voidballAttackAnimation: AbilityAnimation = { caster, target, position, clos
     let voidballNode = Node(texture: voidballTexture)
     voidballNode.addChild(emitter)
     
-    let tileAbove = mapController.map.centerOfTile(atColumn: caster.position.column,
-                                                   row: caster.position.row + 1)
+    let tileAbove = mapController.centerOfTile(caster.position.column, caster.position.row + 1)
     let middlePosition = (casterPosition + tileAbove) / 2
     voidballNode.position = (casterPosition + middlePosition) / 2
     mapController.addChild(voidballNode)

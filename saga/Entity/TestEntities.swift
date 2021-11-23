@@ -54,7 +54,7 @@ let angelStats: EntityStatistics = EntityStatistics(
 // Entities
 let fighterEntity = Creature(type: .fighter,
                              faction: .player,
-                             position: Position(15, 10),
+                             position: Position(12, 5),
                              statistics: fighterStats)
 let jellyEntity =   Creature(type: .jelly,
                              faction: .enemy,

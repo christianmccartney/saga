@@ -7,7 +7,7 @@
 
 import GameplayKit
 
-open class EntityActionInceptor {
+open class EntityAI {
     weak var entity: Entity!
     public init() {}
 
@@ -16,7 +16,7 @@ open class EntityActionInceptor {
     func createAction() -> Position? { return nil }
 }
 
-class PlayerEntityActionInceptor: EntityActionInceptor {
+class PlayerEntityAI: EntityAI {
     override func interpretSurroundings() -> Entity? {
         return nil
     }
@@ -26,7 +26,7 @@ class PlayerEntityActionInceptor: EntityActionInceptor {
     }
 }
 
-class NeutralEntityActionInceptor: EntityActionInceptor {
+class NeutralEntityAI: EntityAI {
     override func interpretSurroundings() -> Entity? {
         let nearbyEntities = entity.nearbyEntities
         var closestEnemy: Entity?

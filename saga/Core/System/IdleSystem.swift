@@ -11,20 +11,16 @@ import GameplayKit
 public class IdleSystem: GKComponentSystem<GKComponent> {
     static let shared = IdleSystem(componentClass: IdleComponent.self)
 
-//    var entities = Set<Entity>()
     var entities: [Entity] { components.compactMap { $0.entity as? Entity } }
     var needsReset = true
 
     public override func addComponent(foundIn entity: GKEntity) {
         super.addComponent(foundIn: entity)
-//        guard let entity = entity as? Entity else { return }
-//        entities.insert(entity)
         needsReset = true
     }
 
     public override func removeComponent(foundIn entity: GKEntity) {
         super.removeComponent(foundIn: entity)
-//        entities.remove(entity as! Entity)
     }
 
     // When a new entity with animations is added stop all the other idle animations and replay them to make

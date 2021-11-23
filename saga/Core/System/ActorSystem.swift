@@ -17,12 +17,6 @@ final class ActorSystem: GKComponentSystem<GKComponent> {
     private let maxTurnTime: TimeInterval = 0.5
 
     private var deathQueue = [(DeathAnimation, Entity)]()
-//    private var updating = Updating()
-//
-//    actor Updating {
-//        var state = false
-//        func update(state: Bool) { self.state = state }
-//    }
     private var updating = false
     
     func enqueueAction(_ deathAnimation: @escaping DeathAnimation, _ entity: Entity) {

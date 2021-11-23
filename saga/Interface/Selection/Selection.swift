@@ -32,7 +32,7 @@ class Selection: ObservableObject {
     func unhighlight() {
         if let highlightNode = gameState.highlightNode {
             gameState.highlightedEntity = nil
-            gameState.removeChildren(in: [highlightNode])
+            mapController.removeChildren(in: [highlightNode])
         }
     }
     
@@ -44,39 +44,61 @@ class Selection: ObservableObject {
         node.isUserInteractionEnabled = false
         gameState.highlightNode = node
         gameState.highlightedEntity = entity
-        gameState.addChild(node)
+        mapController.addChild(node)
     }
 }
 
 extension MapController {
-    static let movementTileSet = TileSet(HighlightTileGroupDefinition(name: "movement", adjacencyTextureProvider: HighlightType.blue))
-    static let abilityTileSet = TileSet(HighlightTileGroupDefinition(name: "ability", adjacencyTextureProvider: HighlightType.yellow))
-    static let innerAbilityTileSet = TileSet(HighlightTileGroupDefinition(name: "inner_ability", adjacencyTextureProvider: HighlightType.innerYellow))
+    static let movementTileSet = TileSet(HighlightTileGroupDefinition(
+        name: "movement", adjacencyTextureProvider: HighlightType.blue))
+    static let abilityTileSet = TileSet(HighlightTileGroupDefinition(
+        name: "ability", adjacencyTextureProvider: HighlightType.yellow))
+    static let innerAbilityTileSet = TileSet(HighlightTileGroupDefinition(
+        name: "inner_ability", adjacencyTextureProvider: HighlightType.innerYellow))
     
-    func addMovementHints(to entity: Entity) {
+    private static let rangeSize = 25
+    static let rangeNodes: [SKTileMapNode] = [
+        SKTileMapNode(tileSet: MapController.movementTileSet, columns: rangeSize, rows: rangeSize,
+                      tileSize: MapController.movementTileSet.defaultTileSize),
+        SKTileMapNode(tileSet: MapController.abilityTileSet, columns: rangeSize, rows: rangeSize,
+                      tileSize: MapController.abilityTileSet.defaultTileSize),
+        SKTileMapNode(tileSet: MapController.innerAbilityTileSet, columns: rangeSize, rows: rangeSize,
+                      tileSize: MapController.innerAbilityTileSet.defaultTileSize),]
+    
+    func setMovementHints(on entity: Entity) {
         let movement = entity.check(.movement)
         let span = movement * 2 + 1
-        addHints(to: entity, span: span, tileSet: MapController.movementTileSet)
+        setHints(on: entity, span: span,
+                 tileMap: MapController.rangeNodes[0],
+                 tileGroup: MapController.rangeNodes[0].tileSet.tileGroups.first!)
     }
 
-    func addAbilityHints(to entity: Entity, ability: Ability) {
+    func setRangeHints(on entity: Entity, ability: Ability) {
         let range = ability.abilityChecker.rangeCheck(entity)
         if range.lowerBound > 1 {
             let innerSpan = range.lowerBound * 2 - 1
-            addHints(to: entity, span: innerSpan, tileSet: MapController.innerAbilityTileSet)
+            setHints(on: entity, span: innerSpan,
+                     tileMap: MapController.rangeNodes[2],
+                     tileGroup: MapController.rangeNodes[2].tileSet.tileGroups.first!)
         }
         let span = range.upperBound * 2 + 1
-        addHints(to: entity, span: span, tileSet: MapController.abilityTileSet)
+        setHints(on: entity, span: span,
+                 tileMap: MapController.rangeNodes[1],
+                 tileGroup: MapController.rangeNodes[1].tileSet.tileGroups.first!)
     }
     
-    private func addHints(to entity: Entity, span: Int, tileSet: TileSet) {
-        let tileMap = SKTileMapNode(tileSet: tileSet, columns: span, rows: span, tileSize: tileSet.defaultTileSize)
+    func clearHints(from entity: Entity) {
+        gameState.removeChildren(in: MapController.rangeNodes)
+        MapController.rangeNodes.forEach { $0.fill(with: nil) }
+    }
+    
+    private func setHints(on entity: Entity, span: Int, tileMap: SKTileMapNode, tileGroup: SKTileGroup) {
         tileMap.enableAutomapping = false
         tileMap.position = entity.mapPosition
         tileMap.isUserInteractionEnabled = false
-        tileMap.fillCircle(tileSet.tileGroups.first!)
+        tileMap.fillCircle(tileGroup, span: span)
         tileMap.alpha = 0.5
-        addHintNode(tileMap)
+        gameState.addChild(tileMap)
     }
     
     func addAttackHints(to entity: Entity, ability: Ability) {
@@ -85,117 +107,16 @@ extension MapController {
                 if let texture = target.texture() {
                     let node = SKSpriteNode(texture: texture)
                     node.isUserInteractionEnabled = false
-                    node.position = map.centerOfTile(atColumn: e.position.column, row: e.position.row)
-                    addAttackNode(node)
+                    node.position = centerOfTile(e.position.column, e.position.row)
+                    gameState.abilityHighlightNodes.append(node)
+                    gameState.addChild(node)
                 }
             }
         }
     }
+    
+    func clearAttackHints() {
+        gameState.removeChildren(in: gameState.abilityHighlightNodes)
+        gameState.abilityHighlightNodes = []
+    }
 }
-
-
-/*
- //
- //    var highlights: [SelectionType: HighlightEntity] = [:]
- //    @Published var highlightedEntity: Entity? {
- //        didSet {
- //            print("highlighted \(highlightedEntity)")
- //        }
- //    }
- //    var highlightEntity: HighlightEntity?
- //    @Published weak var activeEntity: Entity?
-
-     private var playerEntityHintsSubscription: AnyCancellable?
-
-     private init() {
- //        for selectionType in SelectionType.allCases {
- //            let spriteNode = Node(texture: selectionType.texture())
- //            let highlightEntity = HighlightEntity(
- //                id: UUID(),
- //                spriteNode: spriteNode,
- //                type: selectionType,
- //                position: Position(0, 0)
- //            )
- //            highlightEntity.addComponent(MovableComponent())
- //            highlightEntity.spriteNode.isUserInteractionEnabled = true
- //            self.highlights[selectionType] = highlightEntity
- //        }
-     }
-
- //    private func highlight(for faction: EntityFaction) -> HighlightEntity? {
- //        switch faction {
- //        case .enemy:
- //            return Selection.shared.highlights[.red_entity_select1]
- //        case .player:
- //            return Selection.shared.highlights[.green_entity_select1]
- //        case .friendly:
- //            return Selection.shared.highlights[.green_entity_select1]
- //        case .neutral:
- //            return Selection.shared.highlights[.yellow_entity_select1]
- //        }
- //    }
-     
-     private func highlight(for faction: EntityFaction) -> SelectionType {
-         switch faction {
-         case .player:
-             return .green_entity_select1
-         case .friendly:
-             return .green_entity_select1
-         case .neutral:
-             return .yellow_entity_select1
-         case .enemy:
-             return .red_entity_select1
-         }
-     }
-
-     private func highlight(_ entity: Entity) {
-         // remove the highlight from the old entity
-         unhighlight()
-         // set the new entity to be highlighted as the highlighted entity
-         gameState.highlightedEntity = entity
-
-         if entity.faction == .player {
-             if let ability = entity.selectedAbility {
-                 mapController.removeHintNodes()
-                 mapController.removeAttackNodes()
-                 mapController.addAbilityHints(to: entity, ability: ability)
-                 mapController.addAttackHints(to: entity, ability: ability)
-             } else {
-                 mapController.removeHintNodes()
-                 mapController.removeAttackNodes()
-                 mapController.addMovementHints(to: entity)
-             }
-         }
-         // get the new highlight
-         let highlightType = highlight(for: entity.faction)
-             // add the highlight to the new highlighted entity
- //            self.highlightedEntity?.addHighlightEntity(newHighlight)
-             // set the highlight
-         gameState.highlightNode = SKSpriteNode(texture: SKTexture(imageNamed: highlightType.rawValue))
-     }
-
-     private func unhighlight() {
-         mapController.removeHintNodes()
-         mapController.removeAttackNodes()
-         if gameState.highlightNode != nil {
- //            self.highlightedEntity?.removeHighlightEntity(highlightEntity)
-             gameState.highlightNode = nil
-             gameState.highlightedEntity = nil
-         }
-     }
-     
-     // TODO 9: This almost certainly needs a fix, when the turns are cycling quickly sometimes
-     // it will remove an entity while we are highlighting the correct entity, thereby unselecting it.
-     func highlight(_ entity: Entity?, set: Bool = false) {
-         // a new entity should be highlighted
-         if let entity = entity, entity != gameState.highlightedEntity {
-             highlight(entity)
-         } else if let entity = entity, set {
-             highlight(entity)
-         } else { // we should unhighlight the highlighted entity
-             unhighlight()
-         }
-     }
- 
- 
- */

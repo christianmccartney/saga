@@ -8,6 +8,9 @@
 import SpriteKit
 
 extension Entity {
+    private static let damageNumbers = [TextTileMap(fontType: .light, columns: 6, rows: 1),
+                                        TextTileMap(fontType: .light, columns: 6, rows: 1),
+                                        TextTileMap(fontType: .light, columns: 6, rows: 1),]
     private func generatePhysicsBody(for node: SKNode) {
         let body = SKPhysicsBody(rectangleOf: node.frame.size)
         body.isDynamic = true
@@ -39,7 +42,7 @@ extension Entity {
         let mapController = MapController.shared
         let truncatedDamage = floor(damage * 10) / 10
         let text = "-" + String(truncatedDamage)
-        let textTileMap = TextTileMap(fontType: .light, columns: text.count + 1, rows: 1)
+        let textTileMap = Entity.damageNumbers[0]
         generatePhysicsBody(for: textTileMap)
         textTileMap.color = .red
         textTileMap.colorBlendFactor = 1.0
@@ -60,7 +63,7 @@ extension Entity {
         let mapController = MapController.shared
         let truncatedDamage = floor(heal * 10) / 10
         let text = "+" + String(truncatedDamage)
-        let textTileMap = TextTileMap(fontType: .light, columns: text.count + 1, rows: 1)
+        let textTileMap = Entity.damageNumbers[1]
         generatePhysicsBody(for: textTileMap)
         textTileMap.color = .green
         textTileMap.colorBlendFactor = 1.0

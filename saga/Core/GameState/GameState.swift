@@ -8,20 +8,15 @@
 import SpriteKit
 import Combine
 
-// What I want:
-// 1. Feed touch event in
-// 2. State mutates
-// 3. Things update
-// 4. Ready to accept new state
-
 open class GameState: InputManager, StateMachine {
     var cameraNode: Camera!
     var interface: Interface { Interface.shared }
     var mapController: MapController { MapController.shared }
+    
+    private var cancellables = Set<AnyCancellable>()
 
     var entities = Set<Entity>()
-    var attackHintNodes = [SKSpriteNode]()
-    var hintNodes = [SKTileMapNode]()
+    var abilityHighlightNodes = [SKSpriteNode]()
     var highlightNode: SKSpriteNode?
 
     public private(set) var acting: Bool = false
@@ -49,19 +44,12 @@ open class GameState: InputManager, StateMachine {
     @Published var playerEntity: Entity? = nil
     @Published var highlightedEntity: Entity? = nil {
         didSet {
-            print("highlighted \(highlightedEntity)")
-            if let entity = highlightedEntity, entity.faction == .player {
-                if let ability = entity.selectedAbility {
-                    mapController.removeHintNodes()
-                    mapController.removeAttackNodes()
-                    mapController.addAbilityHints(to: entity, ability: ability)
-                    mapController.addAttackHints(to: entity, ability: ability)
-                } else {
-                    mapController.removeHintNodes()
-                    mapController.removeAttackNodes()
-                    mapController.addMovementHints(to: entity)
-                }
-            }
+            updateHints(highlightedEntity, selectedAbility)
+        }
+    }
+    @Published var selectedAbility: Ability? = nil {
+        didSet {
+            updateHints(highlightedEntity, selectedAbility)
         }
     }
 
@@ -72,10 +60,26 @@ open class GameState: InputManager, StateMachine {
             return
         }
         let activeEntity = currentCombatOrder[currentCombatIndex]
-        
         Selection.shared.highlight(activeEntity)
-        
         self.activeEntity = activeEntity
+    }
+    
+    func setupSubscriptions() {
+    }
+    
+    private func updateHints(_ entity: Entity? = nil, _ ability: Ability? = nil) {
+        if let entity = highlightedEntity, entity.faction == .player {
+            if let ability = selectedAbility {
+                mapController.clearHints(from: entity)
+                mapController.clearAttackHints()
+                mapController.setRangeHints(on: entity, ability: ability)
+                mapController.addAttackHints(to: entity, ability: ability)
+            } else {
+                mapController.clearHints(from: entity)
+                mapController.clearAttackHints()
+                mapController.setMovementHints(on: entity)
+            }
+        }
     }
 
     func beginCombat() {
@@ -102,7 +106,7 @@ open class GameState: InputManager, StateMachine {
         if let activeEntity = activeEntity, activeEntity.faction != .player {
             acting = true
             // do an ai here
-            if let position = activeEntity.actionInceptor.createAction() {
+            if let position = activeEntity.ai.createAction() {
                 aiInput(position, .move) { success in
                     if success {
                         self.advanceTurn()
@@ -257,15 +261,6 @@ open class GameState: InputManager, StateMachine {
         acting = false
         currentCombatIndex = (currentCombatIndex + 1) % currentCombatOrder.count
         updateActiveEntity()
-//        if let activeEntity = activeEntity, activeEntity.faction != .player {
-//            // do an ai here
-//            if let position = activeEntity.actionInceptor.createAction() {
-//                aiInput(position, .move)
-//            } else {
-//                aiInput(nil)
-//            }
-//            // activeEntity.offerTurn()
-//        }
     }
 
     // MARK: --------------------
@@ -282,7 +277,6 @@ open class GameState: InputManager, StateMachine {
     func addChild(_ entity: Entity) {
         entities.insert(entity)
         entity.entityDelegate = self
-        mapController.addChild(entity)
     }
     
     func addChildren(_ entities: [Entity]) {
@@ -293,7 +287,6 @@ open class GameState: InputManager, StateMachine {
     
     func removeChild(_ entity: Entity) {
         entities.remove(entity)
-        mapController.removeChild(entity)
         if inCombat { recalculateCombatOrder() }
     }
     

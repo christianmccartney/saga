@@ -9,21 +9,6 @@ import Foundation
 import CoreGraphics
 import SpriteKit
 
-// Lol
-//enum Mix<T: FloatingPoint> {
-//    case mix
-//
-//    func mix(_ easeA: Easing, _ curveA: Curve, _ easeB: Easing, _ curveB: Curve, weight: T) -> SKActionTimingFunction where T == Float {
-//        return mix(easeA.curve(curveA), easeB.curve(curveB), weight: weight)
-//    }
-//
-//    private func mix(_ easeA: (T) -> T, _ easeB: (T) -> T, weight: T, _ x: T) -> T {
-//        (1 - weight) * easeA + weight * easeB
-//    }
-//}
-//
-
-
 enum Curve {
     case cubic
     case quintic

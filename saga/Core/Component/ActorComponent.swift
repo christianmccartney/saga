@@ -8,15 +8,4 @@
 import SpriteKit
 import GameplayKit
 
-public class ActorComponent: Component {
-    public override func didAddToEntity() {
-    }
-
-    public override func willRemoveFromEntity() {
-        
-    }
-
-    public override func update(deltaTime seconds: TimeInterval) {
-        
-    }
-}
+public class ActorComponent: Component {}

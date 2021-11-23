@@ -20,6 +20,9 @@ public class MapController {
     var mapGenerator: MapGenerator
     var roomMap: RoomMap!
     
+    private var mapController: MapController { MapController.shared }
+    private var inited: Bool = false
+    
     private init(tileSet: TileSet, mapGenerator: MapGenerator) {
         self.tileSet = tileSet
         self.mapGenerator = mapGenerator
@@ -46,10 +49,14 @@ public class MapController {
         }
         
         for entity in filledMap.entities {
-            gameState.addChild(entity)
+            mapController.addChild(entity)
 //            entity.updatePosition()
         }
-        gameState.addChild(map)
+        
+        if !inited {
+            gameState.addChild(map)
+            inited = true
+        }
     }
     
     func generateMap(tileSet: TileSet, mapGenerator: MapGenerator) {
@@ -63,6 +70,8 @@ public class MapController {
 // MARK: Accessing map properties
 extension MapController {
     func centerOfTile(_ x: Int, _ y: Int) -> CGPoint { map.centerOfTile(atColumn: x, row: y) }
+    func tileColumnIndex(_ position: CGPoint) -> Int { map.tileColumnIndex(fromPosition: position) }
+    func tileRowIndex(_ position: CGPoint) -> Int { map.tileRowIndex(fromPosition: position) }
     
     func fill() {
         map.fill(with: nil)
@@ -71,31 +80,30 @@ extension MapController {
 
 // MARK: Adding and removing
 extension MapController {
-    func addHintNode(_ node: SKTileMapNode) {
-        gameState.hintNodes.append(node)
+    func addAbilityNodes(_ node: SKSpriteNode) {
+        gameState.abilityHighlightNodes.append(node)
         map.addChild(node)
     }
     
-    func removeHintNodes() {
-        map.removeChildren(in: gameState.hintNodes)
-        gameState.hintNodes = []
-    }
-
-    func addAttackNode(_ node: SKSpriteNode) {
-        gameState.attackHintNodes.append(node)
-        map.addChild(node)
-    }
-    
-    func removeAttackNodes() {
-        gameState.removeChildren(in: gameState.attackHintNodes)
+    func removeAbilityNodes() {
+        map.removeChildren(in: gameState.abilityHighlightNodes)
+        gameState.abilityHighlightNodes = []
     }
 
     func addChild(_ entity: Entity) {
         map.addChild(entity.spriteNode)
+        gameState.addChild(entity)
+    }
+
+    func addChildren( _ entities: [Entity]) {
+        for entity in entities {
+            addChild(entity)
+        }
     }
     
     func removeChild(_ entity: Entity) {
         map.removeChildren(in: [entity.spriteNode])
+        gameState.removeChild(entity)
     }
     
     func removeChildren(_ entities: [Entity]) {
@@ -120,11 +128,5 @@ extension MapController {
     
     func removeChildren(in nodes: [SKNode]) {
         map.removeChildren(in: nodes)
-    }
-    
-    func removeAll() {
-        removeHintNodes()
-        removeAttackNodes()
-        map.removeAllChildren()
     }
 }

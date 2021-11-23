@@ -57,7 +57,7 @@ final class CoreScene: GameState {
 
         cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
 
-        addChildren([fighterEntity])//, jellyEntity, archerEntity, catEntity, druidEntity, angelEntity])
+        mapController.addChildren([fighterEntity])//, jellyEntity, archerEntity, catEntity, druidEntity, angelEntity])
         fighterEntity.abilities = [fireball, iceball, voidball]
 
 //        let bedObject = StaticObject(type: .bed, position: Position(10, 15), entityDelegate: self)
@@ -69,6 +69,7 @@ final class CoreScene: GameState {
             break
         }
         
+        setupSubscriptions()
         interface.update()
         updatePositions()
         focusOnActive()
@@ -140,7 +141,6 @@ extension DefaultStringInterpolation {
 extension CoreScene {
     func refreshMap() {
         guard let player = entities.first(where: { $0.faction == .player }) else { return }
-        mapController.removeAll()
         mapController.fill()
     }
     

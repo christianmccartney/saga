@@ -7,12 +7,6 @@
 
 import SpriteKit
 
-//    emitter.particleColorSequence = SKKeyframeSequence(keyframeValues: [SKColor.yellow,
-//                                                                        SKColor.red,
-//                                                                        SKColor.lightGray,
-//                                                                        SKColor.gray],
-//                                                       times: [0, 0.25, 0.5, 1])
-
 typealias DeathAnimation = ((Entity) -> Void)
 
 let bloodFountainAnimation: DeathAnimation = { entity in

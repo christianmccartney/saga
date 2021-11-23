@@ -10,6 +10,7 @@ import GameplayKit
 
 protocol StateMachine {
     func pause(_ pause: Bool)
+    
     // Adding/Removing things
     func addChild(_ entity: Entity)
     func addChildren(_ entities: [Entity])
@@ -17,7 +18,7 @@ protocol StateMachine {
     func removeChild(_ entity: Entity)
     func removeChildren(_ entities: [Entity])
 
-    // when an entity needs to be added to the gameloop but not the map
+    // When an entity needs to be added to the gameloop but not the map, this is used in EntityWindow
     func track(_ entity: Entity)
     func untrack(_ entity: Entity)
 
@@ -26,7 +27,6 @@ protocol StateMachine {
 
     // Entity manipulation
     var activeEntity: Entity? { get }
-
     func updatePositions()
 
     // Game State
@@ -34,6 +34,3 @@ protocol StateMachine {
     var inCombat: Bool { get set }
     func beginCombat()
 }
-
-//extension GameState: StateMachine {
-//}

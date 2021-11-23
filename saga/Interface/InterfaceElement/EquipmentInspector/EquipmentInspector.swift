@@ -32,6 +32,5 @@ class EquipmentInspector: InterfaceElement {
 
     override func setupButtons() {
         closeButton.position = centerOfTile(atColumn: numberOfColumns - 1, row: numberOfRows - 1)
-        
     }
 }

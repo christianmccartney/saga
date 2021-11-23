@@ -41,15 +41,15 @@ final class Creature: Entity {
                    entityDelegate: entityDelegate)
         switch faction {
         case .player:
-            self.actionInceptor = PlayerEntityActionInceptor()
+            self.ai = PlayerEntityAI()
         case .friendly:
-            self.actionInceptor = NeutralEntityActionInceptor()
+            self.ai = NeutralEntityAI()
         case .neutral:
-            self.actionInceptor = NeutralEntityActionInceptor()
+            self.ai = NeutralEntityAI()
         case .enemy:
-            self.actionInceptor = NeutralEntityActionInceptor()
+            self.ai = NeutralEntityAI()
         }
-        self.actionInceptor.entity = self
+        self.ai.entity = self
         self.addComponent(IdleComponent())
         System.shared.addEntity(self)
     }

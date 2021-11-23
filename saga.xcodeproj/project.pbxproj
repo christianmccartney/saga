@@ -26,7 +26,6 @@
 		52616F11273F67AC0084DC74 /* DamagingAbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F10273F67AC0084DC74 /* DamagingAbility.swift */; };
 		52616F13273F680F0084DC74 /* MovementAbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F12273F680F0084DC74 /* MovementAbility.swift */; };
 		52616F15273F684F0084DC74 /* HealingAbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F14273F684F0084DC74 /* HealingAbility.swift */; };
-		52616F17273F6CB70084DC74 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F16273F6CB70084DC74 /* Range.swift */; };
 		52616F192741AFC30084DC74 /* AbilityAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F182741AFC30084DC74 /* AbilityAnimation.swift */; };
 		52616F1C2741B14D0084DC74 /* BasicAttackAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F1B2741B14D0084DC74 /* BasicAttackAnimations.swift */; };
 		52616F1E2741B8A10084DC74 /* EffectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52616F1D2741B8A10084DC74 /* EffectType.swift */; };
@@ -34,7 +33,6 @@
 		526AAC9F27102556009E10D4 /* sagaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAC9E27102556009E10D4 /* sagaTests.swift */; };
 		526AACA927102556009E10D4 /* sagaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACA827102556009E10D4 /* sagaUITests.swift */; };
 		526AACAB27102556009E10D4 /* sagaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACAA27102556009E10D4 /* sagaUITestsLaunchTests.swift */; };
-		526AACF427102662009E10D4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 526AACBE27102662009E10D4 /* Actions.sks */; };
 		526AACF627102662009E10D4 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACC127102662009E10D4 /* MapController.swift */; };
 		526AACF727102662009E10D4 /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACC327102662009E10D4 /* CGSize.swift */; };
 		526AACF827102662009E10D4 /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AACC427102662009E10D4 /* CGPoint.swift */; };
@@ -66,7 +64,6 @@
 		526AAD5D2713CB59009E10D4 /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD5C2713CB59009E10D4 /* StateMachine.swift */; };
 		526AAD602713CD2F009E10D4 /* IdleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD5F2713CD2F009E10D4 /* IdleComponent.swift */; };
 		526AAD612713CF5B009E10D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 526AACB727102662009E10D4 /* Assets.xcassets */; };
-		526AAD632713D8C6009E10D4 /* MoveableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD622713D8C6009E10D4 /* MoveableComponent.swift */; };
 		526AAD652713D933009E10D4 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD642713D933009E10D4 /* Component.swift */; };
 		526AAD6927160D76009E10D4 /* StaticObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD6827160D76009E10D4 /* StaticObject.swift */; };
 		526AAD6B27160D81009E10D4 /* DynamicObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AAD6A27160D81009E10D4 /* DynamicObject.swift */; };
@@ -77,7 +74,6 @@
 		526C680D2723577700BCB225 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C680C2723577700BCB225 /* Constants.swift */; };
 		526C681027235A2A00BCB225 /* Ability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C680F27235A2A00BCB225 /* Ability.swift */; };
 		526C681227235F4200BCB225 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 526C681127235F4200BCB225 /* README.md */; };
-		526C681427236C5400BCB225 /* AbilityLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C681327236C5400BCB225 /* AbilityLibrary.swift */; };
 		526C681627236C6D00BCB225 /* AbilityTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C681527236C6D00BCB225 /* AbilityTarget.swift */; };
 		526C681827236EDC00BCB225 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C681727236EDC00BCB225 /* MainView.swift */; };
 		526C681A27239DA800BCB225 /* EntityDamage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C681927239DA800BCB225 /* EntityDamage.swift */; };
@@ -138,6 +134,9 @@
 		52F0EC35271B6AE8000D5B44 /* InterfaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */; };
 		52F0EC37271B7BE5000D5B44 /* BSPGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC36271B7BE5000D5B44 /* BSPGenerator.swift */; };
 		52F0EC39271B88FE000D5B44 /* InterfaceElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0EC38271B88FE000D5B44 /* InterfaceElement.swift */; };
+		52F35198274DA35F00421E92 /* TextDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F35197274DA35F00421E92 /* TextDefinition.swift */; };
+		52F3519A274DA37D00421E92 /* TextTileGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F35199274DA37D00421E92 /* TextTileGroup.swift */; };
+		52F3519C274DA39900421E92 /* TextTileSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F3519B274DA39900421E92 /* TextTileSet.swift */; };
 		52FED4EA272CBCE100B9DB55 /* WeaponBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FED4E9272CBCE100B9DB55 /* WeaponBlueprint.swift */; };
 		52FED4ED272CCA3200B9DB55 /* SwordBlueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FED4EC272CCA3200B9DB55 /* SwordBlueprint.swift */; };
 		52FED502272CDCEC00B9DB55 /* EquipmentInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FED501272CDCEC00B9DB55 /* EquipmentInspector.swift */; };
@@ -183,7 +182,6 @@
 		52616F10273F67AC0084DC74 /* DamagingAbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DamagingAbility.swift; sourceTree = "<group>"; };
 		52616F12273F680F0084DC74 /* MovementAbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementAbility.swift; sourceTree = "<group>"; };
 		52616F14273F684F0084DC74 /* HealingAbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealingAbility.swift; sourceTree = "<group>"; };
-		52616F16273F6CB70084DC74 /* Range.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
 		52616F182741AFC30084DC74 /* AbilityAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilityAnimation.swift; sourceTree = "<group>"; };
 		52616F1B2741B14D0084DC74 /* BasicAttackAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAttackAnimations.swift; sourceTree = "<group>"; };
 		52616F1D2741B8A10084DC74 /* EffectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectType.swift; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 		526AACA827102556009E10D4 /* sagaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sagaUITests.swift; sourceTree = "<group>"; };
 		526AACAA27102556009E10D4 /* sagaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sagaUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		526AACB727102662009E10D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		526AACBE27102662009E10D4 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		526AACC127102662009E10D4 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		526AACC327102662009E10D4 /* CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
 		526AACC427102662009E10D4 /* CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
@@ -227,7 +224,6 @@
 		526AAD1C271030DC009E10D4 /* saga.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = saga.entitlements; sourceTree = "<group>"; };
 		526AAD5C2713CB59009E10D4 /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 		526AAD5F2713CD2F009E10D4 /* IdleComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleComponent.swift; sourceTree = "<group>"; };
-		526AAD622713D8C6009E10D4 /* MoveableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveableComponent.swift; sourceTree = "<group>"; };
 		526AAD642713D933009E10D4 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		526AAD6827160D76009E10D4 /* StaticObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticObject.swift; sourceTree = "<group>"; };
 		526AAD6A27160D81009E10D4 /* DynamicObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicObject.swift; sourceTree = "<group>"; };
@@ -238,7 +234,6 @@
 		526C680C2723577700BCB225 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		526C680F27235A2A00BCB225 /* Ability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ability.swift; sourceTree = "<group>"; };
 		526C681127235F4200BCB225 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		526C681327236C5400BCB225 /* AbilityLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilityLibrary.swift; sourceTree = "<group>"; };
 		526C681527236C6D00BCB225 /* AbilityTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbilityTarget.swift; sourceTree = "<group>"; };
 		526C681727236EDC00BCB225 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		526C681927239DA800BCB225 /* EntityDamage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDamage.swift; sourceTree = "<group>"; };
@@ -301,6 +296,9 @@
 		52F0EC34271B6AE8000D5B44 /* InterfaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceType.swift; sourceTree = "<group>"; };
 		52F0EC36271B7BE5000D5B44 /* BSPGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSPGenerator.swift; sourceTree = "<group>"; };
 		52F0EC38271B88FE000D5B44 /* InterfaceElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceElement.swift; sourceTree = "<group>"; };
+		52F35197274DA35F00421E92 /* TextDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDefinition.swift; sourceTree = "<group>"; };
+		52F35199274DA37D00421E92 /* TextTileGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTileGroup.swift; sourceTree = "<group>"; };
+		52F3519B274DA39900421E92 /* TextTileSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTileSet.swift; sourceTree = "<group>"; };
 		52FED4E9272CBCE100B9DB55 /* WeaponBlueprint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeaponBlueprint.swift; sourceTree = "<group>"; };
 		52FED4EC272CCA3200B9DB55 /* SwordBlueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwordBlueprint.swift; sourceTree = "<group>"; };
 		52FED501272CDCEC00B9DB55 /* EquipmentInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquipmentInspector.swift; sourceTree = "<group>"; };
@@ -378,7 +376,6 @@
 		52616F0F273F679B0084DC74 /* AbilityLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				526C681327236C5400BCB225 /* AbilityLibrary.swift */,
 				52616F10273F67AC0084DC74 /* DamagingAbility.swift */,
 				52616F14273F684F0084DC74 /* HealingAbility.swift */,
 				52616F12273F680F0084DC74 /* MovementAbility.swift */,
@@ -425,7 +422,6 @@
 		526AAC8327102554009E10D4 /* saga */ = {
 			isa = PBXGroup;
 			children = (
-				526AACBD27102662009E10D4 /* Actions */,
 				526AACEC27102662009E10D4 /* Camera */,
 				526AACDC27102662009E10D4 /* Core */,
 				526AACCB27102662009E10D4 /* Entity */,
@@ -460,14 +456,6 @@
 			path = sagaUITests;
 			sourceTree = "<group>";
 		};
-		526AACBD27102662009E10D4 /* Actions */ = {
-			isa = PBXGroup;
-			children = (
-				526AACBE27102662009E10D4 /* Actions.sks */,
-			);
-			path = Actions;
-			sourceTree = "<group>";
-		};
 		526AACC227102662009E10D4 /* Math */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,7 +465,6 @@
 				52B192AE271CE93100EE0D00 /* CGRect.swift */,
 				526C68202723AF3000BCB225 /* CGFloat.swift */,
 				526C681E2723AE4700BCB225 /* Easing.swift */,
-				52616F16273F6CB70084DC74 /* Range.swift */,
 			);
 			path = Math;
 			sourceTree = "<group>";
@@ -589,7 +576,6 @@
 			children = (
 				526AAD642713D933009E10D4 /* Component.swift */,
 				526AAD5F2713CD2F009E10D4 /* IdleComponent.swift */,
-				526AAD622713D8C6009E10D4 /* MoveableComponent.swift */,
 				52B2EA0D2742B12E004AFB29 /* ActorComponent.swift */,
 			);
 			path = Component;
@@ -756,8 +742,11 @@
 		52B1929F271B917A00EE0D00 /* Text */ = {
 			isa = PBXGroup;
 			children = (
-				52B192B0271D293A00EE0D00 /* TextTileMap.swift */,
 				526AACDA27102662009E10D4 /* FontType.swift */,
+				52B192B0271D293A00EE0D00 /* TextTileMap.swift */,
+				52F35199274DA37D00421E92 /* TextTileGroup.swift */,
+				52F3519B274DA39900421E92 /* TextTileSet.swift */,
+				52F35197274DA35F00421E92 /* TextDefinition.swift */,
 			);
 			path = Text;
 			sourceTree = "<group>";
@@ -956,7 +945,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				526AAD612713CF5B009E10D4 /* Assets.xcassets in Resources */,
-				526AACF427102662009E10D4 /* Actions.sks in Resources */,
 				526C681227235F4200BCB225 /* README.md in Resources */,
 				52B2EA0427423B23004AFB29 /* Assets.xcassets in Resources */,
 				526AAD0F27102662009E10D4 /* CoreScene.sks in Resources */,
@@ -1025,12 +1013,12 @@
 				52B1929E271B8F4B00EE0D00 /* EntityInspector.swift in Sources */,
 				52616F15273F684F0084DC74 /* HealingAbility.swift in Sources */,
 				529D68E727190E1A00CADD63 /* RandomRoomGenerator.swift in Sources */,
-				526C681427236C5400BCB225 /* AbilityLibrary.swift in Sources */,
 				52B192C42720EB5100EE0D00 /* EntityWindow.swift in Sources */,
 				529D68E927190E7400CADD63 /* Room.swift in Sources */,
 				52B192BE271FF42100EE0D00 /* Statistic.swift in Sources */,
 				521C882A274C5ED3006FB753 /* RoomLocation.swift in Sources */,
 				526C681627236C6D00BCB225 /* AbilityTarget.swift in Sources */,
+				52F3519A274DA37D00421E92 /* TextTileGroup.swift in Sources */,
 				526AAD1927102662009E10D4 /* Camera.swift in Sources */,
 				526AACF827102662009E10D4 /* CGPoint.swift in Sources */,
 				526AAD1227102662009E10D4 /* DoorType.swift in Sources */,
@@ -1048,7 +1036,6 @@
 				52B192CF2721541000EE0D00 /* EntityDelegate.swift in Sources */,
 				52790B912723F20800198FC9 /* FileManager.swift in Sources */,
 				526AAD1727102662009E10D4 /* WarpTile.swift in Sources */,
-				526AAD632713D8C6009E10D4 /* MoveableComponent.swift in Sources */,
 				526AAD0027102662009E10D4 /* EntityType.swift in Sources */,
 				526C680D2723577700BCB225 /* Constants.swift in Sources */,
 				52B2EA102742B1E7004AFB29 /* ActorSystem.swift in Sources */,
@@ -1066,12 +1053,12 @@
 				52790B9C272660BA00198FC9 /* FMPaletteViews.swift in Sources */,
 				52314AA427476A1F002D7839 /* SKTileMapNode.swift in Sources */,
 				52B2EA122746FBED004AFB29 /* Emitter.swift in Sources */,
+				52F35198274DA35F00421E92 /* TextDefinition.swift in Sources */,
 				526AACF727102662009E10D4 /* CGSize.swift in Sources */,
 				526AAD1427102662009E10D4 /* Object.swift in Sources */,
 				526AAD6D27161417009E10D4 /* Creature.swift in Sources */,
 				526C681D2723A9FC00BCB225 /* AbilityChecker.swift in Sources */,
 				52790BA127269A4D00198FC9 /* FMPaletteColors.swift in Sources */,
-				52616F17273F6CB70084DC74 /* Range.swift in Sources */,
 				52790B842723E83200198FC9 /* ResourceBar.swift in Sources */,
 				52B192C92721135100EE0D00 /* System.swift in Sources */,
 				52F0EC39271B88FE000D5B44 /* InterfaceElement.swift in Sources */,
@@ -1110,6 +1097,7 @@
 				52790BBA2728E29E00198FC9 /* WeaponForm.swift in Sources */,
 				526AAD0127102662009E10D4 /* EntityStatistic.swift in Sources */,
 				52B2EA0E2742B12E004AFB29 /* ActorComponent.swift in Sources */,
+				52F3519C274DA39900421E92 /* TextTileSet.swift in Sources */,
 				526AAD0227102662009E10D4 /* EntityFaction.swift in Sources */,
 				52790BB02727622000198FC9 /* WeaponGenerator.swift in Sources */,
 				526AAD602713CD2F009E10D4 /* IdleComponent.swift in Sources */,

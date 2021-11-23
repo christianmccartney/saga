@@ -29,12 +29,14 @@ class BottomBar: InterfaceElement {
         
         let swordButton = Button(type: .sword, toggleable: true, action: { [weak self] button in
             guard let self = self else { return }
+            self.coreScene.selectedAbility = strAttack
             self.coreScene?.playerEntity?.selectedAbility = strAttack
             self.toggleOthers(button: button)
         }, actionOff: { [weak self] _ in self?.resetAbility() })
     
         let dashButton = Button(type: .arrow_right, toggleable: true, action: { [weak self] button in
             guard let self = self else { return }
+            self.coreScene.selectedAbility = dash
             self.coreScene?.playerEntity?.selectedAbility = dash
             self.toggleOthers(button: button)
         }, actionOff: { [weak self] _ in self?.resetAbility() })
@@ -52,7 +54,8 @@ class BottomBar: InterfaceElement {
         return Button(type: .ability(ability), toggleable: true, action: { [weak self] button in
             guard let self = self else { return }
             guard case .ability(let ability) = button.type else { return }
-            self.coreScene?.playerEntity?.selectedAbility = ability
+            self.coreScene.selectedAbility = ability
+            self.coreScene.playerEntity?.selectedAbility = ability
             self.toggleOthers(button: button)
         }, actionOff: { [weak self] _ in self?.resetAbility() })
     }
@@ -65,6 +68,7 @@ class BottomBar: InterfaceElement {
 
     private func resetAbility() {
         if self.buttons.allSatisfy({ !$0.isPressed }) {
+            self.coreScene.selectedAbility = nil
             self.coreScene?.playerEntity?.selectedAbility = nil
         }
     }
