@@ -17,7 +17,7 @@ class SideBar: InterfaceElement {
             tileSize: tileSet.defaultTileSize)
         anchorPoint = CGPoint(x: 1.0, y: 0.5)
         enableAutomapping = false
-        fillWithEdges(tileSet.tileGroups.first!)
+        fillSquare(tileSet.tileGroups.first!)
     
         let bagButton = Button(type: .bag, action: { [weak self] button in
             guard let self = self else { return }

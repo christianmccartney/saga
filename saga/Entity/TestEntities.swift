@@ -76,3 +76,24 @@ let angelEntity =   Creature(type: .angel,
                              faction: .enemy,
                              position: Position(16, 10),
                              statistics: angelStats)
+
+let fireball = Ability(name: "fireball",
+                       targets: [.enemy, .neutral, .none],
+                       abilityChecker: IntelligenceDamageAbilityChecker(),
+                       abilityTextureName: EffectType.fireball.rawValue,
+                       abilityAnimation: fireballAttackAnimation,
+                       abilityDeathAnimation: fireballDeathAnimation)
+
+let iceball = Ability(name: "iceball",
+                       targets: [.enemy, .neutral, .none],
+                       abilityChecker: IntelligenceDamageAbilityChecker(),
+                       abilityTextureName: EffectType.iceball.rawValue,
+                       abilityAnimation: iceballAttackAnimation,
+                       abilityDeathAnimation: iceballDeathAnimation)
+
+let voidball = Ability(name: "voidball",
+                       targets: [.enemy, .neutral, .none],
+                       abilityChecker: IntelligenceDamageAbilityChecker(),
+                       abilityTextureName: EffectType.voidball.rawValue,
+                       abilityAnimation: voidballAttackAnimation,
+                       abilityDeathAnimation: voidballDeathAnimation)

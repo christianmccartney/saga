@@ -10,3 +10,16 @@ TODOs:
 6. Add new file dialogue to name new images
 7. Need to distinguish different types of moves, eg. walked pushed teleported etc
 8. Figure out what happens when an entity dies
+9. When the turns are cycling quickly sometimes it will remove an entity while we are highlighting the correct entity, thereby unselecting it
+10. Add comments for all types
+11. Theres a better way to do entity position and sprite position, having them seperate has been causing issues
+12. If I want objects to block projectiles Im going to need to figure out a more robust system, especially since not all projectiles go on straight paths.
+13. Related to 12, UI to indicate hit chance
+14. Building the grid graph takes a long ass time, I wonder if it would be more efficient to build it as the map is being built
+
+Features:
+1. Autoexplore
+2. Better dungeon generation
+3. Unique weapons by composition
+4. Name weapons to make them your own (canonize)
+5. 

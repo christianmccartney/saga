@@ -6,45 +6,197 @@
 //
 
 import CoreGraphics
+import UIKit
+import SwiftUI
+
+enum GemColor: CaseIterable {
+    case blue
+    case red
+    case green
+    case purple
+    
+    var color: PixelRGBU8 {
+        switch self {
+        case .blue:
+            return .blue
+        case .red:
+            return .red
+        case .green:
+            return .green
+        case .purple:
+            return .purple
+        }
+    }
+}
+
+enum ShapeColor {
+    case clear
+    case metal
+    case metalAccent1
+    case metalAccent2
+    case gold
+    case wood
+    case woodAccent
+    case gem([GemColor])
+    
+    var color: PixelRGBU8 {
+        switch self {
+        case .clear:
+            return .clear
+        case .metal:
+            return .gray
+        case .metalAccent1:
+            return .lGray
+        case .metalAccent2:
+            return .dGray
+        case .gold:
+            return .yellow
+        case .wood:
+            return .dYellow
+        case .woodAccent:
+            return .black
+        case .gem(let colors):
+            return colors.randomElement()?.color ?? .black
+        }
+    }
+}
 
 protocol ShapeMask {
-//    var area: CGSize { get }
-    func contains(_ point: CGPoint) -> Bool
+    var path: UIBezierPath { get }
+    var z: Int { get }
+    var color: ShapeColor { get }
+    func contains(_ point: CGPoint, _ scale: CGVector) -> Bool
+}
+
+extension ShapeMask {
+    func contains(_ point: CGPoint) -> Bool {
+        path.contains(point)
+    }
+}
+
+// This seems bad, delete this probably
+struct LineMask: ShapeMask {
+    var path: UIBezierPath
+    var a: CGPoint
+    var b: CGPoint
+    var z: Int
+    var color: ShapeColor
+
+    init(a: CGPoint, b: CGPoint, z: Int = 0, color: ShapeColor = .clear) {
+        let path = UIBezierPath(rect: CGRect(a, b))
+        self.path = path
+        self.a = a
+        self.b = b
+        self.z = z
+        self.color = color
+    }
+
+    func contains(_ point: CGPoint, _ scale: CGVector) -> Bool {
+        var aOffset = CGPoint(x: 0, y: 0)
+        var bOffset = CGPoint(x: 0, y: 0)
+        if a.y == b.y {
+            aOffset = CGPoint(x: 0.0, y: 1.0)
+        } else if a.x == b.x {
+            bOffset = CGPoint(x: 1.0, y: 0.0)
+        }
+        let path = UIBezierPath(rect: CGRect((a * scale) - aOffset, (b * scale) - bOffset))
+        return path.contains(point)
+    }
 }
 
 struct TriangleMask: ShapeMask {
-    let a: CGPoint
-    let b: CGPoint
-    let c: CGPoint
+    let path: UIBezierPath
+    let z: Int
+    let color: ShapeColor
     
-    // need axis aligned bounding box of triangle
-//    var area: CGSize { CGSize(width: , height: ) }
+    init(a: CGPoint, b: CGPoint, c: CGPoint, z: Int = 0, color: ShapeColor = .clear) {
+        let path = UIBezierPath()
+        path.move(to: a)
+        path.addLine(to: b)
+        path.addLine(to: c)
+        self.path = path
+        self.z = z
+        self.color = color
+    }
     
-    func contains(_ point: CGPoint) -> Bool {
-        let area = 0.5 * (-b.y*c.x + a.y*(-b.x + c.x) + a.x*(b.y - c.y) + b.x*c.y)
-        let s = 1/(2*area)*(a.y*c.x - a.x*c.y + (c.y - a.y)*point.x + (a.x - c.x)*point.y)
-        let t = 1/(2*area)*(a.x*b.y - a.y*b.x + (a.y - b.y)*point.x + (b.x - a.x)*point.y)
-        return s > 0 && t > 0 && (1 - s - t) > 0
+    func contains(_ point: CGPoint, _ scale: CGVector) -> Bool {
+        path.contains(point * scale)
     }
 }
 
 struct RectangleMask: ShapeMask {
-    let a: CGPoint
-    let b: CGPoint
+    let path: UIBezierPath
+    let z: Int
+    let color: ShapeColor
     
-//    var area: CGSize { CGSize(width: b.x - a.x, height: b.y - a.y) }
+    init(a: CGPoint, b: CGPoint, z: Int = 0, color: ShapeColor = .clear) {
+        let path = UIBezierPath(rect: CGRect(a, b))
+        self.path = path
+        self.z = z
+        self.color = color
+    }
     
-    func contains(_ point: CGPoint) -> Bool {
-        return point.x > a.x && point.x < b.x && point.y > a.y && point.y < b.y
+    func contains(_ point: CGPoint, _ scale: CGVector) -> Bool {
+        path.contains(point * scale)
     }
 }
 
 struct CircleMask: ShapeMask {
-    let a: CGPoint
-    let radius: CGFloat
+    let path: UIBezierPath
+    let z: Int
+    let color: ShapeColor
 
-    // less sqrt maybe
-    func contains(_ point: CGPoint) -> Bool {
-        return (radius * radius) <= ((point.x - a.x) * (point.x - a.x)) + ((point.y - a.y) * (point.y - a.y))
+    init(center: CGPoint, radius: CGFloat, startAngle: CGFloat = 0.0, endAngle: CGFloat = 2 * CGFloat.pi, clockwise: Bool = true, z: Int = 0, color: ShapeColor) {
+        self.path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: clockwise)
+        self.z = z
+        self.color = color
+    }
+    
+    func contains(_ point: CGPoint, _ scale: CGVector) -> Bool {
+        path.contains(point * scale)
+    }
+}
+
+struct BezierMask: ShapeMask {
+    let path: UIBezierPath
+    let z: Int
+    let color: ShapeColor
+    
+    init(start: CGPoint, points: [(CGPoint, CGPoint?)], z: Int = 0, color: ShapeColor) {
+        self.path = UIBezierPath()
+        path.move(to: start)
+        for (end, control) in points {
+            if let control = control {
+                path.addQuadCurve(to: end, controlPoint: control)
+            } else {
+                path.addLine(to: end)
+            }
+        }
+        path.close()
+        self.z = z
+        self.color = color
+    }
+
+    init(start: CGPoint, points: [(CGPoint, CGPoint?, CGPoint?)], z: Int = 0, color: ShapeColor) {
+        self.path = UIBezierPath()
+        path.move(to: start)
+        for (end, control1, control2) in points {
+            if let control1 = control1 {
+                if let control2 = control2 {
+                    path.addCurve(to: end, controlPoint1: control1, controlPoint2: control2)
+                } else {
+                    path.addQuadCurve(to: end, controlPoint: control1)
+                }
+            } else {
+                path.addLine(to: end)
+            }
+        }
+        path.close()
+        self.z = z
+        self.color = color
+    }
+    
+    func contains(_ point: CGPoint, _ scale: CGVector) -> Bool {
+        path.contains(point * scale)
     }
 }

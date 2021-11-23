@@ -16,7 +16,7 @@ class EquipmentInspector: InterfaceElement {
             rows: rows,
             tileSize: tileSet.defaultTileSize)
         enableAutomapping = false
-        fillWithEdges(tileSet.tileGroups.first!)
+        fillSquare(tileSet.tileGroups.first!)
         anchorPoint = CGPoint(x: 0.5, y: 0.4)
         
         self.closeButton = Button(type: .close_stone, action: { [weak self] _ in

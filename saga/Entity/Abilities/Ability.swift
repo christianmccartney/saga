@@ -14,12 +14,14 @@ class Ability {
     var abilityTextureName: String
     var abilityTexture: SKTexture
     var abilityAnimation: AbilityAnimation
+    var abilityDeathAnimation: DeathAnimation
 
     public init(name: String,
                 targets: [AbilityTarget],
                 abilityChecker: AbilityChecker,
                 abilityTextureName: String,
-                abilityAnimation: @escaping AbilityAnimation = defaultAbilityAnimation) {
+                abilityAnimation: @escaping AbilityAnimation = defaultAbilityAnimation,
+                abilityDeathAnimation: @escaping DeathAnimation = bloodFountainAnimation) {
         self.name = name
         self.targets = targets
         self.abilityChecker = abilityChecker
@@ -27,6 +29,7 @@ class Ability {
         self.abilityTexture.filteringMode = .nearest
         self.abilityTextureName = abilityTextureName
         self.abilityAnimation = abilityAnimation
+        self.abilityDeathAnimation = abilityDeathAnimation
     }
 
     func checkAvailable(caster: Entity, target: Entity?, position: Position) -> AbilityTarget? {
@@ -38,65 +41,78 @@ class Ability {
         return nil
     }
 
-    func act(from caster: Entity, on target: Entity?, position: Position) async -> Bool {
-        guard let targetType = checkAvailable(caster: caster, target: target, position: position) else { return false }
-        if let manaCost = abilityChecker.manaCost, manaCost > caster.statistics.mana { return false }
-        if let healthCost = abilityChecker.healthCost, healthCost > caster.statistics.health { return false }
-        await abilityAnimation(caster, target, position)
+    func act(from caster: Entity, on target: Entity?, position: Position, _ closure: @escaping (Bool) -> Void) {
+        var target = target
+        if let t = target, !t.attackable {
+            target = nil
+        }
+        guard let targetType = checkAvailable(caster: caster, target: target, position: position) else {
+            closure(false)
+            return
+        }
+        if let manaCost = abilityChecker.manaCost, manaCost > caster.statistics.mana {
+            closure(false)
+            return
+        }
+        if let healthCost = abilityChecker.healthCost, healthCost > caster.statistics.health {
+            closure(false)
+            return
+        }
+        abilityAnimation(caster, target, position) {
+            if let manaCost = self.abilityChecker.manaCost {
+                self.applyManaDamage(damage: manaCost, to: caster)
+            }
+            if let healthCost = self.abilityChecker.healthCost {
+                self.applyHealthDamage(damage: healthCost, to: caster)
+            }
+            
+            if let damage = self.abilityChecker.damageCheck(caster, target, targetType) {
+                if let casterHealthDamage = damage.casterHealthManaDelta.0 {
+                    self.applyHealthDamage(damage: casterHealthDamage, to: caster)
+                }
+                if let casterManaDamage = damage.casterHealthManaDelta.1 {
+                    self.applyManaDamage(damage: casterManaDamage, to: caster)
+                }
+                if let target = target {
+                    if let targetHealthDamage = damage.targetHealthManaDelta.0 {
+                        self.applyHealthDamage(damage: targetHealthDamage, to: target)
+                    }
+                    if let targetManaDamage = damage.targetHealthManaDelta.1 {
+                        self.applyManaDamage(damage: targetManaDamage, to: target)
+                    }
+                }
+            }
         
-        if let manaCost = abilityChecker.manaCost {
-            applyManaDamage(damage: manaCost, to: caster)
-        }
-        if let healthCost = abilityChecker.healthCost {
-            applyHealthDamage(damage: healthCost, to: caster)
-        }
+            if let heal = self.abilityChecker.healCheck(caster, target, targetType) {
+                if let casterHealthHeal = heal.casterHealthManaDelta.0 {
+                    self.applyHealthHeal(heal: casterHealthHeal, to: caster)
+                }
+                if let casterManaHeal = heal.casterHealthManaDelta.1 {
+                    self.applyManaHeal(heal: casterManaHeal, to: caster)
+                }
+                if let target = target {
+                    if let targetHealthHeal = heal.targetHealthManaDelta.0 {
+                        self.applyHealthHeal(heal: targetHealthHeal, to: target)
+                    }
+                    if let targetManaHeal = heal.targetHealthManaDelta.1 {
+                        self.applyManaHeal(heal: targetManaHeal, to: target)
+                    }
+                }
+            }
         
-        if let damage = abilityChecker.damageCheck(caster, target, targetType) {
-            if let casterHealthDamage = damage.casterHealthManaDelta.0 {
-                applyHealthDamage(damage: casterHealthDamage, to: caster)
-            }
-            if let casterManaDamage = damage.casterHealthManaDelta.1 {
-                applyManaDamage(damage: casterManaDamage, to: caster)
-            }
-            if let target = target {
-                if let targetHealthDamage = damage.targetHealthManaDelta.0 {
-                    applyHealthDamage(damage: targetHealthDamage, to: target)
-                }
-                if let targetManaDamage = damage.targetHealthManaDelta.1 {
-                    applyManaDamage(damage: targetManaDamage, to: target)
-                }
-            }
-        }
-    
-        if let heal = abilityChecker.healCheck(caster, target, targetType) {
-            if let casterHealthHeal = heal.casterHealthManaDelta.0 {
-                applyHealthHeal(heal: casterHealthHeal, to: caster)
-            }
-            if let casterManaHeal = heal.casterHealthManaDelta.1 {
-                applyManaHeal(heal: casterManaHeal, to: caster)
-            }
-            if let target = target {
-                if let targetHealthHeal = heal.targetHealthManaDelta.0 {
-                    applyHealthHeal(heal: targetHealthHeal, to: target)
-                }
-                if let targetManaHeal = heal.targetHealthManaDelta.1 {
-                    applyManaHeal(heal: targetManaHeal, to: target)
-                }
-            }
-        }
-    
-//        abilityChecker.statChangeCheck(caster, target, targetType)
+    //        self.abilityChecker.statChangeCheck(caster, target, targetType)
 
-        if let movement = abilityChecker.movementCheck(caster, target, position: position) {
-            if let casterNewPosition = movement.casterNewPosition {
-                await caster.move(to: casterNewPosition)
-            }
-            if let target = target, let targetNewPosition = movement.targetNewPosition {
-                await target.move(to: targetNewPosition)
-            }
+//            if let movement = self.abilityChecker.movementCheck(caster, target, position: position) {
+//                if let casterNewPosition = movement.casterNewPosition {
+//                    caster.move(to: casterNewPosition) {}
+//                }
+//                if let target = target, let targetNewPosition = movement.targetNewPosition {
+//                    target.move(to: targetNewPosition) {}
+//                }
+//            }
+            
+            closure(true)
         }
-
-        return true
     }
 
     private func applyHealthDamage(damage: Float, to entity: Entity) {
@@ -104,7 +120,7 @@ class Ability {
         entity.statistics.health -= damage
         entity.applyDamage(damage: damage, position: position)
         if entity.statistics.health < 0 {
-            ActorSystem.shared.enqueueAction(bloodFountainAnimation, entity)
+            ActorSystem.shared.enqueueAction(abilityDeathAnimation, entity)
         }
     }
 

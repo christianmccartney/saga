@@ -15,13 +15,11 @@ import SpriteKit
 
 typealias DeathAnimation = ((Entity) -> Void)
 
-
-//@MainActor
 let bloodFountainAnimation: DeathAnimation = { entity in
     guard let map = entity.map, let entityPosition = entity.mapPosition,
           let explosionTextures = AnimatedEffect.textures[.bloodImpact],
           let gameState = map.mapSet?.gameState else { return }
-    let emitter = GravityEmitter(type: .blood, acceleration: 0, position: entityPosition)
+    let emitter = GravityEmitter(type: .bits(.red), acceleration: 0, position: entityPosition)
     map.addChild(emitter)
     map.mapSet?.gameState?.removeChild(entity)
     
@@ -34,6 +32,8 @@ let bloodFountainAnimation: DeathAnimation = { entity in
     }
     
     let bloodPoolObject = StaticObject(type: .blood_a, position: entity.position, entityDelegate: gameState)
+    bloodPoolObject.selectable = false
+    bloodPoolObject.attackable = false
     gameState.addChild(bloodPoolObject)
     bloodPoolObject.updatePosition()
     

@@ -24,8 +24,13 @@ import UIKit
 
 struct WeaponDefinition {
     let type: WeaponType
-    let components: Set<WeaponComponent>
+    let componentForms: Set<WeaponComponentForm>
     let property: WeaponProperty
+}
+
+struct WeaponComponentForm: Hashable {
+    let component: WeaponComponent
+    let form: WeaponForm
 }
 
 class WeaponGenerator {
@@ -35,10 +40,10 @@ class WeaponGenerator {
 
     func generateBlueprints(for definition: WeaponDefinition) -> [Blueprint] {
         var blueprints = [Blueprint]()
-        for component in definition.components {
+        for componentForm in definition.componentForms {
             blueprints.append(WeaponBlueprint.generate(for: definition.type,
-                                                          component: component,
-                                                          form: .straight))
+                                                          component: componentForm.component,
+                                                          form: componentForm.form))
         }
         return blueprints
     }

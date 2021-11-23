@@ -24,11 +24,12 @@ struct PixelRGBU8 {
         self.u = u
     }
     
-    init(r: Float, g: Float, b: Float) {
+    init(r: Float, g: Float, b: Float, a: Float = 1.0) {
         let corrR = max(0.0, min(r, 1.0))
         let corrG = max(0.0, min(g, 1.0))
         let corrB = max(0.0, min(b, 1.0))
-        self.init(UInt8(corrR*255.0), UInt8(corrG*255.0), UInt8(corrB*255.0))
+        let corrA = max(0.0, min(a, 1.0))
+        self.init(UInt8(corrR*255.0), UInt8(corrG*255.0), UInt8(corrB*255.0), UInt8(corrA*255.0))
     }
     
     var uiColor: UIColor {
@@ -104,8 +105,7 @@ class Bitmap {
     func setPixel(x: Int, y: Int, color: PixelRGBU8, scale: CGFloat, orientation: UIImage.Orientation) -> UIImage {
         let pixelIndex = x + (y * width)
         let offset = pixelIndex * MemoryLayout<PixelRGBU8>.size
-        let pixel = PixelRGBU8(color.r, color.g, color.b)
-        pixels.storeBytes(of: pixel, toByteOffset: offset, as: PixelRGBU8.self)
+        pixels.storeBytes(of: color, toByteOffset: offset, as: PixelRGBU8.self)
 
         let outputCGImage = bitmapContext.makeImage()!
         let outputImage = UIImage(cgImage: outputCGImage,
@@ -120,6 +120,20 @@ class Bitmap {
         return pixels.load(fromByteOffset: offset, as: PixelRGBU8.self)
     }
 }
+
+// This shouldnt be necessary
+//extension Bitmap: Hashable {
+//    static func == (lhs: Bitmap, rhs: Bitmap) -> Bool {
+//
+//    }
+//
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(width)
+//        hasher.combine(height)
+//        hasher.combine(bitmapContext)
+//        hasher.combine(pixels)
+//    }
+//}
 
 public extension UIColor {
     convenience init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {

@@ -13,18 +13,20 @@ final class ActorSystem: GKComponentSystem<GKComponent> {
     weak var gameState: GameState!
 
     private var turnTime: TimeInterval = 0
-    private let minTurnTime: TimeInterval = 0.1
+    private let minTurnTime: TimeInterval = 1.0
     private let maxTurnTime: TimeInterval = 0.5
 
     private var deathQueue = [(DeathAnimation, Entity)]()
-    private var updating = Updating()
-    
-    actor Updating {
-        var state = false
-        func update(state: Bool) { self.state = state }
-    }
+//    private var updating = Updating()
+//
+//    actor Updating {
+//        var state = false
+//        func update(state: Bool) { self.state = state }
+//    }
+    private var updating = false
     
     func enqueueAction(_ deathAnimation: @escaping DeathAnimation, _ entity: Entity) {
+        gameState.removeFromCombat(entity)
         deathQueue.append((deathAnimation, entity))
     }
 
@@ -32,18 +34,21 @@ final class ActorSystem: GKComponentSystem<GKComponent> {
         for (deathAnimation, entity) in deathQueue {
             deathAnimation(entity)
         }
+        updating = false
         deathQueue = []
     }
 
     override func update(deltaTime seconds: TimeInterval) {
         turnTime += seconds
         
-        Task {
-            if turnTime >= minTurnTime, await !gameState.acting, await !updating.state {
-                await updating.update(state: true)
-                executeActions()
-                await gameState?.offerTurn()
-                await updating.update(state: false)
+        if !deathQueue.isEmpty {
+            updating = true
+            executeActions()
+        }
+
+        if turnTime >= minTurnTime, !gameState.acting, !updating, deathQueue.isEmpty {
+            gameState?.offerTurn { _ in
+                self.updating = false
             }
         }
     }

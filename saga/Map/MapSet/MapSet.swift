@@ -29,14 +29,32 @@ public class MapSet {
         
         self.maps = []
         self.roomGenerator = roomGenerator
+        let filledMap = roomGenerator.generate()
         let map = Map(tileSet: tileSet,
                       columns: roomGenerator.width,
                       rows: roomGenerator.height,
-                      room: roomGenerator.generate())
+                      room: filledMap.roomMap)
+        for entity in filledMap.entities {
+            map.addChild(entity)
+            entity.updatePosition()
+        }
         maps.append(map)
         self.initialMap = maps.first
         self.currentMap = maps.first
         map.mapSet = self
+    }
+    
+//    func createRooms() {
+//        roomGenerator.createRooms()
+//        for entity in roomGenerator.objectPlacer.entities {
+//            gameState?.addChild(entity)
+//            entity.updatePosition()
+//        }
+//        roomGenerator.objectPlacer.entities = []
+//    }
+    
+    func addChild(_ entity: Entity) {
+        gameState?.addChild(entity)
     }
 
     func removeChild(_ entity: Entity) {

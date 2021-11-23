@@ -7,10 +7,10 @@
 //
 
 public enum DoorType: String {
-    case evil = "td_world_door_evil"
-    case gate = "td_world_door_gate"
-    case stone = "td_world_door_stone"
-    case wood = "td_world_door_wood"
-    case house = "td_world_house_door"
-    case trapdoor = "td_world_trapdoor"
+    case evil = "door_evil"
+    case gate = "door_gate"
+    case stone = "door_stone"
+    case wood = "door_wood"
+    case house = "house_door"
+    case trapdoor = "trapdoor"
 }

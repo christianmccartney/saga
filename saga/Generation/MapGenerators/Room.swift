@@ -43,4 +43,27 @@ public struct RectangularRoom {
     func intersects(_ room: RectangularRoom) -> Bool {
         return x1 <= room.x2 && x2 >= room.x1 && y1 <= room.y2 && room.y2 >= room.y1
     }
+
+    func contains(_ x: Int, _ y: Int) -> Bool {
+        return x > x1 && x < x2 && y > y1 && y < y2
+    }
+
+    func nearby(_ x: Int, _ y: Int, _ dx: Int = 1, _ dy: Int = 1) -> Bool {
+        for px in x-dy...x+dy {
+            for py in x-dy...x+dy {
+                if contains(px, py) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    func addRoom(to roomMap: inout RoomMap) {
+        for x in x1...x2 {
+            for y in y1...y2 {
+                roomMap[y][x] = true
+            }
+        }
+    }
 }

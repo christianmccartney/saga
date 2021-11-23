@@ -13,7 +13,11 @@ import Combine
 class Selection: ObservableObject {
     static let shared = Selection()
     var highlights: [SelectionType: HighlightEntity] = [:]
-    @Published var highlightedEntity: Entity?
+    @Published var highlightedEntity: Entity? {
+        didSet {
+            print("highlighted \(highlightedEntity)")
+        }
+    }
     var highlightEntity: HighlightEntity?
     @Published var activeEntity: Entity?
 
@@ -52,6 +56,19 @@ class Selection: ObservableObject {
         unhighlight()
         // set the new entity to be highlighted as the highlighted entity
         self.highlightedEntity = entity
+
+        if entity.faction == .player {
+            if let ability = entity.selectedAbility {
+                entity.map?.removeHintNodes()
+                entity.map?.removeAttackNodes()
+                entity.map?.addAbilityHints(to: entity, ability: ability)
+                entity.map?.addAttackHints(to: entity, ability: ability)
+            } else {
+                entity.map?.removeHintNodes()
+                entity.map?.removeAttackNodes()
+                entity.map?.addMovementHints(to: entity)
+            }
+        }
         // get the new highlight
         if let newHighlight = highlight(for: entity.faction) {
             // add the highlight to the new highlighted entity
@@ -62,10 +79,8 @@ class Selection: ObservableObject {
     }
 
     private func unhighlight() {
-        DispatchQueue.main.async {
-            self.highlightedEntity?.map?.removeHintNodes()
-            self.highlightedEntity?.map?.removeAttackNodes()
-        }
+        self.highlightedEntity?.map?.removeHintNodes()
+        self.highlightedEntity?.map?.removeAttackNodes()
         if let highlightEntity = highlightEntity {
             self.highlightedEntity?.removeHighlightEntity(highlightEntity)
             self.highlightEntity = nil
@@ -73,9 +88,13 @@ class Selection: ObservableObject {
         }
     }
     
-    func highlight(_ entity: Entity?) {
+    // TODO 9: This almost certainly needs a fix, when the turns are cycling quickly sometimes
+    // it will remove an entity while we are highlighting the correct entity, thereby unselecting it.
+    func highlight(_ entity: Entity?, set: Bool = false) {
         // a new entity should be highlighted
         if let entity = entity, entity != highlightedEntity {
+            highlight(entity)
+        } else if let entity = entity, set {
             highlight(entity)
         } else { // we should unhighlight the highlighted entity
             unhighlight()
@@ -84,34 +103,38 @@ class Selection: ObservableObject {
 }
 
 extension Map {
-    static let movementTileSet = TileSet(HighlightTileGroupDefinition(name: "movement", adjacencyTextureProvider: HighlightType.yellow))
+    static let movementTileSet = TileSet(HighlightTileGroupDefinition(name: "movement", adjacencyTextureProvider: HighlightType.blue))
     static let abilityTileSet = TileSet(HighlightTileGroupDefinition(name: "ability", adjacencyTextureProvider: HighlightType.yellow))
+    static let innerAbilityTileSet = TileSet(HighlightTileGroupDefinition(name: "inner_ability", adjacencyTextureProvider: HighlightType.innerYellow))
     
     func addMovementHints(to entity: Entity) {
         let movement = entity.check(.movement)
-        addHints(to: entity, range: 0...movement, tileSet: Map.movementTileSet)
+        let span = movement * 2 + 1
+        addHints(to: entity, span: span, tileSet: Map.movementTileSet)
     }
 
     func addAbilityHints(to entity: Entity, ability: Ability) {
         let range = ability.abilityChecker.rangeCheck(entity)
-        addHints(to: entity, range: range, tileSet: Map.abilityTileSet)
+        if range.lowerBound > 1 {
+            let innerSpan = range.lowerBound * 2 - 1
+            addHints(to: entity, span: innerSpan, tileSet: Map.innerAbilityTileSet)
+        }
+        let span = range.upperBound * 2 + 1
+        addHints(to: entity, span: span, tileSet: Map.abilityTileSet)
     }
     
-    private func addHints(to entity: Entity, range: ClosedRange<Int>, tileSet: TileSet) {
-        if range.lowerBound > 0 {
-            
-        }
-        let span = (range.upperBound-range.lowerBound) * 2
+    private func addHints(to entity: Entity, span: Int, tileSet: TileSet) {
         let tileMap = SKTileMapNode(tileSet: tileSet, columns: span, rows: span, tileSize: tileSet.defaultTileSize)
         tileMap.enableAutomapping = false
         tileMap.position = entity.mapPosition ?? CGPoint()
         tileMap.isUserInteractionEnabled = false
-        tileMap.fillWithEdges(tileSet.tileGroups.first!)
+        tileMap.fillCircle(tileSet.tileGroups.first!)
+        tileMap.alpha = 0.5
         addHintNode(tileMap)
     }
     
     func addAttackHints(to entity: Entity, ability: Ability) {
-        for e in entity.nearbyEntities(within: ability.abilityChecker.rangeCheck(entity)) {
+        for e in entity.nearbyEntities(within: ability.abilityChecker.rangeCheck(entity)) where e.selectable {
             if let target = ability.checkAvailable(caster: entity, target: e, position: e.position) {
                 if let texture = target.texture() {
                     let node = Node(texture: texture)
@@ -123,26 +146,3 @@ extension Map {
         }
     }
 }
-
-//    private func addHintNodes(to entity: Entity, range: ClosedRange<Int>, hintTexture: SKTexture, addTo hintNodes: inout [Node]) {
-//        let colUpperBound = entity.position.column+range.upperBound
-//        let colLowerBound = entity.position.column-range.upperBound
-//        let rowUpperBound = entity.position.row+range.upperBound
-//        let rowLowerBound = entity.position.row-range.upperBound
-//        for x in colLowerBound...colUpperBound {
-//            for y in rowLowerBound...rowUpperBound {
-//                if x == entity.position.column, y == entity.position.row { continue }
-//                if x < 0 || x > numberOfColumns || y < 0 || y > numberOfColumns { continue }
-//                if !range.contains(Position(x, y).distance(entity.position)) { continue }
-//                if roomMap[y][x], entity.nearbyEntities.allSatisfy({ $0.position != Position(x, y) }) {
-//                    let node = Node(texture: hintTexture)
-//                    node.isUserInteractionEnabled = false
-//                    node.position = centerOfTile(atColumn: x, row: y)
-//                    DispatchQueue.main.async {
-//                        self.addChild(node)
-//                    }
-//                    hintNodes.append(node)
-//                }
-//            }
-//        }
-//    }

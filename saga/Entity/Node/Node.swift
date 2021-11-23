@@ -45,14 +45,12 @@ public class Node: SKSpriteNode {
         return Node(texture: self.texture ?? SKTexture(imageNamed: ""))
     }
 
-    @MainActor
     func addChild(_ emitter: Emitter) {
         for child in emitter.emitters {
             addChild(child)
         }
     }
 
-    @MainActor
     func removeChild(_ emitter: Emitter) {
         removeChildren(in: emitter.emitters)
     }

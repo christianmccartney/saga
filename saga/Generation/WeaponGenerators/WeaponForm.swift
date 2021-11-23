@@ -11,7 +11,7 @@ import Foundation
 //
 //}
 
-enum WeaponForm {
+enum WeaponForm: CaseIterable {
     case straight
     case parabolic
     case cubic

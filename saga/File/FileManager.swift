@@ -32,7 +32,6 @@ final class FM {
     static let shared = FM()
     
     let baseNode: DirectoryNode
-    var images = [UIImage]()
     
     var expectedFolders: Set<Directory> = Directory.set
     weak var firstImageFound: FileNode?
@@ -108,8 +107,18 @@ final class FM {
         }
     }
 
-    func addFile(of type: FileType, to url: URL, node: FMNode) -> URL? {
+//    func getFile(of type: FileType, to url: URL, node: FMNode) -> UIImage? {
+//        if FileManager.default.file
+//    }
+
+    func addFile(of type: FileType, to url: URL, node: FMNode, overwrite: Bool = false) -> FileNode? {
         var shouldMakeNode = false
+        
+        if overwrite {
+            if FileManager.default.fileExists(atPath: url.path) {
+                FM.shared.delete(node: node, url: url)
+            }
+        }
         if !FileManager.default.fileExists(atPath: url.path) {
             shouldMakeNode = true
         }
@@ -133,15 +142,20 @@ final class FM {
 //                g = 0.5
 //                b = 0.5
 //            }
-//            return PixelPixelRGBU8U8(r: r, g: g, b: b)
-            return PixelRGBU8(r: Float(x % 2), g: Float(y % 2), b: 1.0)
+            return PixelRGBU8(r: 255, g: 255, b: 255)
+//            return PixelRGBU8(r: Float(x % 2), g: Float(y % 2), b: 1.0)
         })
         if bmp.writePng(url: url) {
             print("Wrote png to \(url)")
             if shouldMakeNode {
-                node.addChild(FileNode(url: url))
+                let fileNode = FileNode(url: url)
+                node.addChild(fileNode)
+                return fileNode
             }
-            return url
+//            if let image = UIImage(contentsOfFile: url.path) {
+//                return FMImage(image: image, bmp: bmp)
+//            }
+            return node.children.first { $0.url == url } as? FileNode
         }
         
         return nil
@@ -157,5 +171,14 @@ final class FM {
             }
         }
         return true
+    }
+
+    func delete(node: FMNode, url: URL) {
+        do {
+            try FileManager.default.removeItem(at: url)
+            FM.shared.baseNode.removeChild(node)
+        } catch {
+            print("Failed to delete file at \(url) with \(error)")
+        }
     }
 }

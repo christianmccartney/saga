@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WeaponComponent {
+enum WeaponComponent: CaseIterable {
     case blade
     case crossguard
     case hilt

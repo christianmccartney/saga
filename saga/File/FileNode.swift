@@ -5,7 +5,7 @@
 //  Created by Christian McCartney on 10/23/21.
 //
 
-import Foundation
+import UIKit
 
 public enum FMNodeType {
     case none
@@ -13,11 +13,13 @@ public enum FMNodeType {
     case file
 }
 
-open class FMNode: Identifiable {
+open class FMNode: Identifiable, ObservableObject {
     public let id: UUID
     let url: URL
     let type: FMNodeType
-    var children = [FMNode]()
+    weak var parent: FMNode!
+    @Published var children = [FMNode]()
+    @Published var collapsed: Bool = false
 
     public init(url: URL, type: FMNodeType = .none) {
         self.id = UUID()
@@ -26,8 +28,22 @@ open class FMNode: Identifiable {
     }
 
     func addChild(_ node: FMNode) {
+        node.parent = self
         children.append(node)
     }
+
+    func removeChild(_ node: FMNode) {
+        if let index = children.firstIndex(of: node) {
+            children.remove(at: index)
+        } else {
+            for child in children {
+                child.removeChild(node)
+            }
+        }
+    }
+
+    var images: [FMImage] { fileNodes.map { $0.image } }
+    var fileNodes: [FileNode] { children.compactMap { $0 as? FileNode } }
 }
 
 extension FMNode: Equatable {
@@ -51,8 +67,38 @@ class DirectoryNode: FMNode {
 }
 
 class FileNode: FMNode {
+    var image: FMImage
+    
     public override init(url: URL, type: FMNodeType = .file) {
+        let image = UIImage(contentsOfFile: url.path) ?? UIImage()
+        guard let bitmap = Bitmap(uiImage: image) else { fatalError("Failed to make bitmap from \(url)") }
+        self.image = FMImage(image: image, bmp: bitmap)
         super.init(url: url, type: type)
+    }
+
+    func randomImage(with definition: WeaponDefinition, context: FMContext) {
+//        image.image = UIImage(contentsOfFile: url.path) ?? image.image
+        for blueprint in WeaponGenerator.shared.generateBlueprints(for: definition).sorted(by: { $0.z < $1.z }) {
+            context.applyBlueprint(blueprint, image: &image)
+        }
+    }
+}
+
+class FMImage: Hashable, ObservableObject {
+    @Published var image: UIImage
+    var bmp: Bitmap
+    
+    init(image: UIImage, bmp: Bitmap) {
+        self.image = image
+        self.bmp = bmp
+    }
+    
+    static func == (lhs: FMImage, rhs: FMImage) -> Bool {
+        return lhs.image == rhs.image
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(image)
     }
 }
 

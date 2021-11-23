@@ -7,91 +7,97 @@
 //
 
 public enum StaticObjectType: String, EntityType {
-    case bed = "td_world_bed"
-    case blood_a = "td_world_blood_a"
-    case blood_b = "td_world_blood_b"
-    case blood_bone = "td_world_blood_bone"
-    case blood_c = "td_world_blood_c"
-    case blood_d = "td_world_blood_d"
-    case bookshelf_full = "td_world_bookshelf_a"
-    case bookshelf_empty = "td_world_bookshelf_b"
-    case campfire_stones = "td_world_campfire_stones"
-    case cauldron = "td_world_cauldron"
-    case chair = "td_world_chair"
-    case chest = "td_world_chest"
-    case crate = "td_world_crate"
-    case grass_a = "td_world_grass_a"
-    case grass_b = "td_world_grass_b"
-    case grass_c = "td_world_grass_c"
-    case grass_d = "td_world_grass_d"
-    case grass_e = "td_world_grass_e"
-    case grass_root_a = "td_world_grass_root_a"
-    case grass_root_b = "td_world_grass_root_b"
-    case grass_root_c = "td_world_grass_root_c"
-    case grass_root_d = "td_world_grass_root_d"
-    case grass_root_e = "td_world_grass_root_e"
-    case level_right = "td_world_level_right"
-    case level_left = "td_world_level_left"
-    case magic_circle_a = "td_world_magic_a"
-    case magic_circle_b = "td_world_magic_b"
-    case magic_circle_c = "td_world_magic_c"
-    case magic_circle_d = "td_world_magic_d"
-    case magic_circle_e = "td_world_magic_e"
-    case mushroom_pink = "td_world_mushroom_pink"
-    case mushroom_red = "td_world_mushroom_red"
-    case mushroom_yellow = "td_world_mushroom_yellow"
-    case shrub_a = "td_world_shrub_a"
-    case shrub_b = "td_world_shrub_b"
-    case sign_blank = "td_world_sign_blank"
-    case sign_inn = "td_world_sign_inn"
-    case sign_potions = "td_world_sign_potions"
-    case sign_weapons = "td_world_sign_weapons"
-    case slab_a = "td_world_slab_a"
-    case slab_b = "td_world_slab_b"
-    case slab_left = "td_world_slab_left"
-    case slab_middle = "td_world_slab_middle"
-    case slab_right = "td_world_slab_right"
-    case stalagmite_a = "td_world_stalagmite_a"
-    case stalagmite_b = "td_world_stalagmite_b"
-    case statue_tentacle = "td_world_statue_tentacle"
-    case statue_warrior = "td_world_statue_warrior"
-    case statue_winged = "td_world_statue_winged"
-    case stone_cave = "td_world_stone_cave"
-    case stone_grey = "td_world_stone_grey"
-    case table_left = "td_world_table_left_a"
-    case table_left_chair = "td_world_table_left_b"
-    case table_middle = "td_world_table_middle_a"
-    case table_middle_paper = "td_world_table_middle_b"
-    case table_right = "td_world_table_right_a"
-    case table_right_chair = "td_world_table_right_b"
-    case table = "td_world_table"
-    case throne_evil = "td_world_throne_evil"
-    case throne_wood = "td_world_throne_wood"
-    case tombstone_broken = "td_world_tombstone_broken"
-    case tombstone = "td_world_tombstone"
-    case trap = "td_world_trap"
-    case urns_a = "td_world_urns_a"
-    case urns_b = "td_world_urns_b"
-    case urns_c = "td_world_urns_c"
-    case web_ne = "td_world_web_ne"
-    case web_nw = "td_world_web_nw"
-    case web_se = "td_world_web_se"
-    case web_sw = "td_world_web_sw"
-    case web = "td_world_web"
+    case bed
+    case blood_a
+    case blood_b
+    case blood_bone
+    case blood_c
+    case blood_d
+    case bookshelf_a
+    case bookshelf_b
+    case campfire_stones
+    case cauldron
+    case chair
+    case chest
+    case crate
+    case floor_carpet_a
+    case floor_carpet_b
+    case floor_carpet_c
+    case floor_carpet_d
+    case floor_carpet_e
+    case grass_a
+    case grass_b
+    case grass_c
+    case grass_d
+    case grass_e
+    case grass_root_a
+    case grass_root_b
+    case grass_root_c
+    case grass_root_d
+    case grass_root_e
+    case level_right
+    case level_left
+    case magic_circle_a
+    case magic_circle_b
+    case magic_circle_c
+    case magic_circle_d
+    case magic_circle_e
+    case mushroom_pink
+    case mushroom_red
+    case mushroom_yellow
+    case scorch_a
+    case shrub_a
+    case shrub_b
+    case sign_blank
+    case sign_inn
+    case sign_potions
+    case sign_weapons
+    case slab_a
+    case slab_b
+    case slab_left
+    case slab_middle
+    case slab_right
+    case stalagmite_a
+    case stalagmite_b
+    case statue_tentacle
+    case statue_warrior
+    case statue_winged
+    case stone_cave
+    case stone_grey
+    case table_left
+    case table_left_chair
+    case table_middle
+    case table_middle_paper
+    case table_right
+    case table_right_chair
+    case table
+    case throne_evil
+    case throne_wood
+    case tombstone_broken
+    case tombstone
+    case trap
+    case urns_a
+    case urns_b
+    case urns_c
+    case web_ne
+    case web_nw
+    case web_se
+    case web_sw
+    case web
 }
 
 public enum DynamicObjectType: String, EntityType {
-    case campfire = "td_world_campfire"
+    case campfire
 
-    case candle_a = "td_world_candles_a"
-    case candle_b = "td_world_candles_b"
-    case candle_c = "td_world_candles_c"
+    case candles_a
+    case candles_b
+    case candles_c
 
-    case lilypad_a = "td_world_lilypad_a"
-    case lilypad_b = "td_world_lilypad_b"
-    case lilypad_c = "td_world_lilypad_c"
-    case lilypad_d = "td_world_lilypad_d"
+    case lilypad_a
+    case lilypad_b
+    case lilypad_c
+    case lilypad_d
 
-    case torch_light = "td_world_torch_light"
-    case torch = "td_world_torch"
+    case torch_light
+    case torch
 }

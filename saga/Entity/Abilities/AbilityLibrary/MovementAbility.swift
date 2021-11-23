@@ -8,7 +8,8 @@
 let dash = Ability(name: "dash",
                    targets: [.enemy, .friendly, .neutral, .none],
                    abilityChecker: DashAbilityChecker(),
-                   abilityTextureName: "")
+                   abilityTextureName: "",
+                   abilityAnimation: dashAnimation)
 
 class DashAbilityChecker: AbilityChecker {
     override func rangeCheck(_ caster: Entity) -> ClosedRange<Int> {

@@ -17,7 +17,15 @@ class BottomBar: InterfaceElement {
             tileSize: tileSet.defaultTileSize)
         anchorPoint = CGPoint(x: 0.5, y: 0.0)
         enableAutomapping = false
-        fillWithEdges(tileSet.tileGroups.first!)
+        fillSquare(tileSet.tileGroups.first!)
+    }
+    
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    override func update() {
+        guard let entity = self.coreScene?.playerEntity else { return }
+        let abilities = entity.abilities
+        removeChildren(in: buttons)
         
         let swordButton = Button(type: .sword, toggleable: true, action: { [weak self] button in
             guard let self = self else { return }
@@ -31,35 +39,23 @@ class BottomBar: InterfaceElement {
             self.toggleOthers(button: button)
         }, actionOff: { [weak self] _ in self?.resetAbility() })
         
-        let fireball = Ability(name: "fireball",
-                               targets: [.enemy, .neutral, .none],
-                               abilityChecker: IntelligenceDamageAbilityChecker(),
-                               abilityTextureName: EffectType.fireball.rawValue,
-                               abilityAnimation: fireballAttackAnimation)
-        let fireballButton = Button(type: .ability(fireball), toggleable: true, action: { [weak self] button in
-            guard let self = self else { return }
-            guard case .ability(let ability) = button.type else { return }
-            self.coreScene?.playerEntity?.selectedAbility = ability
-            self.toggleOthers(button: button)
-        }, actionOff: { [weak self] _ in self?.resetAbility() })
+        self.buttons = [swordButton, dashButton]
         
-        let voidball = Ability(name: "voidball",
-                               targets: [.enemy, .neutral, .none],
-                               abilityChecker: IntelligenceDamageAbilityChecker(),
-                               abilityTextureName: EffectType.voidball.rawValue,
-                               abilityAnimation: voidballAttackAnimation)
-        
-        let voidballButton = Button(type: .ability(voidball), toggleable: true, action: { [weak self] button in
-            guard let self = self else { return }
-            guard case .ability(let ability) = button.type else { return }
-            self.coreScene?.playerEntity?.selectedAbility = ability
-            self.toggleOthers(button: button)
-        }, actionOff: { [weak self] _ in self?.resetAbility() })
-        
-        self.buttons = [swordButton, dashButton, fireballButton, voidballButton]
+        for ability in abilities {
+            let abilityButton = button(for: ability)
+            self.buttons.append(abilityButton)
+        }
+        setupButtons()
     }
     
-    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    private func button(for ability: Ability) -> Button {
+        return Button(type: .ability(ability), toggleable: true, action: { [weak self] button in
+            guard let self = self else { return }
+            guard case .ability(let ability) = button.type else { return }
+            self.coreScene?.playerEntity?.selectedAbility = ability
+            self.toggleOthers(button: button)
+        }, actionOff: { [weak self] _ in self?.resetAbility() })
+    }
     
     private func toggleOthers(button: Button) {
         if button.isPressed {

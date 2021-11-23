@@ -20,7 +20,9 @@ struct HighlightTileGroupDefinition: AdjacencyTileGroupDefinition {
 }
 
 enum HighlightType: String, AdjacencyTextureProviding {
-    case yellow
+    case yellow = "yellow"
+    case innerYellow = "inner_yellow"
+    case blue = "blue"
 
     var textures: [String] {
         return ["\(self.rawValue)_highlight_1",
@@ -31,6 +33,15 @@ enum HighlightType: String, AdjacencyTextureProviding {
                 "\(self.rawValue)_highlight_6",
                 "\(self.rawValue)_highlight_7",
                 "\(self.rawValue)_highlight_8",
-                "\(self.rawValue)_highlight_9",]
+                "\(self.rawValue)_highlight_9",
+                "\(self.rawValue)_highlight_10",
+                "\(self.rawValue)_highlight_11",
+                "\(self.rawValue)_highlight_12",
+                "\(self.rawValue)_highlight_13",
+                "\(self.rawValue)_highlight_14",
+                "\(self.rawValue)_highlight_15",
+                "\(self.rawValue)_highlight_16",
+                "\(self.rawValue)_highlight_17",
+                "\(self.rawValue)_highlight_18",]
     }
 }

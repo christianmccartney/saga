@@ -7,5 +7,5 @@
 
 import Foundation
 
-typealias AbilityAnimation = ((Entity, Entity?, Position) async -> Void)
-let defaultAbilityAnimation: AbilityAnimation = { _,_,_ in }
+typealias AbilityAnimation = ((Entity, Entity?, Position, @escaping () -> ()) -> Void)
+let defaultAbilityAnimation: AbilityAnimation = { _,_,_,_ in }

@@ -31,6 +31,8 @@ class Context {
 @main
 struct MainView: App {
     let context = Context()
+    @Environment(\.scenePhase) var scenePhase
+    
     var body: some Scene {
         WindowGroup {
             GeometryReader { (geometry) in
@@ -40,6 +42,17 @@ struct MainView: App {
                 SpriteView(scene: context.scene(size: geometry.size))
 //                    PrototypeNumberView(size: geometry.size)
 //                }
+            }.onChange(of: scenePhase) { newPhase in
+                if newPhase == .inactive {
+                    print("Inactive")
+                    context.coreScene?.pause(true)
+                } else if newPhase == .active {
+                    print("Active")
+                    context.coreScene?.pause(false)
+                } else if newPhase == .background {
+                    print("Background")
+                    context.coreScene?.pause(true)
+                }
             }
         }
     }

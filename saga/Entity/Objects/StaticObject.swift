@@ -12,7 +12,7 @@ class StaticObject: Object {
                 type: StaticObjectType,
                 position: Position = Position(0, 0),
                 statistics: Statistics = Statistics(),
-                entityDelegate: EntityDelegate) {
+                entityDelegate: EntityDelegate? = nil) {
         let texture = SKTexture(imageNamed: type.rawValue)
         texture.filteringMode = .nearest
         let spriteNode = Node(texture: texture)

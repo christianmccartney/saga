@@ -8,12 +8,13 @@
 import SpriteKit
 
 enum EmitterType {
-    case blood
-    case sparks
+    case bits(UIColor)
+    case sparks(UIColor)
+    case fire(UIColor)
 
     func setting(for emitter: SKEmitterNode) {
         switch self {
-        case .blood:
+        case .bits(let color):
             emitter.particleSize = CGSize(width: 10, height: 10)
             emitter.particleBirthRate = 25.0
             emitter.particleLifetime = 1.0
@@ -22,11 +23,10 @@ enum EmitterType {
             emitter.particleScale = 0.1
             emitter.particleScaleRange = 0.05
             emitter.particleSpeed = 15.0
-            emitter.particleColor = .red
+            emitter.particleColor = color
             emitter.particleColorBlendFactor = 1.0
             emitter.particleColorSequence = nil
-        case .sparks:
-            emitter.particleTexture = SKTexture(imageNamed: "spark")
+        case .sparks(let color):
             emitter.particleSize = CGSize(width: 10, height: 10)
             emitter.particleBirthRate = 25.0
             emitter.particleLifetime = 1.0
@@ -34,7 +34,21 @@ enum EmitterType {
             emitter.particleAlphaRange = 0.2
             emitter.particleScale = 0.1
             emitter.particleScaleRange = 0.05
-            emitter.particleSpeed = 100.0
+            emitter.particleSpeed = 50.0
+            emitter.particleColor = color
+            emitter.particleColorBlendFactor = 1.0
+            emitter.particleColorSequence = nil
+        case .fire(let color):
+            emitter.particleTexture = SKTexture(imageNamed: "bokeh")
+            emitter.particleBirthRate = 15.0
+            emitter.particleLifetime = 10.0
+            emitter.particleAlphaRange = 0.2
+            emitter.particleAlphaSpeed = -1.0
+            emitter.particleScale = 0.05
+            emitter.particleScaleRange = 0.0125
+            emitter.particleSpeed = 10.0
+            emitter.particleSpeedRange = 5.0
+            emitter.particleColor = color
             emitter.particleColorBlendFactor = 1.0
             emitter.particleColorSequence = nil
         }
@@ -96,13 +110,6 @@ class GravityEmitter: Emitter {
         }
     }
 
-//    func run(_ action: SKAction) async {
-//        await withTaskGroup(of: Void.self) { taskGroup in
-//            for emitter in emitters {
-//                taskGroup.addTask { await emitter.run(action) }
-//            }
-//        }
-//    }
     func run(_ action: SKAction, completion: @escaping () -> ()) {
         for emitter in emitters {
             emitter.run(action) {

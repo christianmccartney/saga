@@ -42,14 +42,22 @@ final class CoreScene: GameState {
         view.showsPhysics = true
         physicsWorld.gravity = CGVector(dx: 0, dy: -2.0)
         ActorSystem.shared.gameState = self
+        
+        let cryptObjectPlacer = ObjectPlacer(roomDefinitions: [LibraryRoomDefinition.smallLibraryRoomDefinition,
+                                                               LibraryRoomDefinition.mediumLibraryRoomDefinition])
         // Map
-        let caveGenerator = CAGenerator(width: 64, height: 64)
-        let defaultMapGenerator = MapGenerator(width: 32, height: 32)
-        let cryptGenerator = BSPGenerator(width: 80, height: 80, divisions: 5)
-        let dungeonGenerator = RandomRoomGenerator(width: 64, height: 64, maxRooms: 32)
+//        let caveGenerator = CAGenerator(width: 64, height: 64)
+//        let defaultMapGenerator = MapGenerator(width: 32, height: 32)
+//        let cryptGenerator = BSPGenerator(width: 80, height: 80, divisions: 5, objectPlacer: cryptObjectPlacer)
+//        let dungeonGenerator = RandomRoomGenerator(width: 64, height: 64, maxRooms: 32)
+//        let dungeonGenerator = MaskMapGenerator(width: 64,
+//                                                height: 64,
+//                                                roomDefinitions: [LibraryRoomDefinition.smallLibraryRoomDefinition],
+//                                                maxRooms: 32)
+        let dungeonGenerator = MapGenerator(width: 48, height: 48, objectPlacer: cryptObjectPlacer)
 
         let mapGenerator: MapGenerator
-        mapGenerator = defaultMapGenerator
+        mapGenerator = dungeonGenerator
         
         let stoneTileDefinition = TileGroupDefinition(
             name: "stoneCobble",
@@ -76,17 +84,19 @@ final class CoreScene: GameState {
 
         cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
 
-        addChildren([fighterEntity, jellyEntity, archerEntity, catEntity, druidEntity, angelEntity])
+        addChildren([fighterEntity])//, jellyEntity, archerEntity, catEntity, druidEntity, angelEntity])
+        fighterEntity.abilities = [fireball, iceball, voidball]
 
-        let bedObject = StaticObject(type: .bed, position: Position(10, 15), entityDelegate: self)
-        let candleObject = DynamicObject(type: .candle_a, position: Position(9, 14), entityDelegate: self)
-        addChildren([bedObject, candleObject])
+//        let bedObject = StaticObject(type: .bed, position: Position(10, 15), entityDelegate: self)
+//        let candleObject = DynamicObject(type: .candles_a, position: Position(9, 14), entityDelegate: self)
+//        addChildren([bedObject, candleObject])
 
         for entity in entities where entity.faction == .player {
             playerEntity = entity
             break
         }
         
+        interface.update()
         updatePositions()
         focusOnActive()
         pause(false)

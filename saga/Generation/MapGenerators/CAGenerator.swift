@@ -39,7 +39,7 @@ class CAGenerator: MapGenerator {
         }
     }
 
-    override func generate() -> RoomMap {
+    override func generate() -> FilledMap {
         func countNeighbors(map: inout RoomMap, x: Int, y: Int) -> Int {
             var count = 0
             for i in x-1...x+1 {
@@ -98,6 +98,6 @@ class CAGenerator: MapGenerator {
         
         if which { invert(&map1) } else { invert(&map2) }
 
-        return which ? map1 : map2
+        return which ? FilledMap(roomMap: map1, entities: []) : FilledMap(roomMap: map2, entities: [])
     }
 }

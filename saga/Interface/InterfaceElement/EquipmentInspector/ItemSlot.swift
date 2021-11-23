@@ -38,7 +38,7 @@ class ItemSlot: InterfaceElement {
             rows: rows,
             tileSize: tileSet.defaultTileSize)
         enableAutomapping = false
-        fillWithEdges(tileSet.tileGroups.first!)
+        fillSquare(tileSet.tileGroups.first!)
     }
     
     required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }

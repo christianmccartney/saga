@@ -25,7 +25,7 @@ class EntityInspector: InterfaceElement {
             rows: rows,
             tileSize: tileSet.defaultTileSize)
         enableAutomapping = false
-        fillWithEdges(tileSet.tileGroups.first!)
+        fillSquare(tileSet.tileGroups.first!)
 
         Selection.shared.$highlightedEntity
             .receive(on: DispatchQueue.main)

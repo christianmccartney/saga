@@ -18,7 +18,7 @@ class RandomRoomGenerator: MapGenerator {
         super.init(width: width, height: height)
     }
 
-    override func generate() -> RoomMap {
+    override func generate() -> FilledMap {
         var map: RoomMap = Array(repeating: Array(repeating: false, count: width), count: height)
         func addRoom(room: RectangularRoom, to roomMap: inout RoomMap) {
             for x in room.x1...room.x2 {
@@ -70,6 +70,6 @@ class RandomRoomGenerator: MapGenerator {
             }
         }
         
-        return map
+        return FilledMap(roomMap: map, entities: [])
     }
 }

@@ -22,13 +22,13 @@ class EntityWindow: InterfaceElement {
             rows: rows,
             tileSize: tileSet.defaultTileSize)
         enableAutomapping = false
-        fillWithEdges(tileSet.tileGroups.first!)
+        fillSquare(tileSet.tileGroups.first!)
         
         Selection.shared.$activeEntity
             .receive(on: DispatchQueue.main)
             .sink { [weak self] highlightedEntity in
                 guard let self = self else { return }
-                let entity = highlightedEntity?.copy()
+                let entity = highlightedEntity?.copyEntity()
                 entity?.isUserInteractionEnabled = false
                 entity?.spriteNode.position = CGPoint(x: self.frame.width/4, y: self.frame.height/4)
                 entity?.scale = 4

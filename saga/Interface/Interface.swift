@@ -88,19 +88,24 @@ class Interface {
             modalElement.setScale(scale)
         }
     }
+
+    func update() {
+        for element in elements {
+            element.update()
+        }
+        for modalElement in modalElements {
+            modalElement.update()
+        }
+    }
 }
 
 extension Interface: InterfaceDelegate {
     func addChild(_ entity: Entity) {
-        Task {
-            await coreScene?.addChild(entity)
-        }
+        coreScene?.addChild(entity)
     }
     
     func removeChild(_ entity: Entity) {
-        Task {
-            await coreScene?.removeChild(entity)
-        }
+        coreScene?.removeChild(entity)
     }
     
     func track(_ entity: Entity) {

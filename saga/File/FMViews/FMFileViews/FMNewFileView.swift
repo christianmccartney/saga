@@ -20,12 +20,11 @@ struct FMNewFileView: View {
             Divider()
             HStack {
                 SwiftUI.Button("Ok") {
-                    if let newURL = FM.shared.addFile(
-                        of: .png,
-                        to: node.url.appendingPathComponent("\(fileName).png"),
-                        node: node) {
-                        context.setActiveImage(url: newURL)
-                    }
+//                    if let newImage = FM.shared.addFile(
+//                        of: .png,
+//                        to: node.url.appendingPathComponent("\(fileName).png"),
+//                        node: node) {
+//                    }
                     isPresented = false
                 }
                 Spacer()

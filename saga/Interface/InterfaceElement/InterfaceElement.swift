@@ -33,6 +33,11 @@ open class InterfaceElement: SKTileMapNode {
     
     func setupButtons() {}
     func setPosition() {}
+    func update() {
+        for element in elements {
+            element.update()
+        }
+    }
 
     func attachElements(_ scene: CoreScene) {
         for child in elements {

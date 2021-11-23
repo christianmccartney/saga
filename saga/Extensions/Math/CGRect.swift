@@ -60,9 +60,8 @@ extension CGRect {
     }
 }
 
-extension SKTexture {
-    convenience init(regularRect: CGRect, inTexture texture: SKTexture) {
-        let rect = regularRect.unitRectForSize(size: texture.size())
-        self.init(rect: rect, in: texture)
+extension CGRect {
+    init(_ p1: CGPoint, _ p2: CGPoint) {
+        self.init(x: min(p1.x, p2.x), y: min(p1.y, p2.y), width: abs(p1.x - p2.x), height: abs(p1.y - p2.y))
     }
 }

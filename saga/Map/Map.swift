@@ -9,11 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-@MainActor
-final class MapCoordinator {
-    
-}
-
 /// A `Map` is one SKTileMapNode contained in an .sks file.
 open class Map: SKTileMapNode {
     var graph: GKGridGraph<GKGridGraphNode>!
@@ -22,8 +17,6 @@ open class Map: SKTileMapNode {
     var objects: [Object] = []
     var warpTiles: [WarpTile] = []
     var roomMap: RoomMap
-//    var movementHintNodes = [Node]()
-//    var abilityHintNodes = [Node]()
     var attackHintNodes = [Node]()
     var hintNodes = [SKTileMapNode]()
     
@@ -52,6 +45,7 @@ open class Map: SKTileMapNode {
     }
     
     func buildGraph() -> GKGridGraph<GKGridGraphNode> {
+        let timeStarted = DispatchTime.now()
         let graph = GKGridGraph(
             fromGridStartingAt: vector2(0, 0),
             width: Int32(numberOfColumns),
@@ -66,6 +60,9 @@ open class Map: SKTileMapNode {
             }
         }
         graph.remove(walls)
+        let timeFinished = DispatchTime.now()
+        let time = timeFinished.uptimeNanoseconds - timeStarted.uptimeNanoseconds
+        print("Building graph for map \(tileSet.name) took: \(Double(time)/1000000)")
         return graph
     }
 
@@ -106,10 +103,8 @@ extension Map {
     }
     
     func removeHintNodes() {
-//        DispatchQueue.main.async {
-            self.removeChildren(in: self.hintNodes)
-            self.hintNodes = []
-//        }
+        self.removeChildren(in: self.hintNodes)
+        self.hintNodes = []
     }
 
     func addAttackNode(_ node: Node) {
@@ -118,23 +113,19 @@ extension Map {
     }
     
     func removeAttackNodes() {
-//        DispatchQueue.main.async {
-            self.removeChildren(in: self.attackHintNodes)
-//        }
+        self.removeChildren(in: self.attackHintNodes)
     }
 
     func addChild(_ entity: Entity) {
-            entities.insert(entity)
-            entity.map = self
-            addChild(entity.spriteNode)
+        entities.insert(entity)
+        entity.map = self
+        addChild(entity.spriteNode)
     }
     
     func removeChild(_ entity: Entity) {
-        DispatchQueue.main.async {
-            self.entities.remove(entity)
-            entity.map = nil
-            self.removeChildren(in: [entity.spriteNode])
-        }
+        self.entities.remove(entity)
+        entity.map = nil
+        self.removeChildren(in: [entity.spriteNode])
     }
 
     func addChild(_ emitter: Emitter) {
@@ -144,8 +135,6 @@ extension Map {
     }
 
     func removeChild(_ emitter: Emitter) {
-        DispatchQueue.main.async {
-            self.removeChildren(in: emitter.emitters)
-        }
+        self.removeChildren(in: emitter.emitters)
     }
 }

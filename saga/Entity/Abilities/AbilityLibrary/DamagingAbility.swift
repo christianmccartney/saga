@@ -25,7 +25,7 @@ class StrengthDamageAbilityChecker: AbilityChecker {
 }
 
 class IntelligenceDamageAbilityChecker: AbilityChecker {
-    override var manaCost: Float? { 8.0 }
+    override var manaCost: Float? { 2.0 }
 
     override func damageCheck(_ caster: Entity, _ target: Entity?, _ targetType: AbilityTarget) -> CasterTargetDelta? {
         return CasterTargetDelta(
