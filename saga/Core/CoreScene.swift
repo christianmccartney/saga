@@ -42,36 +42,9 @@ final class CoreScene: GameState {
         view.showsPhysics = true
         physicsWorld.gravity = CGVector(dx: 0, dy: -2.0)
         ActorSystem.shared.gameState = self
-        
-        let cryptObjectPlacer = ObjectPlacer(roomDefinitions: [LibraryRoomDefinition.smallLibraryRoomDefinition,
-                                                               LibraryRoomDefinition.mediumLibraryRoomDefinition])
-        // Map
-//        let caveGenerator = CAGenerator(width: 64, height: 64)
-//        let defaultMapGenerator = MapGenerator(width: 32, height: 32)
-//        let cryptGenerator = BSPGenerator(width: 80, height: 80, divisions: 5, objectPlacer: cryptObjectPlacer)
-//        let dungeonGenerator = RandomRoomGenerator(width: 64, height: 64, maxRooms: 32)
-//        let dungeonGenerator = MaskMapGenerator(width: 64,
-//                                                height: 64,
-//                                                roomDefinitions: [LibraryRoomDefinition.smallLibraryRoomDefinition],
-//                                                maxRooms: 32)
-        let dungeonGenerator = MapGenerator(width: 48, height: 48, objectPlacer: cryptObjectPlacer)
-
-        let mapGenerator: MapGenerator
-        mapGenerator = dungeonGenerator
-        
-        let stoneTileDefinition = TileGroupDefinition(
-            name: "stoneCobble",
-            verticalWallType: .stone,
-            horizontalWallType: .stone,
-            floorType: .cobble2)
-        let mapSet = MapSet(
-            gameState: self,
-            sceneName: "scene1",
-            tileSet: TileSet(stoneTileDefinition),
-            roomGenerator: mapGenerator)
-        
-        self.mapSet = mapSet
-        addMapSet(mapSet)
+        Selection.shared.gameState = self
+        mapController.gameState = self
+        mapController.generateMap()
 
         // Camera
         cameraNode = Camera()
@@ -101,7 +74,9 @@ final class CoreScene: GameState {
         focusOnActive()
         pause(false)
         super.didMove(to: view)
-        beginCombat()
+        if !inCombat {
+            beginCombat()
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -110,6 +85,7 @@ final class CoreScene: GameState {
                 continue
             }
             let location = t.location(in: self)
+            print("touched \(mapController.map.tileColumnIndex(fromPosition: location)), \(mapController.map.tileRowIndex(fromPosition: location))")
             let touchedNodes = nodes(at: location)
             let entity = touchedNodes.compactMap { $0.entity as? Entity }.first
             self.touchDown(location, entity: entity)
@@ -159,4 +135,22 @@ extension DefaultStringInterpolation {
     mutating func appendInterpolation<T>(_ optional: T?) {
         appendInterpolation(String(describing: optional))
     }
+}
+
+extension CoreScene {
+    func refreshMap() {
+        guard let player = entities.first(where: { $0.faction == .player }) else { return }
+        mapController.removeAll()
+        mapController.fill()
+    }
+    
+// Map
+//        let caveGenerator = CAGenerator(width: 64, height: 64)
+//        let defaultMapGenerator = MapGenerator(width: 32, height: 32)
+//        let cryptGenerator = BSPGenerator(width: 80, height: 80, divisions: 5, objectPlacer: cryptObjectPlacer)
+//        let dungeonGenerator = RandomRoomGenerator(width: 64, height: 64, maxRooms: 32)
+//        let dungeonGenerator = MaskMapGenerator(width: 64,
+//                                                height: 64,
+//                                                roomDefinitions: [LibraryRoomDefinition.smallLibraryRoomDefinition],
+//                                                maxRooms: 32)
 }

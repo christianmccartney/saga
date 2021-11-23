@@ -13,7 +13,6 @@ open class EntityActionInceptor {
 
     func interpretSurroundings() -> Entity? { return nil }
     
-    @MainActor
     func createAction() -> Position? { return nil }
 }
 
@@ -22,7 +21,6 @@ class PlayerEntityActionInceptor: EntityActionInceptor {
         return nil
     }
     
-    @MainActor
     override func createAction() -> Position? {
         return nil
     }
@@ -46,14 +44,14 @@ class NeutralEntityActionInceptor: EntityActionInceptor {
         return closestEnemy
     }
     
-    @MainActor
     override func createAction() -> Position? {
-        if let closestEnemy = interpretSurroundings(), let map = entity.map {
+        let mapController = MapController.shared
+        if let closestEnemy = interpretSurroundings() {
             let startPos = vector_int2(Int32(entity.position.column), Int32(entity.position.row))
             let endPos = vector_int2(Int32(closestEnemy.position.column), Int32(closestEnemy.position.row))
-            if let startNode = map.graph.node(atGridPosition: startPos),
-               let endNode = map.graph.node(atGridPosition: endPos) {
-                let path = map.graph.findPath(from: startNode, to: endNode)
+            if let startNode = mapController.graph.node(atGridPosition: startPos),
+               let endNode = mapController.graph.node(atGridPosition: endPos) {
+                let path = mapController.graph.findPath(from: startNode, to: endNode)
                 if let firstNode = path.dropFirst().first as? GKGridGraphNode {
                     let position = Position(Int(firstNode.gridPosition.x), Int(firstNode.gridPosition.y))
                     guard closestEnemy.position != position else { return nil }

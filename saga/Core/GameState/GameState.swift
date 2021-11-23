@@ -16,9 +16,13 @@ import Combine
 
 open class GameState: InputManager, StateMachine {
     var cameraNode: Camera!
-    var interface: Interface = Interface.shared
-    var mapSet: MapSet?
+    var interface: Interface { Interface.shared }
+    var mapController: MapController { MapController.shared }
+
     var entities = Set<Entity>()
+    var attackHintNodes = [SKSpriteNode]()
+    var hintNodes = [SKTileMapNode]()
+    var highlightNode: SKSpriteNode?
 
     public private(set) var acting: Bool = false
 
@@ -29,6 +33,8 @@ open class GameState: InputManager, StateMachine {
             entities.compactMap { $0 as? Creature }.sorted { $0.statistics.checkStat(.initiative) > $1.statistics.checkStat(.initiative) }
         }
     }
+    
+    private var map: SKTileMapNode { mapController.map }
 
     var inCombat: Bool = false
 
@@ -39,18 +45,36 @@ open class GameState: InputManager, StateMachine {
     // remember the number of entities we had in case some new ones get added (necessary?)
     private var currentCombatCount: Int = 0
 
-    var activeEntity: Entity? = nil
+    @Published var activeEntity: Entity? = nil
     @Published var playerEntity: Entity? = nil
+    @Published var highlightedEntity: Entity? = nil {
+        didSet {
+            print("highlighted \(highlightedEntity)")
+            if let entity = highlightedEntity, entity.faction == .player {
+                if let ability = entity.selectedAbility {
+                    mapController.removeHintNodes()
+                    mapController.removeAttackNodes()
+                    mapController.addAbilityHints(to: entity, ability: ability)
+                    mapController.addAttackHints(to: entity, ability: ability)
+                } else {
+                    mapController.removeHintNodes()
+                    mapController.removeAttackNodes()
+                    mapController.addMovementHints(to: entity)
+                }
+            }
+        }
+    }
 
     private func updateActiveEntity() {
         guard currentCombatIndex < currentCombatOrder.count else {
-            Selection.shared.activeEntity = nil
+            highlightedEntity = nil
             activeEntity = nil
             return
         }
         let activeEntity = currentCombatOrder[currentCombatIndex]
-        Selection.shared.activeEntity = activeEntity
-        Selection.shared.highlight(activeEntity, set: true)
+        
+        Selection.shared.highlight(activeEntity)
+        
         self.activeEntity = activeEntity
     }
 
@@ -120,7 +144,7 @@ open class GameState: InputManager, StateMachine {
             return
         }
         if inCombat {
-            if Selection.shared.highlightedEntity == nil, let entity = entity {
+            if highlightedEntity == nil, let entity = entity {
                 Selection.shared.highlight(entity)
                 closure(false)
                 return
@@ -130,12 +154,12 @@ open class GameState: InputManager, StateMachine {
             if let entity = entity {
                 // have a selected ability, try to do it on the selected entity
                 if let activeEntity = activeEntity,
-                   Selection.shared.highlightedEntity == activeEntity,
+                   highlightedEntity == activeEntity,
                    let ability = activeEntity.selectedAbility {
                     acting = true
                     ability.act(from: activeEntity, on: entity, position: entity.position) { success in
                         if success {
-                            Selection.shared.highlight(nil)
+                            Selection.shared.unhighlight()
                             closure(true)
                         } else {
                             closure(false)
@@ -145,8 +169,8 @@ open class GameState: InputManager, StateMachine {
                 }
 
                 // if we couldnt act on self, but we selected self, then deselect self
-                if entity == Selection.shared.highlightedEntity {
-                    Selection.shared.highlight(nil)
+                if entity == highlightedEntity {
+                    Selection.shared.unhighlight()
                     closure(false)
                     return
                 }
@@ -158,22 +182,22 @@ open class GameState: InputManager, StateMachine {
             } else { // touched an empty square
     
                 // if theres an active entity but it isnt the selected entity, dont do an action
-                if let activeEntity = activeEntity, Selection.shared.highlightedEntity != activeEntity {
+                if let activeEntity = activeEntity, highlightedEntity != activeEntity {
                     closure(false)
                     return
                 }
                 
-                if let activeEntity = activeEntity, let map = mapSet?.currentMap, let scene = scene {
+                if let activeEntity = activeEntity, let scene = scene {
                     let movement = activeEntity.check(.movement)
                     let touchPosition = Position(map.tileColumnIndex(fromPosition: position),
                                                  map.tileRowIndex(fromPosition: position))
                     // gonna do an action
-                    if Selection.shared.highlightedEntity == activeEntity,
+                    if highlightedEntity == activeEntity,
                        let ability = activeEntity.selectedAbility {
                         acting = true
                         ability.act(from: activeEntity, on: nil, position: touchPosition) { success in
                             if success {
-                                Selection.shared.highlight(nil)
+                                Selection.shared.unhighlight()
                                 closure(true)
                             } else {
                                 closure(false)
@@ -186,7 +210,7 @@ open class GameState: InputManager, StateMachine {
                     if activeEntity.position.distance(touchPosition) <= movement {
                         acting = true
                         activeEntity.move(to: position, from: scene) {
-                            Selection.shared.highlight(nil)
+                            Selection.shared.unhighlight()
                             closure(true)
                         }
                         return
@@ -206,9 +230,9 @@ open class GameState: InputManager, StateMachine {
             }
             return
         case .move:
-            if let position = position, let entity = activeEntity, let map = entity.map {
-                guard map.roomMap[position.row][position.column] else { return }
-                let location = map.centerOfTile(atColumn: position.column, row: position.row)
+            if let position = position, let entity = activeEntity {
+                guard mapController.roomMap[position.row][position.column] else { return }
+                let location = mapController.centerOfTile(position.column, position.row)
                 if let newDirection = entity.rotation(to: location) {
                     entity.direction = newDirection
                 }
@@ -248,7 +272,7 @@ open class GameState: InputManager, StateMachine {
 
     func pause(_ pause: Bool) {
         isPaused = pause
-        mapSet?.currentMap?.isPaused = pause
+        map.isPaused = pause
         for entity in entities {
             entity.spriteNode.isPaused = pause
         }
@@ -257,19 +281,19 @@ open class GameState: InputManager, StateMachine {
     // MARK: - Adding/Removing things
     func addChild(_ entity: Entity) {
         entities.insert(entity)
-        mapSet?.currentMap?.addChild(entity)
+        entity.entityDelegate = self
+        mapController.addChild(entity)
     }
     
     func addChildren(_ entities: [Entity]) {
         for entity in entities {
-            entity.entityDelegate = self
             addChild(entity)
         }
     }
     
     func removeChild(_ entity: Entity) {
         entities.remove(entity)
-        mapSet?.currentMap?.removeChild(entity)
+        mapController.removeChild(entity)
         if inCombat { recalculateCombatOrder() }
     }
     
@@ -287,21 +311,10 @@ open class GameState: InputManager, StateMachine {
         entities.remove(entity)
     }
 
-    func addMap(_ map: Map) {
-        map.removeFromParent()
-        map.setScale(1)
-        self.addChild(map)
-    }
-    
-    func addMapSet(_ mapSet: MapSet) {
-        guard let currentMap = mapSet.currentMap else { return }
-        addMap(currentMap)
-    }
-
     // MARK: - Camera
     func focusOnActive() {
-        if let mapNode = mapSet?.currentMap, let mapPosition = activeEntity?.mapPosition {
-            cameraNode.position = mapNode.convert(mapPosition, to: self)
+        if let mapPosition = activeEntity?.mapPosition {
+            cameraNode.position = map.convert(mapPosition, to: self)
         }
     }
 

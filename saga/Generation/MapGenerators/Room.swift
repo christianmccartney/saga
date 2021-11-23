@@ -60,10 +60,37 @@ public struct RectangularRoom {
     }
 
     func addRoom(to roomMap: inout RoomMap) {
-        for x in x1...x2 {
-            for y in y1...y2 {
+        for x in x1..<x2 {
+            for y in y1..<y2 {
                 roomMap[y][x] = true
             }
+        }
+    }
+}
+
+extension RoomMap {
+    // CAREFUL: Maybe gonna run into issues with maps that arent square?
+    func nearbyRoom(_ room: RectangularRoom, _ x: Int, _ y: Int, _ dx: Int = 1, _ dy: Int = 1) -> Bool {
+        guard x-dx > 0, x+dx < count, y-dy > 0, y+dy < count else { return true }
+        for px in x-dx...x+dx {
+            for py in y-dy...y+dy {
+                if !room.contains(px, py), self[py][px] {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    func visualize() {
+        var rowCount = 0
+        for x in self.reversed() {
+            print("[ ", terminator: "")
+            for y in x {
+                print("\(y ? 1 : 0) ", terminator: "")
+            }
+            print(" ] \(rowCount)")
+            rowCount += 1
         }
     }
 }

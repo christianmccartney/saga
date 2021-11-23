@@ -5,12 +5,12 @@
 //  Created by Christian McCartney on 11/18/21.
 //
 
-protocol AdjacencyTileGroupDefinition {
+public protocol AdjacencyTileGroupDefinition {
     var name: String { get }
     var adjacencyTextureProvider: AdjacencyTextureProviding { get }
 }
 
-protocol AdjacencyTextureProviding {
+public protocol AdjacencyTextureProviding {
     var textures: [String] { get }
 }
 

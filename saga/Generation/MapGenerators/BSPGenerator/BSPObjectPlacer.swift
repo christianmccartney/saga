@@ -18,13 +18,13 @@ public class BSPObjectPlacer: ObjectPlacer {
 //                                      roomLeaf: RoomLeaf) {
 //    }
     public init() {
-        let bookshelfDefinition = StaticObjectLocation(definitions: [], location: .south)
+        let bookshelfDefinition = ObjectLocation(definitions: [], location: .south(0))
         let libraryDefinition = RoomDefinition(
             minWidth: BSPObjectPlacer.libraryMinWidth,
             minHeight: BSPObjectPlacer.libraryMinHeight,
             maxWidth: BSPObjectPlacer.libraryMaxWidth,
             maxHeight: BSPObjectPlacer.libraryMaxHeight,
-            staticObjectLocations: [bookshelfDefinition])
+            objectLocations: [bookshelfDefinition])
         super.init(roomDefinitions: [libraryDefinition])
     }
     

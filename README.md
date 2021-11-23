@@ -16,6 +16,7 @@ TODOs:
 12. If I want objects to block projectiles Im going to need to figure out a more robust system, especially since not all projectiles go on straight paths.
 13. Related to 12, UI to indicate hit chance
 14. Building the grid graph takes a long ass time, I wonder if it would be more efficient to build it as the map is being built
+15. There are some quality of use improvements that could be made to object definitions, it would be nice if they each defined their own probability and didnt need to base it in relation to the others
 
 Features:
 1. Autoexplore

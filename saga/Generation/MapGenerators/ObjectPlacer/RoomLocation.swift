@@ -8,65 +8,66 @@
 import Foundation
 
 public enum RoomLocation {
-    case north
-    case east
-    case south
-    case west
-    case northEast
-    case northWest
-    case southEast
-    case southWest
-    case center
-    case horizontal
-    case vertical
-    case qHorizontal
-    case tqHorizontal
-    case qVertical
-    case tqVertical
+    case north(Int)
+    case east(Int)
+    case south(Int)
+    case west(Int)
+    case northEast(Int, Int)
+    case northWest(Int, Int)
+    case southEast(Int, Int)
+    case southWest(Int, Int)
+    case center(Int, Int)
+    case horizontal(Int)
+    case qHorizontal(Int)
+    case tqHorizontal(Int)
+    case vertical(Int)
+    case qVertical(Int)
+    case tqVertical(Int)
     
-    func ranges(_ room: RectangularRoom) -> (ClosedRange<Int>, ClosedRange<Int>) {
+    // CAREFUL: Absolutely awful in every way, what the hell
+    func ranges(_ room: RectangularRoom) -> (Range<Int>, Range<Int>) {
         let x1 = room.x1
         let x2 = room.x2
         let y1 = room.y1
         let y2 = room.y2
         precondition(x1+1 < x2-1 && y1+1 < y2-1)
         switch self {
-        case .north:
-            return (x1+1...x2-1, y2...y2)
-        case .south:
-            return (x1+1...x2-1, y1...y1)
-        case .east:
-            return (x2...x2, y1+1...y2-1)
-        case .west:
-            return (x1...x1, y1+1...y2-1)
-        case .northEast:
-            return (x2...x2, y2...y2)
-        case .northWest:
-            return (x1...x1, y2...y2)
-        case .southEast:
-            return (x2...x2, y1...y1)
-        case .southWest:
-            return (x1...x1, y1...y1)
-        case .center:
-            return (x1+1...x2-1, y1+1...y2-1)
-        case .horizontal:
+        case .north(let offset):
+            return (x1+1..<x2-1, y2+offset-1..<y2+offset)
+        case .south(let offset):
+            return (x1+1..<x2-1, y1+offset..<y1+offset+1)
+        case .east(let offset):
+            return (x2+offset..<x2+offset+1, y1+1..<y2-1)
+        case .west(let offset):
+            return (x1+offset..<x1+offset+1, y1+1..<y2-1)
+        case .northEast(let xOffset, let yOffset):
+            return (x2+xOffset-1..<x2+xOffset, y2+yOffset-1..<y2+yOffset)
+        case .northWest(let xOffset, let yOffset):
+            return (x1+xOffset..<x1+xOffset+1, y2+yOffset-1..<y2+yOffset)
+        case .southEast(let xOffset, let yOffset):
+            return (x2+xOffset-1..<x2+xOffset, y1+yOffset..<y1+yOffset+1)
+        case .southWest(let xOffset, let yOffset):
+            return (x1+xOffset..<x1+xOffset+1, y1+yOffset..<y1+yOffset+1)
+        case .center(let xOffset, let yOffset):
+            return (x1+1+xOffset..<x2-xOffset-1, y1+1+yOffset..<y2-yOffset-1)
+        case .horizontal(let offset):
             let y = (y1 + y2) / 2
-            return (x1+1...x2-1, y...y)
-        case .vertical:
-            let x = (x1 + x2) / 2
-            return (x...x, y1+1...y2-1)
-        case .qHorizontal:
+            return (x1+1..<x2-1, y+offset..<y+offset+1)
+        case .qHorizontal(let offset):
             let y = ((y1 + y2) / 2) - (room.height / 4)
-            return (x1+1...x2-1, y...y)
-        case .tqHorizontal:
+            return (x1+1..<x2-1, y+offset..<y+offset+1)
+        case .tqHorizontal(let offset):
             let y = ((y1 + y2) / 2) + (room.height / 4)
-            return (x1+1...x2-1, y...y)
-        case .qVertical:
+            return (x1+1..<x2-1, y+offset..<y+offset+1)
+        case .vertical(let offset):
+            let x = (x1 + x2) / 2
+            return (x+offset..<x+offset+1, y1+1..<y2-1)
+        case .qVertical(let offset):
             let x = ((x1 + x2) / 2) - (room.width / 4)
-            return (x...x, y1+1...y2-1)
-        case .tqVertical:
+            return (x+offset..<x+offset+1, y1+1..<y2-1)
+        case .tqVertical(let offset):
             let x = ((x1 + x2) / 2) + (room.width / 4)
-            return (x...x, y1+1...y2-1)
+            return (x+offset..<x+offset+1, y1+1..<y2-1)
         }
     }
 }

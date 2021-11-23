@@ -8,12 +8,13 @@
 import SpriteKit
 
 let fireballAttackAnimation: AbilityAnimation = { caster, target, position, closure in
-    guard let map = caster.map, let casterPosition = caster.mapPosition else { return }
+    let mapController = MapController.shared
+    let casterPosition = caster.mapPosition
     let point: CGPoint
     if let target = target {
-        point = map.centerOfTile(atColumn: target.position.column, row: target.position.row)
+        point = mapController.centerOfTile(target.position.column, target.position.row)
     } else {
-        point = map.centerOfTile(atColumn: position.column, row: position.row)
+        point = mapController.centerOfTile(position.column, position.row)
     }
     guard let fireballTexture = EffectType.textures[EffectType.fireball],
           let explosionTextures = AnimatedEffect.textures[.fireImpact] else {
@@ -22,56 +23,57 @@ let fireballAttackAnimation: AbilityAnimation = { caster, target, position, clos
     let particleEmitter = SKEmitterNode()
     EmitterType.fire(.orange).setting(for: particleEmitter)
     fireballTexture.filteringMode = .nearest
-    particleEmitter.targetNode = map
+    particleEmitter.targetNode = mapController.map
     let fireballNode = Node(texture: fireballTexture)
     fireballNode.setScale(0.75)
     fireballNode.addChild(particleEmitter)
     
-    let tileAbove = map.centerOfTile(atColumn: caster.position.column, row: caster.position.row + 1)
+    let tileAbove = mapController.centerOfTile(caster.position.column, caster.position.row + 1)
     let middlePosition = (casterPosition + tileAbove) / 2
     fireballNode.position = (casterPosition + middlePosition) / 2
-    map.addChild(fireballNode)
+    mapController.addChild(fireballNode)
     
     // Animate effect
     let direction = CGVector(dx: point.x - casterPosition.x, dy: point.y - casterPosition.y)
     let animate = SKAction.move(by: direction, duration: direction.length / 100)
     animate.timingFunction = Easing.easeIn.curve(.quintic)
     fireballNode.run(animate) {
-        map.removeChildren(in: [fireballNode])
+        mapController.removeChildren(in: [fireballNode])
         // Explosion effect
         let explosionNode = Node(texture: explosionTextures.first!)
         explosionNode.setScale(0.75)
         let explosionAnimation = SKAction.animate(with: explosionTextures, timePerFrame: 0.1)
         explosionNode.position = point
-        map.addChild(explosionNode)
+        mapController.addChild(explosionNode)
         explosionNode.run(explosionAnimation) {
-            map.removeChildren(in: [explosionNode])
+            mapController.removeChildren(in: [explosionNode])
             closure()
         }
     }
 }
 
 let fireballDeathAnimation: DeathAnimation = { entity in
-    guard let map = entity.map, let entityPosition = entity.mapPosition,
-          let fireSpark = AnimatedEffect.textures[.fireSpark],
-          let fireBurn = AnimatedEffect.textures[.fireBurn],
-          let gameState = map.mapSet?.gameState else { return }
+    let mapController = MapController.shared
+    let entityPosition = entity.mapPosition
+    
+    guard let fireSpark = AnimatedEffect.textures[.fireSpark],
+          let fireBurn = AnimatedEffect.textures[.fireBurn] else { return }
     let emitter = GravityEmitter(type: .bits(.gray), acceleration: 75, position: entityPosition)
-    map.addChild(emitter)
-    map.mapSet?.gameState?.removeChild(entity)
+    mapController.addChild(emitter)
+    mapController.removeChild(entity)
 
     let sparkNode = Node(texture: fireSpark.first!)
     let spark = SKAction.animate(with: fireSpark, timePerFrame: 0.1)
     sparkNode.position = entityPosition
-    map.addChild(sparkNode)
+    mapController.addChild(sparkNode)
     sparkNode.run(spark) {
-        map.removeChildren(in: [sparkNode])
+        mapController.removeChildren(in: [sparkNode])
     }
 
-    let scorchObject = StaticObject(type: .scorch_a, position: entity.position, entityDelegate: gameState)
+    let scorchObject = StaticObject(type: .scorch_a, position: entity.position)
     scorchObject.selectable = false
     scorchObject.attackable = false
-    gameState.addChild(scorchObject)
+    mapController.addChild(scorchObject)
     scorchObject.updatePosition()
     
     let fireNode = Node(texture: fireBurn.first!)
@@ -89,6 +91,6 @@ let fireballDeathAnimation: DeathAnimation = { entity in
     scorchObject.spriteNode.run(waitAction)
     let fadeAction = SKAction.fadeOut(withDuration: 0.5)
     emitter.run(fadeAction) {
-        map.removeChild(emitter)
+        mapController.removeChild(emitter)
     }
 }

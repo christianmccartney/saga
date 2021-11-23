@@ -19,9 +19,10 @@ enum MoveType {
 open class Entity: GKEntity, ObservableObject {
     let id: UUID
     var spriteNode: Node
-    //var graphNode: GKGraphNode
+    
+    private var mapController: MapController { MapController.shared }
+    private var map: SKTileMapNode { mapController.map }
 
-    weak var map: Map?
     public weak var entityDelegate: EntityDelegate?
     public var actionInceptor: EntityActionInceptor
 
@@ -40,14 +41,14 @@ open class Entity: GKEntity, ObservableObject {
         didSet {
             if faction == .player {
                 if let ability = self.selectedAbility {
-                    self.map?.removeHintNodes()
-                    self.map?.removeAttackNodes()
-                    self.map?.addAbilityHints(to: self, ability: ability)
-                    self.map?.addAttackHints(to: self, ability: ability)
+                    self.mapController.removeHintNodes()
+                    self.mapController.removeAttackNodes()
+                    self.mapController.addAbilityHints(to: self, ability: ability)
+                    self.mapController.addAttackHints(to: self, ability: ability)
                 } else {
-                    self.map?.removeHintNodes()
-                    self.map?.removeAttackNodes()
-                    self.map?.addMovementHints(to: self)
+                    self.mapController.removeHintNodes()
+                    self.mapController.removeAttackNodes()
+                    self.mapController.addMovementHints(to: self)
                 }
             }
         }
@@ -110,12 +111,10 @@ open class Entity: GKEntity, ObservableObject {
     var name: String {  "\(type)" }
 
     func updatePosition() {
-        if let map = map {
-            spriteNode.position = map.centerOfTile(atColumn: position.column, row: position.row)
-        }
+        spriteNode.position = map.centerOfTile(atColumn: position.column, row: position.row)
     }
 
-    var mapPosition: CGPoint? { map?.centerOfTile(atColumn: position.column, row: position.row) }
+    var mapPosition: CGPoint { map.centerOfTile(atColumn: position.column, row: position.row) }
     
     func addChild(_ entity: Entity) {
         children.insert(entity)
@@ -129,7 +128,7 @@ open class Entity: GKEntity, ObservableObject {
     
     func setPosition(_ position: Position) {
         self.position = position
-        spriteNode.position = map?.centerOfTile(atColumn: position.column, row: position.row) ?? spriteNode.position
+        spriteNode.position = map.centerOfTile(atColumn: position.column, row: position.row)
     }
 
     private func angle(to: simd_float2) -> Float {
@@ -158,37 +157,35 @@ open class Entity: GKEntity, ObservableObject {
     }
 
     func move(to location: CGPoint, from scene: SKScene, _ closure: @escaping () -> ()) {
-        if let map = map {
-            let pos = scene.convert(location, to: map)
-            let column = map.tileColumnIndex(fromPosition: pos)
-            let row = map.tileRowIndex(fromPosition: pos)
-            let center = map.centerOfTile(atColumn: column, row: row)
-            guard map.roomMap[row][column] else { return }
-            if let newDirection = rotation(to: center) {
-                direction = newDirection
-            }
-            let action = SKAction.move(to: center, duration: 0.25)
-            position = Position(column, row)
-            spriteNode.run(action) {
-                closure()
-            }
-        }
+//        if let map = map {
+//            let pos = scene.convert(location, to: map)
+//            let column = map.tileColumnIndex(fromPosition: pos)
+//            let row = map.tileRowIndex(fromPosition: pos)
+//            let center = map.centerOfTile(atColumn: column, row: row)
+//            guard map.roomMap[row][column] else { return }
+//            if let newDirection = rotation(to: center) {
+//                direction = newDirection
+//            }
+//            let action = SKAction.move(to: center, duration: 0.25)
+//            position = Position(column, row)
+//            spriteNode.run(action) {
+//                closure()
+//            }
+//        }
     }
 
     // TODO 7: Need to distinguish different types of moves, eg. walked pushed teleported etc
     func move(to position: Position, _ closure: @escaping () -> ()) {
-        if let map = map {
-            guard map.roomMap[position.row][position.column] else { return }
-            let location = map.centerOfTile(atColumn: position.column, row: position.row)
-            if let newDirection = rotation(to: location) {
-                direction = newDirection
-            }
-            let action = SKAction.move(to: location, duration: 0.25)
-            self.position = position
-            spriteNode.run(action) {
-                closure()
-            }
-        }
+//            guard map.roomMap[position.row][position.column] else { return }
+//            let location = map.centerOfTile(atColumn: position.column, row: position.row)
+//            if let newDirection = rotation(to: location) {
+//                direction = newDirection
+//            }
+//            let action = SKAction.move(to: location, duration: 0.25)
+//            self.position = position
+//            spriteNode.run(action) {
+//                closure()
+//            }
     }
     
 //    func move(to position: Position) async {
@@ -250,14 +247,13 @@ open class Entity: GKEntity, ObservableObject {
 // MARK: Helper Functions
 
 extension Array where Element == Entity {
-    func removeChildren(from scene: SKNode) {
-        var nodes: [SKNode] = []
-        for entity in self {
-            entity.map = nil
-            nodes.append(entity.spriteNode)
-        }
-        scene.removeChildren(in: nodes)
-    }
+//    func removeChildren(from scene: SKNode) {
+//        var nodes: [SKNode] = []
+//        for entity in self {
+//            nodes.append(entity.spriteNode)
+//        }
+//        scene.removeChildren(in: nodes)
+//    }
 }
 
 extension Entity {

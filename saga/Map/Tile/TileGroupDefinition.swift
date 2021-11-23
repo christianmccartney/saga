@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-struct TileGroupDefinition {
+public struct TileGroupDefinition {
     let name: String
     let verticalWallType: TileVerticalWallType
     let horizontalWallType: TileHorizontalWallType

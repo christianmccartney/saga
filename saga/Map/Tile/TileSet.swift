@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-class TileSet: SKTileSet {
+public class TileSet: SKTileSet {
     public init(_ tileGroupDefinition: TileGroupDefinition) {
         let timeStarted = DispatchTime.now()
     

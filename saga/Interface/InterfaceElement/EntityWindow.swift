@@ -4,8 +4,7 @@
 //
 //  Created by Christian McCartney on 10/20/21.
 //
-
-import Foundation
+ 
 import SpriteKit
 import Combine
 
@@ -23,17 +22,6 @@ class EntityWindow: InterfaceElement {
             tileSize: tileSet.defaultTileSize)
         enableAutomapping = false
         fillSquare(tileSet.tileGroups.first!)
-        
-        Selection.shared.$activeEntity
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] highlightedEntity in
-                guard let self = self else { return }
-                let entity = highlightedEntity?.copyEntity()
-                entity?.isUserInteractionEnabled = false
-                entity?.spriteNode.position = CGPoint(x: self.frame.width/4, y: self.frame.height/4)
-                entity?.scale = 4
-                self.selectEntity(entity)
-            }.store(in: &cancellables)
         addChild(textTileMap)
     }
 
@@ -49,6 +37,23 @@ class EntityWindow: InterfaceElement {
             interfaceDelegate?.track(entity)
         }
     }
+    
+    override func attachElements(_ scene: CoreScene) {
+        scene.$highlightedEntity
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] highlightedEntity in
+                guard let self = self else { return }
+                let entity = highlightedEntity?.copyEntity()
+                entity?.isUserInteractionEnabled = false
+                entity?.spriteNode.position = self.centerOfTile(atColumn: self.numberOfColumns/2,
+                                                                row: self.numberOfRows/2)
+                entity?.scale = 4
+                self.selectEntity(entity)
+            }.store(in: &cancellables)
+        for element in elements {
+            element.attachElements(scene)
+        }
+    }
 
     override func setPosition() {
         posByScreen(x: 0.0, y: 0.0)
@@ -57,9 +62,4 @@ class EntityWindow: InterfaceElement {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-extension Entity {
-//    func copyForEntityWindow() -> Entity {
-//    }
 }

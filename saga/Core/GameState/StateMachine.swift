@@ -11,8 +11,6 @@ import GameplayKit
 protocol StateMachine {
     func pause(_ pause: Bool)
     // Adding/Removing things
-    var mapSet: MapSet? { get set }
-    
     func addChild(_ entity: Entity)
     func addChildren(_ entities: [Entity])
     
@@ -22,9 +20,6 @@ protocol StateMachine {
     // when an entity needs to be added to the gameloop but not the map
     func track(_ entity: Entity)
     func untrack(_ entity: Entity)
-
-    func addMap(_ map: Map)
-    func addMapSet(_ mapSet: MapSet)
 
     // Camera
     func focusOnActive()

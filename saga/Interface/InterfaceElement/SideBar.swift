@@ -31,9 +31,7 @@ class SideBar: InterfaceElement {
         let moveButton = Button(type: .arrow_right, action: { [weak self] button in
             guard let self = self else { return }
             self.select(button)
-            Task {
-                await self.coreScene?.advanceTurn()
-            }
+            self.coreScene?.refreshMap()
         })
         let defendButton = Button(type: .shield, action: { [weak self] button in
             guard let self = self else { return }

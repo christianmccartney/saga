@@ -36,7 +36,7 @@ extension Entity {
     }
     
     func applyDamage(damage: Float, position: CGPoint) {
-        guard let map = map else { return }
+        let mapController = MapController.shared
         let truncatedDamage = floor(damage * 10) / 10
         let text = "-" + String(truncatedDamage)
         let textTileMap = TextTileMap(fontType: .light, columns: text.count + 1, rows: 1)
@@ -45,19 +45,19 @@ extension Entity {
         textTileMap.colorBlendFactor = 1.0
         textTileMap.applyString(text, startingAt: Position(0, 0))
         textTileMap.position = position
-        map.addChild(textTileMap)
+        mapController.addChild(textTileMap)
         
         let fadeIn = SKAction.fadeIn(withDuration: 0.1)
         let fadeOut = SKAction.fadeOut(withDuration: 0.5)
         let sequence = SKAction.sequence([fadeIn, fadeOut])
         applyRandomForceScaled(to: textTileMap, scale: CGFloat(damage))
         textTileMap.run(sequence) {
-            map.removeChildren(in: [textTileMap])
+            mapController.removeChildren(in: [textTileMap])
         }
     }
     
     func applyHeal(heal: Float, position: CGPoint)  {
-        guard let map = map else { return }
+        let mapController = MapController.shared
         let truncatedDamage = floor(heal * 10) / 10
         let text = "+" + String(truncatedDamage)
         let textTileMap = TextTileMap(fontType: .light, columns: text.count + 1, rows: 1)
@@ -66,14 +66,14 @@ extension Entity {
         textTileMap.colorBlendFactor = 1.0
         textTileMap.applyString(text, startingAt: Position(0, 0))
         textTileMap.position = position
-        map.addChild(textTileMap)
+        mapController.addChild(textTileMap)
         
         let fadeIn = SKAction.fadeIn(withDuration: 0.1)
         let fadeOut = SKAction.fadeOut(withDuration: 0.5)
         let sequence = SKAction.sequence([fadeIn, fadeOut])
         applyConstantForce(to: textTileMap)
         textTileMap.run(sequence) {
-            map.removeChildren(in: [textTileMap])
+            mapController.removeChildren(in: [textTileMap])
         }
     }
 }

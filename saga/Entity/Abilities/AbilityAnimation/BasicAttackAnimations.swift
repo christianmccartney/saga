@@ -8,12 +8,13 @@
 import SpriteKit
 
 let basicAttackAnimation: AbilityAnimation = { caster, target, position, closure in
-    guard let map = caster.map, let casterPosition = caster.mapPosition else { return }
+    let mapController = MapController.shared
+    let casterPosition = caster.mapPosition
     let direction: CGPoint
     if let target = target {
-        direction = map.centerOfTile(atColumn: target.position.column, row: target.position.row)
+        direction = mapController.centerOfTile(target.position.column, target.position.row)
     } else {
-        direction = map.centerOfTile(atColumn: position.column, row: position.row)
+        direction = mapController.centerOfTile(position.column, position.row)
     }
     let bopAction = SKAction.move(by: CGVector(dx: (direction.x - casterPosition.x)/2,
                                                dy: (direction.y - casterPosition.y)/2),
@@ -29,13 +30,13 @@ let basicAttackAnimation: AbilityAnimation = { caster, target, position, closure
                                              y: CGFloat.random(in: -5...5))
     slashNode.zRotation = CGFloat.pi * 0.5
     slashNode.setScale(0.5)
-    map.addChild(slashNode)
+    mapController.addChild(slashNode)
     let animation = SKAction.animate(with: slashTextures, timePerFrame: 0.05)
     slashNode.zPosition = 9
     
     caster.spriteNode.run(bopGroup) {
         slashNode.run(animation) {
-            map.removeChildren(in: [slashNode])
+            mapController.removeChildren(in: [slashNode])
         }
         closure()
     }

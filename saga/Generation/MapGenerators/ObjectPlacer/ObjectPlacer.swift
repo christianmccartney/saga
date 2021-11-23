@@ -15,24 +15,6 @@ public struct CreatureDefinition {
     let location: RoomLocation
 }
 
-/// A `StaticObjectDefinition` describes an object and its spawn chance
-public struct StaticObjectDefinition {
-    /// The object type.
-    let type: StaticObjectType
-    /// Probability of spawning, 0 = never, 100 = always.
-    let spawnChance: Int
-}
-
-public struct StaticObjectLocation {
-    let definitions: [StaticObjectDefinition]
-    /// The locations that the object may spawn.
-    let location: RoomLocation
-    /// The maximum number of objects to place.
-    var definition: StaticObjectDefinition? {
-        definitions.first { Int.random(in: 0..<100) < $0.spawnChance }
-    }
-}
-
 /// A `RoomDefinition` describes the size of a possible room and what objects could populate it.
 public struct RoomDefinition {
     /// Minimum width of a room that this definition could apply to.
@@ -44,7 +26,7 @@ public struct RoomDefinition {
     /// Maximum height of a room that this definition could apply to.
     let maxHeight: Int
     /// The static object definitions for this room.
-    var staticObjectLocations: [StaticObjectLocation]
+    var objectLocations: [ObjectLocation]
     
     func fits(in room: RectangularRoom) -> Bool {
         return room.width > minWidth && room.width < maxWidth && room.height > minHeight && room.height < maxHeight
@@ -59,7 +41,7 @@ open class ObjectPlacer {
         self.roomDefinitions = roomDefinitions
     }
 
-    func entities(for room: RectangularRoom) -> [Entity] {
+    func entities(room: RectangularRoom, map: inout RoomMap) -> [Entity] {
         var entities = [Entity]()
         var possibleDefinitions = [RoomDefinition]()
         for definition in roomDefinitions {
@@ -70,14 +52,15 @@ open class ObjectPlacer {
         guard !possibleDefinitions.isEmpty else { return entities }
         let index = Int.random(in: 0..<possibleDefinitions.count)
         
-        for objectLocation in possibleDefinitions[index].staticObjectLocations {
+        for objectLocation in possibleDefinitions[index].objectLocations {
             let ranges = objectLocation.location.ranges(room)
             for x in ranges.0 {
                 for y in ranges.1 {
-                    if let object = objectLocation.definition {
-                        let object = StaticObject(type: object.type)
-                        object.position = Position(x, y)
-                        entities.append(object)
+                    guard !map.nearbyRoom(room, x, y, 1, 0),
+                          !map.nearbyRoom(room, x, y, 0, 1) else { continue }
+                    if let entity = objectLocation.entity {
+                        entity.position = Position(x, y)
+                        entities.append(entity)
                     }
                 }
             }

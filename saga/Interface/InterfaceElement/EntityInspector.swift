@@ -26,8 +26,10 @@ class EntityInspector: InterfaceElement {
             tileSize: tileSet.defaultTileSize)
         enableAutomapping = false
         fillSquare(tileSet.tileGroups.first!)
-
-        Selection.shared.$highlightedEntity
+    }
+    
+    override func attachElements(_ scene: CoreScene) {
+        scene.$highlightedEntity
             .receive(on: DispatchQueue.main)
             .sink { [weak self] highlightedEntity in
                 guard let self = self else { return }
@@ -36,6 +38,9 @@ class EntityInspector: InterfaceElement {
         addChild(textTileMap)
         anchorPoint = CGPoint(x: 0, y: 1.0)
         textTileMap.anchorPoint = CGPoint(x: 0, y: 1.0)
+        for element in elements {
+            element.attachElements(scene)
+        }
     }
 
     override func setupButtons() {

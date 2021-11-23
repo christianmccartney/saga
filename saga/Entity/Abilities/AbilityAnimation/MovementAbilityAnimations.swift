@@ -8,12 +8,13 @@
 import SpriteKit
 
 let dashAnimation: AbilityAnimation = { caster, target, position, closure in
-    guard let map = caster.map, let casterPosition = caster.mapPosition else { return }
+    let mapController = MapController.shared
+    let casterPosition = caster.mapPosition
     let direction: CGPoint
     if let target = target {
-        direction = map.centerOfTile(atColumn: target.position.column, row: target.position.row)
+        direction = mapController.centerOfTile(target.position.column, target.position.row)
     } else {
-        direction = map.centerOfTile(atColumn: position.column, row: position.row)
+        direction = mapController.centerOfTile(position.column, position.row)
     }
     let bopAction = SKAction.move(by: CGVector(dx: (direction.x - casterPosition.x)/2,
                                                dy: (direction.y - casterPosition.y)/2),

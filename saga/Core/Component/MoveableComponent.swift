@@ -26,7 +26,7 @@ public class MovableComponent: Component {
     }
 
     var entityPositionCorrect: Bool {
-        guard let mapPosition = _entity.mapPosition else { return true }
+        let mapPosition = _entity.mapPosition
         return mapPosition == _entity.spriteNode.position
     }
 }

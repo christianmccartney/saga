@@ -17,7 +17,7 @@ protocol InterfaceDelegate: AnyObject {
 }
 
 open class InterfaceElement: SKTileMapNode {
-    weak var coreScene: CoreScene?
+    weak var coreScene: CoreScene!
     weak var interfaceDelegate: InterfaceDelegate?
     var buttons = [Button]()
     var elements = [InterfaceElement]()
@@ -40,11 +40,12 @@ open class InterfaceElement: SKTileMapNode {
     }
 
     func attachElements(_ scene: CoreScene) {
-        for child in elements {
-            addChild(child)
-            child.coreScene = scene
-            child.setPosition()
-            child.setupButtons()
+        for element in elements {
+            addChild(element)
+            element.coreScene = scene
+            element.setPosition()
+            element.setupButtons()
+            element.attachElements(scene)
         }
     }
 }

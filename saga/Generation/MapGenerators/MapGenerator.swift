@@ -47,34 +47,30 @@ open class MapGenerator {
 //            map[y][width-1] = false
 //            map[y][width-2] = false
 //        }
+        let hallways = [RectangularRoom(x: 7, y: 5, width: 3, height: 1), // hall
+                        RectangularRoom(x: 15, y: 5, width: 3, height: 1), // hall
+                        RectangularRoom(x: 24, y: 5, width: 3, height: 1), // hall
+                        RectangularRoom(x: 20, y: 9, width: 2, height: 6), // hall
+                        ]
         
-        let rooms = [RectangularRoom(x: 3, y: 3, width: 6, height: 6),
-                     RectangularRoom(x: 15, y: 3, width: 7, height: 7),
+        let rooms = [RectangularRoom(x: 3, y: 3, width: 4, height: 4),
+                     RectangularRoom(x: 10, y: 3, width: 5, height: 5),
+                     RectangularRoom(x: 18, y: 3, width: 6, height: 6),
+                     RectangularRoom(x: 27, y: 3, width: 7, height: 7),
                      RectangularRoom(x: 3, y: 15, width: 8, height: 8),
-                     RectangularRoom(x: 15, y: 15, width: 9, height: 9)]
+                     RectangularRoom(x: 14, y: 15, width: 9, height: 9),
+                     RectangularRoom(x: 26, y: 15, width: 10, height: 10),
+                    ]
         var entities = [Entity]()
         
-        for room in rooms {
-            room.addRoom(to: &map)
-            entities.append(contentsOf: objectPlacer.entities(for: room))
-        }
+        hallways.forEach { $0.addRoom(to: &map) }
+        rooms.forEach { entities.append(contentsOf: objectPlacer.entities(room: $0, map: &map)) }
+        rooms.forEach { $0.addRoom(to: &map) }
         
         return FilledMap(roomMap: map, entities: entities)
     }
     
     open func createRooms() {
         print("Override this")
-    }
-
-    func visualize(_ room: RoomMap) {
-        var rowCount = 0
-        for x in room.reversed() {
-            print("[ ", terminator: "")
-            for y in x {
-                print("\(y ? 1 : 0) ", terminator: "")
-            }
-            print(" ] \(rowCount)")
-            rowCount += 1
-        }
     }
 }

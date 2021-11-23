@@ -8,12 +8,13 @@
 import SpriteKit
 
 let voidballAttackAnimation: AbilityAnimation = { caster, target, position, closure in
-    guard let map = caster.map, let casterPosition = caster.mapPosition else { return }
+    let mapController = MapController.shared
+    let casterPosition = caster.mapPosition
     let point: CGPoint
     if let target = target {
-        point = map.centerOfTile(atColumn: target.position.column, row: target.position.row)
+        point = mapController.map.centerOfTile(atColumn: target.position.column, row: target.position.row)
     } else {
-        point = map.centerOfTile(atColumn: position.column, row: position.row)
+        point = mapController.map.centerOfTile(atColumn: position.column, row: position.row)
     }
     guard let voidballTexture = EffectType.textures[EffectType.voidball],
           let explosionTextures = AnimatedEffect.textures[.voidImpact] else {
@@ -27,69 +28,71 @@ let voidballAttackAnimation: AbilityAnimation = { caster, target, position, clos
     let voidballNode = Node(texture: voidballTexture)
     voidballNode.addChild(emitter)
     
-    let tileAbove = map.centerOfTile(atColumn: caster.position.column, row: caster.position.row + 1)
+    let tileAbove = mapController.map.centerOfTile(atColumn: caster.position.column,
+                                                   row: caster.position.row + 1)
     let middlePosition = (casterPosition + tileAbove) / 2
     voidballNode.position = (casterPosition + middlePosition) / 2
-    map.addChild(voidballNode)
+    mapController.addChild(voidballNode)
     
     // Animate effect
     let direction = CGVector(dx: point.x - casterPosition.x, dy: point.y - casterPosition.y)
     let animate = SKAction.move(by: direction, duration: direction.length / 100)
     animate.timingFunction = Easing.easeOutIn.curve(.cubic)
     voidballNode.run(animate) {
-        map.removeChildren(in: [voidballNode])
+        mapController.removeChildren(in: [voidballNode])
         // Explosion effect
         let explosionNode = Node(texture: explosionTextures.first!)
         let explosionAnimation = SKAction.animate(with: explosionTextures, timePerFrame: 0.1)
         explosionNode.position = point
-        map.addChild(explosionNode)
+        mapController.addChild(explosionNode)
         explosionNode.run(explosionAnimation) {
-            map.removeChildren(in: [explosionNode])
+            mapController.removeChildren(in: [explosionNode])
             closure()
         }
     }
 }
 
 let voidballDeathAnimation: DeathAnimation = { entity in
-    guard let map = entity.map, let entityPosition = entity.mapPosition,
-          let voidSpark = AnimatedEffect.textures[.voidSpark],
+    let mapController = MapController.shared
+    let entityPosition = entity.mapPosition
+    
+    guard let voidSpark = AnimatedEffect.textures[.voidSpark],
           let sparkle = AnimatedEffect.textures[.sparkle],
-          var voidImpact = AnimatedEffect.textures[.voidImpact],
-          let gameState = map.mapSet?.gameState else { return }
+          var voidImpact = AnimatedEffect.textures[.voidImpact] else { return }
     
     voidImpact = voidImpact.reversed()
     let explosionNode = Node(texture: voidImpact.first!)
     let explosionAnimation = SKAction.animate(with: voidImpact, timePerFrame: 0.1)
     explosionNode.position = entityPosition
-    map.addChild(explosionNode)
+    mapController.addChild(explosionNode)
     
     let explosionShrink = SKAction.scale(by: 0.1, duration: 0.1)
     let entityShrink = SKAction.scale(by: 0.1, duration: 0.075)
     
     explosionNode.run(explosionAnimation) {
         explosionNode.run(explosionShrink) {
-            map.removeChildren(in: [explosionNode])
+            mapController.removeChildren(in: [explosionNode])
             
             let sparkNode = Node(texture: voidSpark.first!)
             sparkNode.setScale(0.5)
             let sparkAnimation = SKAction.animate(with: voidSpark, timePerFrame: 0.075)
             sparkNode.position = entityPosition
-            map.addChild(sparkNode)
+            mapController.addChild(sparkNode)
             sparkNode.run(sparkAnimation) {
-                map.removeChildren(in: [sparkNode])
+                mapController.removeChildren(in: [sparkNode])
                 
                 let sparkleNode = Node(texture: sparkle.first!)
                 sparkleNode.setScale(0.5)
                 let sparkleAnimation = SKAction.animate(with: sparkle, timePerFrame: 0.075)
                 sparkleNode.position = entityPosition
-                map.addChild(sparkleNode)
+                mapController.addChild(sparkleNode)
                 sparkleNode.run(sparkleAnimation) {
-                    map.removeChildren(in: [sparkleNode])
+                    mapController.removeChildren(in: [sparkleNode])
                 }
             }
         }
         entity.spriteNode.run(entityShrink) {
-            map.mapSet?.gameState?.removeChild(entity)
+            mapController.removeChild(entity)
         }
     }
 }

@@ -17,12 +17,13 @@ extension UIColor {
 }
 
 let iceballAttackAnimation: AbilityAnimation = { caster, target, position, closure in
-    guard let map = caster.map, let casterPosition = caster.mapPosition else { return }
+    let mapController = MapController.shared
+    let casterPosition = caster.mapPosition
     let point: CGPoint
     if let target = target {
-        point = map.centerOfTile(atColumn: target.position.column, row: target.position.row)
+        point = mapController.centerOfTile(target.position.column, target.position.row)
     } else {
-        point = map.centerOfTile(atColumn: position.column, row: position.row)
+        point = mapController.centerOfTile(position.column, position.row)
     }
     guard let iceballTexture = EffectType.textures[EffectType.iceball],
           let explosionTextures = AnimatedEffect.textures[.iceImpact] else {
@@ -32,7 +33,7 @@ let iceballAttackAnimation: AbilityAnimation = { caster, target, position, closu
     func generateIceball(count: Int, depth: Int, closure: @escaping () -> ()) {
         let particleEmitter = SKEmitterNode()
         EmitterType.fire(.lightBlue).setting(for: particleEmitter)
-        particleEmitter.targetNode = map
+        particleEmitter.targetNode = mapController.map
         particleEmitter.particleScale = 0.025
         
         iceballTexture.filteringMode = .nearest
@@ -40,10 +41,10 @@ let iceballAttackAnimation: AbilityAnimation = { caster, target, position, closu
         iceballNode.setScale(0.5)
         iceballNode.addChild(particleEmitter)
         
-        let tileAbove = map.centerOfTile(atColumn: caster.position.column, row: caster.position.row + 1)
+        let tileAbove = mapController.centerOfTile(caster.position.column, caster.position.row + 1)
         let middlePosition = (casterPosition + tileAbove) / 2
         iceballNode.position = (casterPosition + middlePosition) / 2
-        map.addChild(iceballNode)
+        mapController.addChild(iceballNode)
         
         let path = UIBezierPath()
         path.move(to: casterPosition)
@@ -59,15 +60,15 @@ let iceballAttackAnimation: AbilityAnimation = { caster, target, position, closu
         let animate = SKAction.follow(path.cgPath, asOffset: false, orientToPath: true, speed: 100)
         animate.timingFunction = Easing.easeIn.curve(.cubic)
         iceballNode.run(animate) {
-            map.removeChildren(in: [iceballNode])
+            mapController.removeChildren(in: [iceballNode])
             // Explosion effect
             let explosionNode = Node(texture: explosionTextures.first!)
             explosionNode.setScale(0.5)
             let explosionAnimation = SKAction.animate(with: explosionTextures, timePerFrame: 0.1)
             explosionNode.position = endPoint
-            map.addChild(explosionNode)
+            mapController.addChild(explosionNode)
             explosionNode.run(explosionAnimation) {
-                map.removeChildren(in: [explosionNode])
+                mapController.removeChildren(in: [explosionNode])
                 if !(count < depth) {
                     closure()
                 }
@@ -81,9 +82,10 @@ let iceballAttackAnimation: AbilityAnimation = { caster, target, position, closu
 }
 
 let iceballDeathAnimation: DeathAnimation = { entity in
-    guard let map = entity.map, let entityPosition = entity.mapPosition,
-          let iceSpark = AnimatedEffect.textures[.iceSpark],
-          let gameState = map.mapSet?.gameState else { return }
+    let mapController = MapController.shared
+    let entityPosition = entity.mapPosition
+
+    guard let iceSpark = AnimatedEffect.textures[.iceSpark] else { return }
     let emitter = SKEmitterNode()
     EmitterType.bits(.lightBlue).setting(for: emitter)
     emitter.position = entityPosition
@@ -96,16 +98,16 @@ let iceballDeathAnimation: DeathAnimation = { entity in
 //    let emitter = GravityEmitter(type: .bits(UIColor(red: red, green: green, blue: blue, alpha: 1.0)),
 //                                 acceleration: 75,
 //                                 position: entityPosition)
-    map.addChild(emitter)
+    mapController.addChild(emitter)
     let fadeDark = SKAction.colorize(with: .darkGray, colorBlendFactor: 1.0, duration: 0.25)
     entity.spriteNode.run(fadeDark)
 
     let sparkNode = Node(texture: iceSpark.first!)
     let spark = SKAction.animate(with: iceSpark, timePerFrame: 0.1)
     sparkNode.position = entityPosition
-    map.addChild(sparkNode)
+    mapController.addChild(sparkNode)
     sparkNode.run(spark) {
-        map.removeChildren(in: [sparkNode])
+        mapController.removeChildren(in: [sparkNode])
     }
 
     let gleam = SKAction.colorize(with: .white,
@@ -117,7 +119,7 @@ let iceballDeathAnimation: DeathAnimation = { entity in
     
     let node = SKSpriteNode()
     let wait = SKAction.wait(forDuration: 0.5)
-    map.addChild(node)
+    mapController.addChild(node)
     
     node.run(wait) {
 //        emitter.particleSpeed = 100.0
@@ -125,10 +127,10 @@ let iceballDeathAnimation: DeathAnimation = { entity in
         emitter.particleSpeedRange = 50.0
         emitter.emissionAngleRange = 2 * CGFloat.pi
         node.run(wait) {
-            map.mapSet?.gameState?.removeChild(entity)
+            mapController.removeChild(entity)
             node.run(wait) {
-                map.removeChildren(in: [emitter])
-                map.removeChildren(in: [node])
+                mapController.removeChildren(in: [emitter])
+                mapController.removeChildren(in: [node])
             }
         }
     }

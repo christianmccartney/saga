@@ -12,7 +12,7 @@ class DynamicObject: Object {
                 type: DynamicObjectType,
                 position: Position = Position(0, 0),
                 statistics: Statistics = Statistics(),
-                entityDelegate: EntityDelegate) {
+                entityDelegate: EntityDelegate? = nil) {
 
         let texture1 = SKTexture(imageNamed: type.name + "1")
         let texture2 = SKTexture(imageNamed: type.name + "2")

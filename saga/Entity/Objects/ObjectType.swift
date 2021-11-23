@@ -20,6 +20,7 @@ public enum StaticObjectType: String, EntityType {
     case chair
     case chest
     case crate
+    case crate_broken
     case floor_carpet_a
     case floor_carpet_b
     case floor_carpet_c
@@ -64,12 +65,12 @@ public enum StaticObjectType: String, EntityType {
     case statue_winged
     case stone_cave
     case stone_grey
-    case table_left
-    case table_left_chair
+    case table_left_a
+    case table_left_b
     case table_middle
     case table_middle_paper
-    case table_right
-    case table_right_chair
+    case table_right_a
+    case table_right_b
     case table
     case throne_evil
     case throne_wood

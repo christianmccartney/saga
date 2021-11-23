@@ -116,18 +116,16 @@ class Ability {
     }
 
     private func applyHealthDamage(damage: Float, to entity: Entity) {
-        guard let position = entity.mapPosition else { return }
         entity.statistics.health -= damage
-        entity.applyDamage(damage: damage, position: position)
+        entity.applyDamage(damage: damage, position: entity.mapPosition)
         if entity.statistics.health < 0 {
             ActorSystem.shared.enqueueAction(abilityDeathAnimation, entity)
         }
     }
 
     private func applyHealthHeal(heal: Float, to entity: Entity) {
-        guard let position = entity.mapPosition else { return }
         entity.statistics.health += heal
-        entity.applyHeal(heal: heal, position: position)
+        entity.applyHeal(heal: heal, position: entity.mapPosition)
     }
     
     private func applyManaDamage(damage: Float, to entity: Entity) {

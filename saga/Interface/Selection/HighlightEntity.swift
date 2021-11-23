@@ -44,13 +44,13 @@ final class HighlightEntity: Entity {
 }
 
 extension Entity {
-    func addHighlightEntity(_ highlightEntity: HighlightEntity) {
-        highlightEntity.entity = self
-        addChild(highlightEntity)
-    }
-    
-    func removeHighlightEntity(_ highlightEntity: HighlightEntity) {
-        highlightEntity.entity = nil
-        removeChild(highlightEntity)
-    }
+//    func addHighlightEntity(_ highlightEntity: HighlightEntity) {
+//        highlightEntity.entity = self
+//        addChild(highlightEntity)
+//    }
+//
+//    func removeHighlightEntity(_ highlightEntity: HighlightEntity) {
+//        highlightEntity.entity = nil
+//        removeChild(highlightEntity)
+//    }
 }
