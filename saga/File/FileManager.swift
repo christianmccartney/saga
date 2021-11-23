@@ -124,24 +124,6 @@ final class FM {
         }
         let bmp = Bitmap(width: STANDARD_WEAPON_WIDTH, height: STANDARD_WEAPON_HEIGHT)
         bmp.generate(closure: { x, y in
-//            var r: Float = 0
-//            var g: Float = 0
-//            var b: Float = 0
-//
-//            if x == 0, y == 0 {
-//                r = 1
-//            }
-//            if x == 15, y == 0 {
-//                g = 1
-//            }
-//            if x == 0, y == 15 {
-//                b = 1
-//            }
-//            if x == 15, y == 15 {
-//                r = 0.5
-//                g = 0.5
-//                b = 0.5
-//            }
             return PixelRGBU8(r: 255, g: 255, b: 255)
 //            return PixelRGBU8(r: Float(x % 2), g: Float(y % 2), b: 1.0)
         })
@@ -152,9 +134,6 @@ final class FM {
                 node.addChild(fileNode)
                 return fileNode
             }
-//            if let image = UIImage(contentsOfFile: url.path) {
-//                return FMImage(image: image, bmp: bmp)
-//            }
             return node.children.first { $0.url == url } as? FileNode
         }
         

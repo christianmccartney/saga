@@ -26,7 +26,7 @@ let iceballAttackAnimation: AbilityAnimation = { caster, target, position, closu
         point = mapController.centerOfTile(position.column, position.row)
     }
     guard let iceballTexture = EffectType.textures[EffectType.iceball],
-          let explosionTextures = AnimatedEffect.textures[.iceImpact] else {
+          let explosionTextures = AnimatedEffect.textures[.iceimpact] else {
               fatalError("Failed to get Fireball resources")
           }
     
@@ -85,7 +85,7 @@ let iceballDeathAnimation: DeathAnimation = { entity in
     let mapController = MapController.shared
     let entityPosition = entity.mapPosition
 
-    guard let iceSpark = AnimatedEffect.textures[.iceSpark] else { return }
+    guard let iceSpark = AnimatedEffect.textures[.icespark] else { return }
     let emitter = SKEmitterNode()
     EmitterType.bits(.lightBlue).setting(for: emitter)
     emitter.position = entityPosition

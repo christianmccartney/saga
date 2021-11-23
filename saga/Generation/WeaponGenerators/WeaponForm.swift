@@ -60,6 +60,4 @@ enum WeaponForm: CaseIterable {
         .cubic: 10,
         .wavy: 1
     ]
-
-    
 }

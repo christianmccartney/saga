@@ -8,10 +8,10 @@
 import SpriteKit
 
 enum ResourceBar: String, CaseIterable {
-    case fullHealth = "td_interface_hp_full_"
-    case emptyHealth = "td_interface_hp_empty_"
-    case fullMana = "td_interface_mp_full_"
-    case emptyMana = "td_interface_mp_empty_"
+    case fullHealth = "hp_full_"
+    case emptyHealth = "hp_empty_"
+    case fullMana = "mp_full_"
+    case emptyMana = "mp_empty_"
 
     private static var textures: [ResourceBar: [SKTexture]] {
         var textures = [ResourceBar: [SKTexture]]()

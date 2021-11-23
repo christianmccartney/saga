@@ -21,7 +21,7 @@ let basicAttackAnimation: AbilityAnimation = { caster, target, position, closure
                                   duration: 0.125)
     let reverseAction = bopAction.reversed()
     let bopGroup = SKAction.sequence([bopAction, reverseAction])
-    let animatedEffect: [AnimatedEffect] = [.slash1, .slash2, .cut]
+    let animatedEffect: [AnimatedEffect] = [.slash, .slash2, .cut]
     guard let slashTextures = AnimatedEffect.textures[animatedEffect[Int.random(in: 0...2)]] else {
         fatalError("Failed to get Slash resources")
     }

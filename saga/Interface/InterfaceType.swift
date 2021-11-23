@@ -22,14 +22,14 @@ enum InterfaceType: String, AdjacencyTextureProviding {
     case bubble
 
     var textures: [String] {
-        return ["td_interface_panel_\(self.rawValue)_1",
-                "td_interface_panel_\(self.rawValue)_2",
-                "td_interface_panel_\(self.rawValue)_3",
-                "td_interface_panel_\(self.rawValue)_4",
-                "td_interface_panel_\(self.rawValue)_5",
-                "td_interface_panel_\(self.rawValue)_6",
-                "td_interface_panel_\(self.rawValue)_7",
-                "td_interface_panel_\(self.rawValue)_8",
-                "td_interface_panel_\(self.rawValue)_9",]
+        return ["panel_\(self.rawValue)_1",
+                "panel_\(self.rawValue)_2",
+                "panel_\(self.rawValue)_3",
+                "panel_\(self.rawValue)_4",
+                "panel_\(self.rawValue)_5",
+                "panel_\(self.rawValue)_6",
+                "panel_\(self.rawValue)_7",
+                "panel_\(self.rawValue)_8",
+                "panel_\(self.rawValue)_9",]
     }
 }

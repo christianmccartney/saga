@@ -12,7 +12,7 @@ class TextDefinition: SKTileGroupRule {
     init(fontType: FontType) {
         self.fontType = fontType
         var tileDefinitions = [SKTileDefinition]()
-        let spriteSheet = SKTexture(imageNamed: "tiny_dungeon_font")
+        let spriteSheet = SKTexture(imageNamed: "font")
         for i in 0..<String.supportedCharacters.count {
             let x = CGFloat(i % TEXT_SPRITE_SHEET_WRAP) * TEXT_SPRITE_WIDTH
             let y = CGFloat((((i / TEXT_SPRITE_SHEET_WRAP) + 1) % 2) + fontType.rawValue) * TEXT_SPRITE_HEIGHT

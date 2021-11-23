@@ -21,21 +21,3 @@ public enum WeaponProperty: String, CaseIterable {
     case arithmetic
     case holy
 }
-
-
-//        switch type {
-//        case .sword:
-//            break
-//        case .axe:
-//            break
-//        case .spear:
-//            break
-//        case .club:
-//            break
-//        case .bow:
-//            break
-//        case .staff:
-//            break
-//        case .wand:
-//            break
-//        }

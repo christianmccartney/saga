@@ -22,8 +22,8 @@ class ActionCounter: InterfaceElement {
             rows: rows,
             tileSize: tileSet.defaultTileSize)
 
-        let texture1 = SKTexture(imageNamed: "td_interface_crystal_empty")
-        let texture2 = SKTexture(imageNamed: "td_interface_crystal_full")
+        let texture1 = SKTexture(imageNamed: "crystal_empty")
+        let texture2 = SKTexture(imageNamed: "crystal_full")
         texture1.filteringMode = .nearest
         texture2.filteringMode = .nearest
 

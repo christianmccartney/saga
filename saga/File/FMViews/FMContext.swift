@@ -21,62 +21,20 @@ enum BrushType {
 
 class FMContext: ObservableObject {
     @Published var size: CGSize
-//    @Published var url: URL?
-//    @Published private(set) var activeImage: UIImage?
     @Published var selectedColor: PixelRGBU8?
-    
     @Published var brushType: BrushType = .paint
     
     private var undoStack = [ApplyColorAction]()
     private var redoStack = [ApplyColorAction]()
 
-//    @Published private(set) var bitmap: Bitmap?
     private var cancellables = Set<AnyCancellable>()
     
     @Published var activeNode: FMNode?
 
     public init(size: CGSize) {
         self.size = size
-//        if let image = FM.shared.firstImageFound? {
-//            setActiveImage(image: image)
-//        }
-    
-//        $activeImage.sink { [weak self] image in
-//            guard let self = self, let image = image else { return }
-//            if let bmp = Bitmap(uiImage: image) {
-//                self.bitmap = bmp
-//            }
-//        }.store(in: &cancellables)
-//        $url.sink { [weak self] url in
-//            guard let self = self else { return }
-//            self.undoStack = []
-//            self.redoStack = []
-//        }.store(in: &cancellables)
     }
 
-//    func setActiveImage(url: URL) {
-//        let image = UIImage(contentsOfFile: url.path)
-//        self.url = url
-//        activeImage = image
-//    }
-    
-//    func setActiveImage(image: UIImage) {
-//        activeImage = image
-//    }
-    
-//    func clearActiveImage() {
-////        self.url = nil
-//        activeImage = nil
-//        bitmap = nil
-//    }
-
-    let colors: [PixelRGBU8] = [PixelRGBU8(236, 79, 71, 255),
-                                PixelRGBU8(172, 203, 75, 255),
-                                PixelRGBU8(82, 161, 236, 255),
-                                PixelRGBU8(222, 141, 69, 255),]
-//                                PixelRGBU8(181, 64, 191, 255),]
-
-    var index = 0
     func applyBlueprint(_ blueprint: Blueprint, image: inout FMImage) {
         var newImage: UIImage? = nil
         let sortedShaped = blueprint.shapes.sorted { $0.z < $1.z }
@@ -97,7 +55,6 @@ class FMContext: ObservableObject {
         if let newImage = newImage {
             image.image = newImage
         }
-        index = (index + 1) % colors.count
     }
     
     // This doesnt work

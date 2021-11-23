@@ -50,7 +50,7 @@ struct FileStructureView: View {
             }
             .frame(width: context.size.width/5)
             Divider()
-            FMEditableImageView(bitmap: bitmap, fileNodes: activeNode?.fileNodes ?? [])
+            FMImageCollectionView(bitmap: bitmap, fileNodes: activeNode?.fileNodes ?? [])
         }
         .onChange(of: activeNode) { context.activeNode = $0 }
         .sheet(isPresented: $isNewFilePresented,
@@ -113,25 +113,15 @@ struct FMNameView: View {
             }
             if node.type == .file {
                 Image(systemName: "trash")
-                    .onTapGesture {
-                        FM.shared.delete(node: node, url: node.url)
-//                        context.clearActiveImage()
-                    }
+                    .onTapGesture { FM.shared.delete(node: node, url: node.url) }
             }
         }
         .frame(height: context.size.height / 32)
         .padding(EdgeInsets(top: 0, leading: CGFloat(8 + 8 * indent), bottom: 0, trailing: 8))
         .background(Rectangle().fill(highlighted ? Color.gray.opacity(0.5) : Color.gray.opacity(0.003)))
         .border(node.type == .directory ? Color.blue : Color.green)
-        .onReceive(context.$activeNode) { activeNode in
-            highlighted = activeNode == node
-        }
+        .onReceive(context.$activeNode) { highlighted = $0 == node }
         .onReceive(node.$collapsed) { collapsed = $0 }
-        .onTapGesture {
-//            if node.type == .file {
-//                context.setActiveImage(url: node.url)
-//            }
-            activeNode = node
-        }
+        .onTapGesture { activeNode = node }
     }
 }

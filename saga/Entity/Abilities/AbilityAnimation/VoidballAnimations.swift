@@ -17,7 +17,7 @@ let voidballAttackAnimation: AbilityAnimation = { caster, target, position, clos
         point = mapController.centerOfTile(position.column, position.row)
     }
     guard let voidballTexture = EffectType.textures[EffectType.voidball],
-          let explosionTextures = AnimatedEffect.textures[.voidImpact] else {
+          let explosionTextures = AnimatedEffect.textures[.voidimpact] else {
               fatalError("Failed to get Voidball resources")
           }
     
@@ -55,9 +55,9 @@ let voidballDeathAnimation: DeathAnimation = { entity in
     let mapController = MapController.shared
     let entityPosition = entity.mapPosition
     
-    guard let voidSpark = AnimatedEffect.textures[.voidSpark],
+    guard let voidSpark = AnimatedEffect.textures[.voidspark],
           let sparkle = AnimatedEffect.textures[.sparkle],
-          var voidImpact = AnimatedEffect.textures[.voidImpact] else { return }
+          var voidImpact = AnimatedEffect.textures[.voidimpact] else { return }
     
     voidImpact = voidImpact.reversed()
     let explosionNode = Node(texture: voidImpact.first!)

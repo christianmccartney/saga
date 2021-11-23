@@ -12,7 +12,7 @@ typealias DeathAnimation = ((Entity) -> Void)
 let bloodFountainAnimation: DeathAnimation = { entity in
     let mapController = MapController.shared
     let entityPosition = entity.mapPosition
-    guard let explosionTextures = AnimatedEffect.textures[.bloodImpact] else { return }
+    guard let explosionTextures = AnimatedEffect.textures[.blood] else { return }
     let emitter = GravityEmitter(type: .bits(.red), acceleration: 0, position: entityPosition)
     mapController.addChild(emitter)
     mapController.removeChild(entity)

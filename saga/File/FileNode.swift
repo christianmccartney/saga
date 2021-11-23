@@ -77,7 +77,6 @@ class FileNode: FMNode {
     }
 
     func randomImage(with definition: WeaponDefinition, context: FMContext) {
-//        image.image = UIImage(contentsOfFile: url.path) ?? image.image
         for blueprint in WeaponGenerator.shared.generateBlueprints(for: definition).sorted(by: { $0.z < $1.z }) {
             context.applyBlueprint(blueprint, image: &image)
         }
@@ -101,43 +100,3 @@ class FMImage: Hashable, ObservableObject {
         hasher.combine(image)
     }
 }
-
-//public class TreeNode<T>: Equatable where T: Hashable {
-//    public var value: T
-//
-//    public weak var parent: TreeNode?
-//    public var children = [TreeNode<T>]()
-//
-//    public init(value: T) {
-//        self.value = value
-//    }
-//
-//    public func addChild(_ node: TreeNode<T>) {
-//        children.append(node)
-//        node.parent = self
-//    }
-//}
-//
-//extension TreeNode: CustomStringConvertible {
-//    public var description: String {
-//        var s = "\(value)"
-//        if !children.isEmpty {
-//            s += " {" + children.map { $0.description }.joined(separator: ", ") + "}"
-//        }
-//        return s
-//    }
-//}
-//
-//extension TreeNode where T: Equatable {
-//    public func search(_ value: T) -> TreeNode? {
-//        if value == self.value {
-//            return self
-//        }
-//        for child in children {
-//            if let found = child.search(value) {
-//                return found
-//            }
-//        }
-//        return nil
-//    }
-//}

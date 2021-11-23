@@ -121,20 +121,6 @@ class Bitmap {
     }
 }
 
-// This shouldnt be necessary
-//extension Bitmap: Hashable {
-//    static func == (lhs: Bitmap, rhs: Bitmap) -> Bool {
-//
-//    }
-//
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(width)
-//        hasher.combine(height)
-//        hasher.combine(bitmapContext)
-//        hasher.combine(pixels)
-//    }
-//}
-
 public extension UIColor {
     convenience init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
         self.init(

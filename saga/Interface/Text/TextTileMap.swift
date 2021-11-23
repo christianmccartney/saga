@@ -24,9 +24,7 @@ class TextTileMap: SKTileMapNode {
         anchorPoint = CGPoint(x: 0, y: 0)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func tileDefinition(_ character: Character) -> SKTileDefinition {
         return tileGroup.characterToTileDefinition(character)

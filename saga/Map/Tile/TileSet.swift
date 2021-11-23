@@ -69,15 +69,3 @@ public class TileSet: SKTileSet {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-
-//    public init(_ interfaceTileGroupDefinitions: [InterfaceTileGroupDefinition]) {
-//        let timeStarted = DispatchTime.now()
-//
-//        let tileGroups = interfaceTileGroupDefinitions.map { TileGroup(interfaceTileGroupDefinition: $0) }
-//        super.init(tileGroups: tileGroups)
-//
-//        let timeFinished = DispatchTime.now()
-//        let time = timeFinished.uptimeNanoseconds - timeStarted.uptimeNanoseconds
-//        print("TileSet \(interfaceTileGroupDefinitions) init: \(Double(time)/1000000)")
-//    }

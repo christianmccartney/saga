@@ -17,7 +17,7 @@ let fireballAttackAnimation: AbilityAnimation = { caster, target, position, clos
         point = mapController.centerOfTile(position.column, position.row)
     }
     guard let fireballTexture = EffectType.textures[EffectType.fireball],
-          let explosionTextures = AnimatedEffect.textures[.fireImpact] else {
+          let explosionTextures = AnimatedEffect.textures[.fireimpact] else {
               fatalError("Failed to get Fireball resources")
           }
     let particleEmitter = SKEmitterNode()
@@ -56,8 +56,8 @@ let fireballDeathAnimation: DeathAnimation = { entity in
     let mapController = MapController.shared
     let entityPosition = entity.mapPosition
     
-    guard let fireSpark = AnimatedEffect.textures[.fireSpark],
-          let fireBurn = AnimatedEffect.textures[.fireBurn] else { return }
+    guard let fireSpark = AnimatedEffect.textures[.firespark],
+          let fireBurn = AnimatedEffect.textures[.fireburn] else { return }
     let emitter = GravityEmitter(type: .bits(.gray), acceleration: 75, position: entityPosition)
     mapController.addChild(emitter)
     mapController.removeChild(entity)
